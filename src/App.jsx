@@ -1,17 +1,18 @@
 import "./App.css";
+import HeroSection from "./components/Hero/HeroSection";
 import { useVenues } from "./store";
+import desktopImage from "/desktopimage2.jpg?url";
 
 function App() {
   const settransparentHeader = useVenues((state) => state.setTransparentHeader);
   settransparentHeader(true);
   return (
     <>
-      <div className="min-h-56">Hello</div>
-      <div className="min-h-56">Hello</div>
-      <div className="min-h-56">Hello</div>
-      <div className="min-h-56">Hello</div>
-      <div className="min-h-56">Hello</div>
-      <div className="min-h-56">Hello</div>
+      <HeroSection
+        src={desktopImage}
+        title="Experience Tokyo"
+        price="1200 NOK / night"
+      />
     </>
   );
 }
