@@ -7,18 +7,18 @@ function VenueItem({ item }) {
       key={item.id}
       className="flex flex-col items-start justify-between"
     >
-      <Link className="w-full h-full" to={`./${item.id}`}>
+      <a className="w-full h-full" href={`./venues/${item.id}`}>
         <img
           src={item.media[0]?.url}
           alt="venue"
           className="w-48 h-22 object-cover flex items-center justify-center"
         />
-      </Link>
+      </a>
       <div className="flex items-start gap-2 w-full flex-col justify-between min-h-36">
         <div className="flex items-start flex-col gap-2 w-full">
-          <Link
+          <a
             className="text-xl px-3 venue-title font-bold mt-4"
-            to={`./${item.id}`}
+            href={`./venues/${item.id}`}
             title={item.name}
           >
             {item.name
@@ -26,7 +26,7 @@ function VenueItem({ item }) {
                 ? item.name.substring(0, 20) + "..."
                 : item.name
               : "No name found"}
-          </Link>
+          </a>
           <div className="flex px-3 gap-2 w-full justify-between mt-1">
             <div className="flex items-start flex-col-reverse gap-0">
               <p className="text-xl flex-end venue-price current-price text-black">

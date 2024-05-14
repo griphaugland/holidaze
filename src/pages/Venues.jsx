@@ -4,21 +4,6 @@ import VenueList from "../components/venues/VenueList";
 import Loader from "../components/Loader";
 import { useVenues } from "../store";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import BeachAccessIcon from "@mui/icons-material/BeachAccess";
-import HouseboatIcon from "@mui/icons-material/Houseboat";
-import CabinIcon from "@mui/icons-material/Cabin";
-import CastleIcon from "@mui/icons-material/Castle";
-import LocationCityIcon from "@mui/icons-material/LocationCity";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import TerrainIcon from "@mui/icons-material/Terrain";
-import ForestIcon from "@mui/icons-material/Forest";
-import DownhillSkiingIcon from "@mui/icons-material/DownhillSkiing";
-import GolfCourseIcon from "@mui/icons-material/GolfCourse";
-import LiquorIcon from "@mui/icons-material/Liquor";
-import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
-import DinnerDiningIcon from "@mui/icons-material/DinnerDining";
-import MovieIcon from "@mui/icons-material/Movie";
-import SailingIcon from "@mui/icons-material/Sailing";
 import CategorySlider from "../components/venues/CategorySlider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -35,9 +20,9 @@ function Venues() {
   const [search, setSearch] = useState(searchQuery);
 
   useEffect(() => {
-    resetVenues(); // Reset venues on mount to avoid issues
+    resetVenues();
     if (searchQuery) {
-      searchVenues(searchQuery); // Re-fetch the search query if it exists
+      searchVenues(searchQuery);
     } else {
       useVenues.getState().getVenues(url);
     }
@@ -49,7 +34,13 @@ function Venues() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    searchVenues(search);
+    if (search === "") {
+      const searchInput = document.getElementById("search-input");
+      searchInput.focus();
+      searchInput.placeholder = "Please enter a search query";
+    } else {
+      searchVenues(search);
+    }
   };
 
   if (error) {
