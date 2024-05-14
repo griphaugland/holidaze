@@ -4,8 +4,8 @@ import { persist } from "zustand/middleware";
 export const useVenues = create(
   persist(
     (set, get) => ({
-      error: false,
-      setError: (value, message) => set({ error: value, message: message }),
+      error: null,
+      setError: (error) => set({ error }),
       loading: false,
       setLoading: (value) => set({ loading: value }),
       transparentHeader: false,
@@ -14,36 +14,53 @@ export const useVenues = create(
       setData: (value) => set({ data: value }),
       url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
       setUrl: (value) => set({ url: value }),
-      searchUrl: "",
-      setSearchUrl: (value) => set({ searchUrl: value }),
+      searchQuery: "",
+      setSearchQuery: (query) => set({ searchQuery: query }),
       venues: [],
+      resetVenues: () =>
+        set({
+          venues: [],
+          url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
+        }),
       getVenues: async (url) => {
         try {
           set({ loading: true });
           const res = await fetch(url);
           const data = await res.json();
-          console.log("data", data);
 
           if (!res.ok) {
-            console.log(res);
             set({
-              error: { statusCode: res.statusText, status: res.status },
+              error: {
+                statusCode: res.statusText,
+                status: res.status,
+                message: data.errors ? data.errors[0].message : "Unknown error",
+              },
             });
+            set({ loading: false });
+            return;
           }
 
-          const updatedVenues = [...get().venues, ...data.data];
-
+          // Combine existing venues with new data, avoiding duplicates
+          const currentVenues = get().venues;
+          const newVenues = data.data.filter(
+            (venue) => !currentVenues.some((v) => v.id === venue.id)
+          );
+          const updatedVenues = [...currentVenues, ...newVenues];
           set({
             url: data.meta.nextPage
               ? `https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=${data.meta.nextPage}`
               : null,
             venues: updatedVenues,
             loading: false,
+            error: null,
           });
         } catch (e) {
-          console.log(e);
           set({
-            error: { statusCode: e.statusCode, status: e.status },
+            error: {
+              statusCode: e.message,
+              status: e.status,
+              message: e.message,
+            },
             loading: false,
           });
         }
@@ -56,7 +73,7 @@ export const useVenues = create(
       },
       searchVenues: async (query) => {
         const searchUrl = `https://v2.api.noroff.dev/holidaze/venues/search?q=${query}`;
-        set({ url: searchUrl, venues: [] }); // Reset venues for new search
+        set({ url: searchUrl, venues: [], searchQuery: query });
         await get().getVenues(searchUrl);
       },
       favorites: [],
