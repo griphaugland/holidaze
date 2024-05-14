@@ -3,31 +3,61 @@ import { persist } from "zustand/middleware";
 
 export const useVenues = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       error: false,
       setError: (value, message) => set({ error: value, message: message }),
-      loading: true,
+      loading: false,
       setLoading: (value) => set({ loading: value }),
       transparentHeader: false,
       setTransparentHeader: (value) => set({ transparentHeader: value }),
+      data: [],
+      setData: (value) => set({ data: value }),
+      url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
+      setUrl: (value) => set({ url: value }),
+      searchUrl: "",
+      setSearchUrl: (value) => set({ searchUrl: value }),
       venues: [],
       getVenues: async (url) => {
         try {
           set({ loading: true });
           const res = await fetch(url);
           const data = await res.json();
+          console.log("data", data);
+
           if (!res.ok) {
             console.log(res);
             set({
               error: { statusCode: res.statusText, status: res.status },
             });
           }
-          set({ loading: false });
-          set({ venues: data });
+
+          const updatedVenues = [...get().venues, ...data.data];
+
+          set({
+            url: data.meta.nextPage
+              ? `https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=${data.meta.nextPage}`
+              : null,
+            venues: updatedVenues,
+            loading: false,
+          });
         } catch (e) {
           console.log(e);
-          set({ error: { statusCode: e.statusCode, status: e.status } });
+          set({
+            error: { statusCode: e.statusCode, status: e.status },
+            loading: false,
+          });
         }
+      },
+      getMoreVenues: async () => {
+        const { url } = get();
+        if (url) {
+          await get().getVenues(url);
+        }
+      },
+      searchVenues: async (query) => {
+        const searchUrl = `https://v2.api.noroff.dev/holidaze/venues/search?q=${query}`;
+        set({ url: searchUrl, venues: [] }); // Reset venues for new search
+        await get().getVenues(searchUrl);
       },
       favorites: [],
       addToFavorites: (venue) =>
