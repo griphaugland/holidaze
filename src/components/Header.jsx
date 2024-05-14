@@ -57,19 +57,34 @@ function Header() {
       }
     });
   }, []);
+
   if (mobile) {
     return (
       <header
         className={
           "top-0 w-full flex items-center fixed p-4 " +
-          (headerColor ? "bg-transparent" : "bg-white")
+          (toggle
+            ? headerColor
+              ? "bg-white"
+              : "bg-white"
+            : headerColor
+            ? "bg-transparent"
+            : "bg-white")
         }
       >
         <div className="flex justify-between w-full">
           <Link to="" className="logo-container no-hover-effect">
             <img
               className="logo"
-              src={headerColor ? Logo : LogoBlue}
+              src={
+                toggle
+                  ? headerColor
+                    ? LogoBlue
+                    : LogoBlue
+                  : headerColor
+                  ? Logo
+                  : LogoBlue
+              }
               alt="holidaze logo"
             />
           </Link>
@@ -79,10 +94,18 @@ function Header() {
               onClick={() => {
                 setToggle(false);
               }}
-              to="cart"
+              to="favorites"
             >
               <FavoriteBorderOutlinedIcon
-                style={{ color: headerColor ? "#ffffff" : "#103954" }}
+                style={{
+                  color: toggle
+                    ? headerColor
+                      ? "#103954"
+                      : "#103954"
+                    : headerColor
+                    ? "#ffffff"
+                    : "#103954",
+                }}
               />
             </Link>
             <button
@@ -96,14 +119,26 @@ function Header() {
                 <CloseIcon
                   style={{
                     fontSize: "2rem",
-                    color: headerColor ? "#ffffff" : "#103954",
+                    color: toggle
+                      ? headerColor
+                        ? "#103954"
+                        : "#103954"
+                      : headerColor
+                      ? "#ffffff"
+                      : "#103954",
                   }}
                 />
               ) : (
                 <MenuIcon
                   style={{
                     fontSize: "2rem",
-                    color: headerColor ? "#ffffff" : "#103954",
+                    color: toggle
+                      ? headerColor
+                        ? "#103954"
+                        : "#103954"
+                      : headerColor
+                      ? "#ffffff"
+                      : "#103954",
                   }}
                 />
               )}
@@ -146,12 +181,16 @@ function Header() {
             </Link>
             <Link
               className="flex items-center justify-start gap-1 min-w-36"
-              to="cart"
+              to="favorites"
               onClick={() => {
                 setToggle(!toggle);
               }}
             >
-              <FavoriteBorderOutlinedIcon />
+              <FavoriteBorderOutlinedIcon
+                className={
+                  " " + (headerColor ? "white-hover-text" : "blue-hover-text")
+                }
+              />
             </Link>
           </nav>
         )}
@@ -174,21 +213,30 @@ function Header() {
         </Link>
         <nav className="text-l flex poppins-regular text-sm tracking-widest flex-row gap-8">
           <Link
-            className="flex items-center justify-start gap-1"
+            className={
+              "flex items-center justify-start gap-1 " +
+              (headerColor ? "white-hover-text" : "blue-hover-text")
+            }
             style={{ color: headerColor ? "#ffffff" : "#103954" }}
             to=""
           >
             HOME
           </Link>
           <Link
-            className="flex items-center justify-start gap-1"
+            className={
+              "flex items-center justify-start gap-1 " +
+              (headerColor ? "white-hover-text" : "blue-hover-text")
+            }
             style={{ color: headerColor ? "#ffffff" : "#103954" }}
             to="venues"
           >
             VENUES
           </Link>
           <Link
-            className="flex items-center justify-start gap-1"
+            className={
+              "flex items-center justify-start gap-1 " +
+              (headerColor ? "white-hover-text" : "blue-hover-text")
+            }
             style={{ color: headerColor ? "#ffffff" : "#103954" }}
             to="contact"
           >
@@ -196,23 +244,32 @@ function Header() {
           </Link>
         </nav>
         <div className="flex items-center opposite-logo gap-4 ml-auto">
-          <Link className="flex items-center justify-start gap-1" to="cart">
-            <div className="carticon-container">
+          <Link
+            className="flex items-center justify-start gap-1"
+            to="favorites"
+          >
+            <div className={"carticon-container"}>
               <FavoriteBorderOutlinedIcon
                 style={{
                   color: headerColor ? "#ffffff" : "#103954",
                   fontSize: "2rem",
                 }}
+                className={
+                  " " + (headerColor ? "white-hover-text" : "blue-hover-text")
+                }
               />
             </div>
           </Link>
-          <Link className="flex items-center justify-start gap-1" to="cart">
+          <Link className="flex items-center justify-start gap-1" to="profile">
             <div className="carticon-container">
               <AccountCircleOutlinedIcon
                 style={{
                   color: headerColor ? "#ffffff" : "#103954",
                   fontSize: "2rem",
                 }}
+                className={
+                  " " + (headerColor ? "white-hover-text" : "blue-hover-text")
+                }
               />
             </div>
           </Link>

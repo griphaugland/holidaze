@@ -91,7 +91,6 @@ h6 {
 main {
   margin-top: 10svh;
   min-height: 90svh;
-  background-color: orange;
 }
 .loader-icon {
   animation: rotate 0.5s ease-in-out infinite;
@@ -100,11 +99,18 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  background-color: #ffd9eb;
+}
+.footer-height {
+  min-height: 300px;
 }
 @media (max-width: 768px) {
   footer {
     display: flex;
     flex-direction: column;
+  }
+  .footer-height {
+    min-height: 200px !important;
   }
 }
 .hero-image {
@@ -158,6 +164,15 @@ footer {
   color: white;
   transition: 0.3s ease-in-out;
 }
+.arrow-move svg {
+  position: absolute;
+  margin-left: 3.5rem;
+  transition: 0.3s ease-in-out;
+}
+.arrow-move:hover svg {
+  margin-left: 4rem;
+  transition: margin-left 0.3s ease-out;
+}
 
 .hero-btn-primary:hover svg,
 .hero-btn-primary:focus svg {
@@ -177,6 +192,46 @@ footer {
   top: 47%;
   transition: 0.3s ease-in-out;
 }
+.white-hover,
+.blue-hover {
+  transition: 0.3s ease-in-out;
+}
+
+.white-hover:hover {
+  text-shadow: 2px 2px 1px white;
+}
+.blue-hover:hover {
+  text-shadow: 2px 2px 1px #103954;
+}
+.blue-box-hover:hover,
+.blue-box-hover:focus {
+  box-shadow: 0px 0px 5px #103954;
+}
+.white-box-hover:hover,
+.white-box-hover:focus {
+  box-shadow: 0 0 5px white;
+}
+.white-hover-text {
+  display: inline-block;
+  padding: 0;
+  white-space: nowrap;
+  transition: 0.3s ease-in-out;
+}
+
+.white-hover-text:hover {
+  text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 12px #ffffff, 0 0 16px #ffffff,
+    0 0 20px #ffffff, 0 0 24px #ffffff, 0 0 28px #ffffff;
+}
+.blue-hover-text {
+  display: inline-block;
+  padding: 0;
+  white-space: nowrap;
+  transition: 0.3s ease-in-out;
+}
+.blue-hover-text:hover {
+  color: #adbec9 !important;
+}
+
 @media (max-width: 768px) {
   .hero-btn-next {
     right: 1rem;
@@ -186,6 +241,7 @@ footer {
 .hero-btn-next:hover {
   box-shadow: 0 0 5px white;
 }
+
 /* FONTS */
 .pt-sans-regular {
   font-family: "PT Sans", sans-serif;
@@ -320,3 +376,109 @@ footer {
 }
 
 /* FONTS */
+
+/* LOADER  */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+}
+
+.loader__icon {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  animation: spin 1s linear infinite;
+  border-radius: 100%;
+}
+
+.loader__icon__item {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.loader__icon__item:nth-child(1) {
+  top: 0;
+  left: 0;
+  background-color: #103954;
+}
+
+.loader__icon__item:nth-child(2) {
+  bottom: 0;
+  right: 0;
+  background-color: #ffd9eb;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* LOADER  */
+
+/* VENUE PAGE */
+.venue-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(303px, 1fr));
+  gap: 1.5rem;
+  place-items: center stretch;
+}
+.venue-container article {
+  max-width: 450px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.searchbar {
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Soft shadow */
+  border-radius: 30px;
+}
+
+/* .venue-container article:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08); 
+} */
+.venue-container article:hover .venue-title,
+.venue-container article:hover .venue-price {
+  color: rgb(75, 75, 75);
+}
+
+.venue-container article img {
+  width: 100%;
+  height: auto;
+  display: flex;
+  height: 300px;
+  border-radius: 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Soft shadow */
+}
+@media (max-width: 662px) {
+  .venue-container {
+    grid-template-columns: repeat(auto-fill, minmax(200, 1fr));
+  }
+  .venue-container article {
+    max-width: 662px;
+  }
+}
+@media (max-width: 450px) {
+  .venue-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .venue-container article {
+    width: 100%;
+    max-width: 450px;
+  }
+}
