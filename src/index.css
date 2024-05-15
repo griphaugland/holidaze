@@ -7,6 +7,11 @@
 @tailwind components;
 @tailwind utilities;
 
+body,
+main {
+  overflow-x: hidden;
+}
+
 @keyframes circleFill {
   from {
     width: 0;
@@ -89,8 +94,10 @@ h6 {
   font-style: normal;
 }
 main {
-  margin-top: 10svh;
   min-height: 90svh;
+}
+.align-top-header {
+  margin-top: 10svh;
 }
 .loader-icon {
   animation: rotate 0.5s ease-in-out infinite;
@@ -120,7 +127,6 @@ footer {
   position: relative;
   height: 100svh;
   width: 100%;
-  margin-top: -10svh;
 }
 .hero-text {
   top: 23%;
@@ -537,33 +543,39 @@ footer {
 }
 
 /* SINGLE VENUE PAGE */
+/* Adjustments for the slider container and images */
 .slider-image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-image-container .image-filter {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 1rem;
+  transition: transform 0.5s ease-in-out;
 }
-.single-venue-slider-image {
-  max-height: 60vh;
-}
+
+.single-venue-slider-image,
 .single-venue-slider-image-single-image {
-  max-height: 60vh;
-  width: 100%;
+  width: 100vw;
+  height: auto;
+  max-height: 75svh;
+  object-fit: cover;
 }
+
 .single-venue-next-button {
   position: absolute;
   z-index: 100;
   color: white;
   border: 2px solid white;
   border-radius: 100%;
-  left: 90vw;
   top: 47%;
+  left: 90vw;
   transition: 0.3s ease-in-out;
   box-shadow: 0 0 5px black;
 }
-.single-venue-next-button svg {
-  filter: drop-shadow(5px 5px 5px rgb(0 0 0 / 0.4));
+
+.single-venue-next-button:hover {
+  box-shadow: 0 0 5px white;
 }
 .final-image svg {
   color: black !important;
@@ -582,22 +594,22 @@ footer {
 }
 @media (max-width: 608px) {
   .single-venue-next-button {
-    left: 80vw;
+    left: 85vw;
   }
 }
 @media (max-width: 508px) {
   .single-venue-next-button {
-    left: 75vw;
+    left: 78vw;
   }
 }
 @media (max-width: 408px) {
   .single-venue-next-button {
-    left: 70vw;
+    left: 75vw;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
   .single-venue-next-button {
-    left: 1100px;
+    left: 1200px;
   }
 }
 .single-venue-next-button:hover {
@@ -609,6 +621,6 @@ footer {
   filter: brightness(0.75);
 }
 .page-max-width {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1280px;
+  overflow: hidden;
 }

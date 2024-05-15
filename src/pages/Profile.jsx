@@ -1,7 +1,7 @@
 import React from "react";
 
 function Profile() {
-  return <div>Profile</div>;
+  return <div className="align-top-header">Profile</div>;
 }
 
 export default Profile;

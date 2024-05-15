@@ -48,7 +48,7 @@ function Venues() {
   }
 
   return (
-    <>
+    <div className="align-top-header flex flex-col">
       <form
         className="bg-white md:mt-6 h-12 mx-4 max-w-full md:self-center md:w-2/5 searchbar rounded-md flex flex-row items-center p-4 justify-center gap-4"
         onSubmit={handleSubmit}
@@ -81,7 +81,7 @@ function Venues() {
           <VenueList venues={venues} />
         </InfiniteScroll>
       )}
-    </>
+    </div>
   );
 }
 

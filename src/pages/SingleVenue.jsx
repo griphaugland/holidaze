@@ -4,6 +4,8 @@ import Loader from "../components/Loader";
 import AddToFavorites from "../components/buttons/AddToFavorite";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
+import Facilities from "../components/venues/Facilities";
+import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
 
 function SingleVenue() {
   let { id } = useParams();
@@ -65,7 +67,11 @@ function SingleVenue() {
       setIsMobile(window.innerWidth <= 768);
       setMaxWidth(window.innerWidth >= 1538);
     };
+
     window.addEventListener("resize", handleResize);
+
+    handleResize();
+
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -75,18 +81,19 @@ function SingleVenue() {
       sliderRef.current.style.transform = `translateX(-${
         currentImageIndex * width
       }vw)`;
-      if (
-        !isMobile &&
-        !isMaxWidth &&
-        currentImageIndex === venue.media.length - 1
-      ) {
-        setLastImage(true);
-      } else {
-        setLastImage(false);
-      }
       sliderRef.current.style.transition = "transform 0.5s ease-in-out";
     }
-  }, [currentImageIndex, isMobile]);
+
+    if (
+      !isMobile &&
+      !isMaxWidth &&
+      currentImageIndex === venue.media.length - 1
+    ) {
+      setLastImage(true);
+    } else {
+      setLastImage(false);
+    }
+  }, [currentImageIndex, isMobile, isMaxWidth, venue.media.length]);
 
   function capitalizeFirstLetter(string) {
     if (string.includes(" ")) {
@@ -117,8 +124,8 @@ function SingleVenue() {
   }
 
   return (
-    <div className="page-max-width">
-      <div className="relative">
+    <div className="page-max-width md:self-start xl:self-center flex flex-wrap">
+      <div className="relative align-top-header">
         <div className="slider-image-container relative overflow-hidden">
           {venue.media.length > 1 ? (
             <div
@@ -140,13 +147,7 @@ function SingleVenue() {
               ))}
             </div>
           ) : (
-            <div
-              className="flex image-filter"
-              ref={sliderRef}
-              style={{
-                width: `100vw`,
-              }}
-            >
+            <div className="flex image-filter" ref={sliderRef}>
               <img
                 src={venue.media[0].url}
                 alt={venue.media[0].alt}
@@ -166,90 +167,66 @@ function SingleVenue() {
           </button>
         )}
       </div>
-      <div className="md:w-1/2 px-8 p-6">
-        <div className="location flex  flex-row gap-2 items-center">
-          <RoomOutlinedIcon />
-          {venue.location.address && (
-            <h2 className="pt-sans-regular text-gray-700 font-light">
-              {capitalizeFirstLetter(venue.location.address)}
-              {venue.location.city && (
+      <div className="info-wrapper w-screen flex-row flex flex-wrap">
+        <div className="md:w-1/2 px-8 p-6">
+          <div className="location flex  flex-row gap-2 items-center">
+            <RoomOutlinedIcon />
+            {venue.location.city === null &&
+              venue.location.address === null &&
+              venue.location.country === null && (
                 <span className="pt-sans-regular text-gray-700 font-light">
-                  ,
+                  Location not listed
                 </span>
               )}
-            </h2>
-          )}
-          {venue.location.city && (
-            <>
+            {venue.location.address && (
               <h2 className="pt-sans-regular text-gray-700 font-light">
-                {capitalizeFirstLetter(venue.location.city)}
-                {venue.location.country && (
+                {capitalizeFirstLetter(venue.location.address)}
+                {venue.location.city && (
                   <span className="pt-sans-regular text-gray-700 font-light">
                     ,
                   </span>
                 )}
               </h2>
-            </>
-          )}
-          {venue.location.country && (
-            <h2 className="pt-sans-regular text-gray-700 font-light">
-              {capitalizeFirstLetter(venue.location.country)}
-            </h2>
-          )}
-        </div>
-        <h1 className="text-2xl py-2 font-bold">{venue.name}</h1>
-        <span className="text-xl py-2 font-bold">{venue.price} NOK /night</span>
-        <div className="maxguests py-5">
-          <h2 className="text-sm font-regular">This venue offers</h2>
-          <div className="facilities-overview">
-            <div className="flex flex-col gap-3">
-              <p className="text-gray-600">Max guests icon</p>
-              <p className="text-green-600">{venue.maxGuests}</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <p className="text-gray-600">Breakfas icon</p>
-              {venue.meta.breakfast ? (
-                <p className="text-green-600">Yes</p>
-              ) : (
-                <p className="text-red-600">No</p>
-              )}
-            </div>
-            <div className="flex items-center gap-3">
-              <p className="text-gray-600">Wifi icon</p>
-              {venue.meta.wifi ? (
-                <p className="text-green-600">Yes</p>
-              ) : (
-                <p className="text-red-600">No</p>
-              )}
-            </div>
-            <div className="flex items-center gap-3">
-              <p className="text-gray-600">Parking icon</p>
-              {venue.meta.parking ? (
-                <p className="text-green-600">Yes</p>
-              ) : (
-                <p className="text-red-600">No</p>
-              )}
-            </div>
-            <div className="flex items-center gap-3">
-              <p className="text-gray-600">Pets icon</p>
-              {venue.meta.pets ? (
-                <p className="text-green-600">Yes</p>
-              ) : (
-                <p className="text-red-600">No</p>
-              )}
-            </div>
+            )}
+            {venue.location.city && (
+              <>
+                <h2 className="pt-sans-regular text-gray-700 font-light">
+                  {capitalizeFirstLetter(venue.location.city)}
+                  {venue.location.country && (
+                    <span className="pt-sans-regular text-gray-700 font-light">
+                      ,
+                    </span>
+                  )}
+                </h2>
+              </>
+            )}
+            {venue.location.country && (
+              <h2 className="pt-sans-regular text-gray-700 font-light">
+                {capitalizeFirstLetter(venue.location.country)}
+              </h2>
+            )}
+          </div>
+          <h1 className="text-2xl py-2 font-bold">{venue.name}</h1>
+          <span className="text-xl py-2">{venue.price} NOK /night</span>
+          <div className="maxguests py-5">
+            <h2 className="text-sm font-regular">This venue offers</h2>
+            <Facilities venue={venue} />
+          </div>
+          <div className="description pt-0 py-5">
+            <h2 className="text-sm font-regular">Description</h2>
+            <p className="py-2 text-gray-600 text-sm">
+              {venue.description ? venue.description : "No description found"}
+            </p>
           </div>
         </div>
-        <div className="description py-5">
-          <h2 className="text-sm font-regular">Description</h2>
-          <p className=" text-gray-600">{venue.description}</p>
+        <div className=" flex flex-col justify-start items-end md:w-1/2 px-8 p-6">
+          <div className="mt-4 flex flex-row justify-start gap-3">
+            <AddToFavorites venue={venue} />
+          </div>
+          <div>
+            <StarRateSharpIcon className="tet-" /> {venue.rating}
+          </div>
         </div>
-      </div>
-      <div className="md:w-1/2 px-8 p-6">
-        <div className="mt-4 flex flex-row justify-start gap-3">
-          <AddToFavorites venue={venue} />
-        </div>
-        <div>Rating {venue.rating}</div>
       </div>
     </div>
   );
