@@ -565,6 +565,12 @@ footer {
 .single-venue-next-button svg {
   filter: drop-shadow(5px 5px 5px rgb(0 0 0 / 0.4));
 }
+.final-image svg {
+  color: black !important;
+}
+.final-image {
+  border: 2px solid black !important;
+}
 @media (max-width: 768px) {
   .single-venue-next-button {
     left: 85vw;

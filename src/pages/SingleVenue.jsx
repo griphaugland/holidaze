@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
-import AddToFavorites from "../components/buttons/AddToFavorite"; // Assuming there's a similar AddToFavorites component for venues
+import AddToFavorites from "../components/buttons/AddToFavorite";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 
 function SingleVenue() {
   let { id } = useParams();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [lastImage, setLastImage] = useState(false);
   const [venue, setVenue] = useState({
     id: "7d2f1470-5ce0-4240-a1c9-09c792748d5c",
     _count: { bookings: 0 },
@@ -34,6 +36,7 @@ function SingleVenue() {
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1538);
   const sliderRef = useRef(null);
 
   async function getSingleVenue(url) {
@@ -45,6 +48,7 @@ function SingleVenue() {
       }
       setLoading(false);
       setVenue(data.data);
+      console.log(data);
     } catch (e) {
       setError({ error: { statusCode: e.statusCode, status: e.status } });
     }
@@ -57,7 +61,10 @@ function SingleVenue() {
   }, [id]);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setMaxWidth(window.innerWidth >= 1538);
+    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -68,19 +75,34 @@ function SingleVenue() {
       sliderRef.current.style.transform = `translateX(-${
         currentImageIndex * width
       }vw)`;
+      if (
+        !isMobile &&
+        !isMaxWidth &&
+        currentImageIndex === venue.media.length - 1
+      ) {
+        setLastImage(true);
+      } else {
+        setLastImage(false);
+      }
       sliderRef.current.style.transition = "transform 0.5s ease-in-out";
     }
   }, [currentImageIndex, isMobile]);
 
+  function capitalizeFirstLetter(string) {
+    if (string.includes(" ")) {
+      const words = string.split(" ");
+      const capitalizedWords = words.map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      });
+      return capitalizedWords.join(" ");
+    } else {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+  }
+
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === venue.media.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? venue.media.length - 1 : prevIndex - 1
     );
   };
 
@@ -134,21 +156,100 @@ function SingleVenue() {
           )}
         </div>
         {venue.media.length > 1 && (
-          <button onClick={nextImage} className="single-venue-next-button p-3">
+          <button
+            onClick={nextImage}
+            className={`single-venue-next-button p-3  ${
+              lastImage ? "final-image" : " "
+            }`}
+          >
             <ArrowForwardIcon />
           </button>
         )}
       </div>
-      <div className="md:w-1/2 md:pl-10">
-        <h1 className="text-3xl mt-3 font-bold">{venue.name}</h1>
-        <div>Rating {venue.rating}</div>
-        <p className="mt-4 text-gray-600">{venue.description}</p>
-        <div className="mt-4">
-          <span className="ml-2 text-lg font-bold">{venue.price}</span>
+      <div className="md:w-1/2 px-8 p-6">
+        <div className="location flex  flex-row gap-2 items-center">
+          <RoomOutlinedIcon />
+          {venue.location.address && (
+            <h2 className="pt-sans-regular text-gray-700 font-light">
+              {capitalizeFirstLetter(venue.location.address)}
+              {venue.location.city && (
+                <span className="pt-sans-regular text-gray-700 font-light">
+                  ,
+                </span>
+              )}
+            </h2>
+          )}
+          {venue.location.city && (
+            <>
+              <h2 className="pt-sans-regular text-gray-700 font-light">
+                {capitalizeFirstLetter(venue.location.city)}
+                {venue.location.country && (
+                  <span className="pt-sans-regular text-gray-700 font-light">
+                    ,
+                  </span>
+                )}
+              </h2>
+            </>
+          )}
+          {venue.location.country && (
+            <h2 className="pt-sans-regular text-gray-700 font-light">
+              {capitalizeFirstLetter(venue.location.country)}
+            </h2>
+          )}
         </div>
+        <h1 className="text-2xl py-2 font-bold">{venue.name}</h1>
+        <span className="text-xl py-2 font-bold">{venue.price} NOK /night</span>
+        <div className="maxguests py-5">
+          <h2 className="text-sm font-regular">This venue offers</h2>
+          <div className="facilities-overview">
+            <div className="flex flex-col gap-3">
+              <p className="text-gray-600">Max guests icon</p>
+              <p className="text-green-600">{venue.maxGuests}</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <p className="text-gray-600">Breakfas icon</p>
+              {venue.meta.breakfast ? (
+                <p className="text-green-600">Yes</p>
+              ) : (
+                <p className="text-red-600">No</p>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <p className="text-gray-600">Wifi icon</p>
+              {venue.meta.wifi ? (
+                <p className="text-green-600">Yes</p>
+              ) : (
+                <p className="text-red-600">No</p>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <p className="text-gray-600">Parking icon</p>
+              {venue.meta.parking ? (
+                <p className="text-green-600">Yes</p>
+              ) : (
+                <p className="text-red-600">No</p>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <p className="text-gray-600">Pets icon</p>
+              {venue.meta.pets ? (
+                <p className="text-green-600">Yes</p>
+              ) : (
+                <p className="text-red-600">No</p>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="description py-5">
+          <h2 className="text-sm font-regular">Description</h2>
+          <p className=" text-gray-600">{venue.description}</p>
+        </div>
+      </div>
+      <div className="md:w-1/2 px-8 p-6">
         <div className="mt-4 flex flex-row justify-start gap-3">
           <AddToFavorites venue={venue} />
         </div>
+        <div>Rating {venue.rating}</div>
       </div>
     </div>
   );
