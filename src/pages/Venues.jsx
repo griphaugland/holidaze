@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom"; // Use useNavigate for URL manipulation
 import InfiniteScroll from "react-infinite-scroll-component";
 import VenueList from "../components/venues/VenueList";
 import Loader from "../components/Loader";
@@ -7,26 +8,36 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import CategorySlider from "../components/venues/CategorySlider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 function Venues() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const query = useQuery();
   const error = useVenues((state) => state.error);
   const loading = useVenues((state) => state.loading);
   const venues = useVenues((state) => state.venues);
   const url = useVenues((state) => state.url);
   const getMoreVenues = useVenues((state) => state.getMoreVenues);
-  const searchVenues = useVenues((state) => state.searchVenues);
   const resetVenues = useVenues((state) => state.resetVenues);
-  const searchQuery = useVenues((state) => state.searchQuery);
-
-  const [search, setSearch] = useState(searchQuery);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     resetVenues();
-    if (searchQuery) {
-      searchVenues(searchQuery);
+    const searchQuery = query.get("q");
+    if (searchQuery !== "All") {
+      setSearch(searchQuery);
+      const searchUrl = `https://v2.api.noroff.dev/holidaze/venues/search?q=${searchQuery}`;
+      useVenues.getState().getVenues(searchUrl);
+    } else if (searchQuery === "All") {
+      setSearch(searchQuery);
+      useVenues.getState().getVenues(url);
     } else {
       useVenues.getState().getVenues(url);
     }
-  }, []);
+  }, [location.key]);
 
   const handleSearchValue = (e) => {
     setSearch(e.target.value);
@@ -39,7 +50,7 @@ function Venues() {
       searchInput.focus();
       searchInput.placeholder = "Please enter a search query";
     } else {
-      searchVenues(search);
+      navigate(`?q=${search}`);
     }
   };
 
@@ -48,7 +59,7 @@ function Venues() {
   }
 
   return (
-    <div className="align-top-header flex flex-col">
+    <div className="align-top-header">
       <form
         className="bg-white md:mt-6 h-12 mx-4 max-w-full md:self-center md:w-2/5 searchbar rounded-md flex flex-row items-center p-4 justify-center gap-4"
         onSubmit={handleSubmit}

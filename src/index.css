@@ -170,6 +170,27 @@ footer {
   color: white;
   transition: 0.3s ease-in-out;
 }
+.btn-primary {
+  margin-top: 2rem;
+  font-family: "poppins", sans-serif;
+  max-width: 100px;
+  height: 3rem;
+  padding-inline: 1rem;
+  min-width: 200px;
+  border: 2px solid white;
+  border-radius: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: white;
+}
+.btn-primary svg {
+  margin-left: 1rem;
+  color: white;
+  transition: 0.3s ease-in-out;
+}
 .arrow-move svg {
   position: absolute;
   margin-left: 3.5rem;

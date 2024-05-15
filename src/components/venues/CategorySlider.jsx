@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import HouseIcon from "@mui/icons-material/House";
 import CabinIcon from "@mui/icons-material/Cabin";
@@ -17,15 +18,20 @@ import SailingIcon from "@mui/icons-material/Sailing";
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 import { useVenues } from "../../store";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 function CategorySlider() {
   const [selectedCategory, setSelectedCategory] = useState(1);
-
+  const navigate = useNavigate();
+  const query = useQuery();
   const categories = [
     { id: 1, icon: <AllInclusiveIcon />, name: "All" },
     { id: 2, icon: <BeachAccessIcon />, name: "Beach" },
     { id: 3, icon: <DownhillSkiingIcon />, name: "Snow" },
     { id: 4, icon: <ForestIcon />, name: "Forest" },
-    { id: 5, icon: <SailingIcon />, name: "sea" },
+    { id: 5, icon: <SailingIcon />, name: "Sea" },
     { id: 6, icon: <CastleIcon />, name: "Castle" },
     { id: 7, icon: <LocationCityIcon />, name: "City" },
     { id: 8, icon: <CabinIcon />, name: "Cabin" },
@@ -38,25 +44,30 @@ function CategorySlider() {
     { id: 15, icon: <DinnerDiningIcon />, name: "Italy" },
     { id: 16, icon: <MovieIcon />, name: "Hollywood" },
   ];
-  const venues = useVenues((state) => state.venues);
+
+  useEffect(() => {
+    const categoryQuery = query.get("category");
+    const category =
+      categories.find(
+        (cat) => cat.name.toLowerCase() === categoryQuery?.toLowerCase()
+      ) || categories[0];
+    setSelectedCategory(category.id);
+    if (query.get("q") === null) {
+    } else if (query.get("q").length > 0) {
+    } else {
+      handleCategoryClick(category);
+    }
+  }, []);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category.id);
     if (category.id === 1) {
-      console.log(venues);
-      // Reset search query and fetch venues with no search query
       useVenues.getState().resetVenues();
-      useVenues.getState().getVenues(useVenues.getState().url);
+      navigate(`?q=All`); // Update this line to use the navigate function
     } else {
-      // Fetch venues with category name as search query
-      useVenues.getState().searchVenues(category.name);
+      navigate(`?q=${category.name}`);
     }
   };
-
-  useEffect(() => {
-    // Automatically select the first category and fetch standard URL on mount
-    handleCategoryClick(categories[0]);
-  }, []);
 
   return (
     <div className="slider-container">

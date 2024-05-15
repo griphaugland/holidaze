@@ -7,7 +7,7 @@ function VenueItem({ item }) {
       key={item.id}
       className="flex flex-col items-start justify-between"
     >
-      <a className="w-full h-full" href={`./venues/${item.id}`}>
+      <a className="w-full h-full" href={`venues/${item.id}`}>
         <img
           src={item.media[0]?.url}
           alt="venue"
@@ -18,7 +18,7 @@ function VenueItem({ item }) {
         <div className="flex items-start flex-col gap-2 w-full">
           <a
             className="text-xl px-3 venue-title font-bold mt-4"
-            href={`./venues/${item.id}`}
+            href={`venues/${item.id}`}
             title={item.name}
           >
             {item.name

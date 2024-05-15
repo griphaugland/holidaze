@@ -3,7 +3,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useVenues } from "../../store";
 
-function AddToFavorite({ venue }) {
+function AddToFavorite({ venue, size }) {
   const favorites = useVenues((state) => state.favorites);
   const addToFavorites = useVenues((state) => state.addToFavorites);
   const removeFromFavorites = useVenues((state) => state.removeFromFavorites);
@@ -28,15 +28,39 @@ function AddToFavorite({ venue }) {
   }
 
   const isFavorite = favorites.find((item) => item.id === venue.id);
-
-  return (
-    <button
-      onClick={isFavorite ? handleRemoveFromFavorites : handleAddToFavorites}
-      className="favorite-button"
-    >
-      {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-    </button>
-  );
+  if (size === "large") {
+    return (
+      <button
+        onClick={isFavorite ? handleRemoveFromFavorites : handleAddToFavorites}
+        className="favorite-button   p-3 min-w-40 flex flex-row justify-end items-end gap-4"
+      >
+        {isFavorite ? (
+          <>
+            <FavoriteIcon className="text-red-400" />
+            <p className="text-gray-400 pt-sans-regular">In favorites</p>
+          </>
+        ) : (
+          <>
+            <FavoriteBorderIcon className="text-red-400" />
+            <p className="text-gray-400 pt-sans-regular">Add favorite</p>
+          </>
+        )}
+      </button>
+    );
+  } else {
+    return (
+      <button
+        onClick={isFavorite ? handleRemoveFromFavorites : handleAddToFavorites}
+        className="favorite-button"
+      >
+        {isFavorite ? (
+          <FavoriteIcon className="text-red-400" />
+        ) : (
+          <FavoriteBorderIcon className="text-red-400" />
+        )}
+      </button>
+    );
+  }
 }
 
 export default AddToFavorite;

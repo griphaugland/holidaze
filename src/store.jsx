@@ -14,8 +14,6 @@ export const useVenues = create(
       setData: (value) => set({ data: value }),
       url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
       setUrl: (value) => set({ url: value }),
-      searchQuery: "",
-      setSearchQuery: (query) => set({ searchQuery: query }),
       venues: [],
       resetVenues: () =>
         set({
@@ -70,11 +68,6 @@ export const useVenues = create(
         if (url) {
           await get().getVenues(url);
         }
-      },
-      searchVenues: async (query) => {
-        const searchUrl = `https://v2.api.noroff.dev/holidaze/venues/search?q=${query}`;
-        set({ url: searchUrl, venues: [], searchQuery: query });
-        await get().getVenues(searchUrl);
       },
       favorites: [],
       addToFavorites: (venue) =>

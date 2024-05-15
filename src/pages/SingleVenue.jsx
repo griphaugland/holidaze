@@ -6,6 +6,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Facilities from "../components/venues/Facilities";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
+import ButtonPrimary from "../components/buttons/ButtonPrimary";
 
 function SingleVenue() {
   let { id } = useParams();
@@ -38,7 +39,7 @@ function SingleVenue() {
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1538);
+  const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1638);
   const sliderRef = useRef(null);
 
   async function getSingleVenue(url) {
@@ -65,13 +66,12 @@ function SingleVenue() {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
-      setMaxWidth(window.innerWidth >= 1538);
+      setMaxWidth(window.innerWidth >= 1638);
     };
 
     window.addEventListener("resize", handleResize);
 
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -207,11 +207,28 @@ function SingleVenue() {
             )}
           </div>
           <h1 className="text-2xl py-2 font-bold">{venue.name}</h1>
-          <span className="text-xl py-2">{venue.price} NOK /night</span>
-          <div className="maxguests py-5">
+          <span className="text-xl py-2 ">{venue.price} NOK /night</span>
+          <div className="maxguests pt-5 md:py-5">
             <h2 className="text-sm font-regular">This venue offers</h2>
             <Facilities venue={venue} />
           </div>
+          {isMobile && (
+            <div className="flex flex-wrap flex-row justify-start items-end mb-6">
+              {venue.rating > 0 && (
+                <div className=" p-6 min-w-40 flex flex-row justify-center items-end gap-3">
+                  <StarRateSharpIcon className="text-yellow-400" />
+                  <p className=" font-bold poppins-semibold">{venue.rating}</p>
+                </div>
+              )}
+              {venue.rating === 0 && (
+                <div className=" p-3 min-w-40 flex flex-row justify-center items-end gap-3">
+                  <StarRateSharpIcon className="text-yellow-400" />
+                  <p className="text-gray-400 pt-sans-regular">No rating yet</p>
+                </div>
+              )}
+              <AddToFavorites venue={venue} size="large" />
+            </div>
+          )}
           <div className="description pt-0 py-5">
             <h2 className="text-sm font-regular">Description</h2>
             <p className="py-2 text-gray-600 text-sm">
@@ -219,13 +236,27 @@ function SingleVenue() {
             </p>
           </div>
         </div>
-        <div className=" flex flex-col justify-start items-end md:w-1/2 px-8 p-6">
-          <div className="mt-4 flex flex-row justify-start gap-3">
-            <AddToFavorites venue={venue} />
-          </div>
-          <div>
-            <StarRateSharpIcon className="tet-" /> {venue.rating}
-          </div>
+        <div className="md:w-1/2 px-8 p-6">
+          {!isMobile && (
+            <div className="flex flex-col justify-start items-end w-full px-8 p-6">
+              {venue.rating > 0 && (
+                <div className=" p-6 min-w-40 flex flex-row justify-end items-end gap-3">
+                  <StarRateSharpIcon className="text-yellow-400" />
+                  <p className=" font-bold poppins-semibold">{venue.rating}</p>
+                </div>
+              )}
+              {venue.rating === 0 && (
+                <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
+                  <StarRateSharpIcon className="text-yellow-400" />
+                  <p className="text-gray-400 pt-sans-regular">No rating yet</p>
+                </div>
+              )}
+              <div className=" flex min-w-40 flex-row justify-start gap-3">
+                <AddToFavorites venue={venue} size="large" />
+              </div>
+            </div>
+          )}
+          <ButtonPrimary venue={venue} />
         </div>
       </div>
     </div>
