@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { TransitionGroup } from "react-transition-group";
 import { ModalProvider } from "react-modal-hook";
+import ReactModal from "react-modal";
 import App from "./App.jsx";
 import "./index.css";
 import Layout from "./layout/Layout";
@@ -13,15 +14,12 @@ import Venues from "./pages/Venues";
 import Favorites from "./pages/Favorites";
 import Profile from "./pages/Profile";
 import SingleVenue from "./pages/SingleVenue";
+ReactModal.setAppElement("#root");
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <ModalProvider rootComponent={TransitionGroup}>
-        <Layout />
-      </ModalProvider>
-    ),
+    element: <Layout />,
     children: [
       { path: "", element: <App /> },
       {
@@ -43,6 +41,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ModalProvider rootComponent={TransitionGroup}>
+      <RouterProvider router={router} />
+    </ModalProvider>
   </React.StrictMode>
 );
