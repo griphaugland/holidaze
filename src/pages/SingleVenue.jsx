@@ -7,7 +7,6 @@ import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Facilities from "../components/venues/Facilities";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
 import ButtonPrimary from "../components/buttons/ButtonPrimary";
-import Modal from "../components/modal/Modal";
 
 function SingleVenue() {
   let { id } = useParams();
@@ -41,6 +40,7 @@ function SingleVenue() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1638);
+
   const sliderRef = useRef(null);
 
   async function getSingleVenue(url) {
@@ -277,7 +277,6 @@ function SingleVenue() {
               </div>
             </>
           )}
-          <Modal />
         </div>
       </div>
     </div>

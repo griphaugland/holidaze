@@ -1,17 +1,21 @@
 import React from "react";
-import ReactModal from "react-modal";
-import { useModal } from "react-modal-hook";
+import { motion } from "framer-motion";
+import "../../css/components/modal/modal.css";
 
-const Modal = () => {
-  const [showModal, hideModal] = useModal(() => (
-    <ReactModal isOpen onRequestClose={hideModal}>
-      <div className="modal">Test</div>
-      <p>Modal content</p>
-      <button onClick={hideModal}>Hide modal</button>
-    </ReactModal>
-  ));
-
-  return <button onClick={showModal}>Show modal</button>;
-};
+const Modal = ({ isVisible, hideModal, children }) =>
+  isVisible ? (
+    <div className="modal-overlay" onClick={hideModal}>
+      <motion.div
+        className="modal-content"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+        <button onClick={hideModal}>Close</button>
+      </motion.div>
+    </div>
+  ) : null;
 
 export default Modal;
