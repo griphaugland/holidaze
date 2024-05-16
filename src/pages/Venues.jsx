@@ -35,6 +35,7 @@ function Venues() {
       setSearch(searchQuery);
       useVenues.getState().getVenues(url);
     } else {
+      setSearch("");
       useVenues.getState().getVenues(url);
     }
   }, [location.key]);
@@ -59,7 +60,7 @@ function Venues() {
   }
 
   return (
-    <div className="align-top-header">
+    <div className="align-top-header flex flex-col justify-center">
       <form
         className="bg-white md:mt-6 h-12 mx-4 max-w-full md:self-center md:w-2/5 searchbar rounded-md flex flex-row items-center p-4 justify-center gap-4"
         onSubmit={handleSubmit}
@@ -74,7 +75,7 @@ function Venues() {
           id="search-input"
           onChange={handleSearchValue}
           type="text"
-          value={search}
+          value={search || ""}
         />
         <button className="arrow-move-search text-end" type="submit">
           <ArrowForwardIcon className="" />

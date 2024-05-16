@@ -32,17 +32,27 @@ function AddToFavorite({ venue, size }) {
     return (
       <button
         onClick={isFavorite ? handleRemoveFromFavorites : handleAddToFavorites}
-        className="favorite-button   p-3 min-w-40 flex flex-row justify-end items-end gap-4"
+        className="favorite-button   p-3 min-w-40 flex flex-row justify-start items-end gap-4"
       >
         {isFavorite ? (
           <>
             <FavoriteIcon className="text-red-400" />
-            <p className="text-gray-400 pt-sans-regular">In favorites</p>
+            <p
+              title="Already added to favorites"
+              className="text-gray-400 pt-sans-regular"
+            >
+              In favorites
+            </p>
           </>
         ) : (
           <>
             <FavoriteBorderIcon className="text-red-400" />
-            <p className="text-gray-400 pt-sans-regular">Add favorite</p>
+            <p
+              title="Add to favorites"
+              className="text-gray-400 pt-sans-regular"
+            >
+              Add favorite
+            </p>
           </>
         )}
       </button>

@@ -7,6 +7,7 @@ import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Facilities from "../components/venues/Facilities";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
 import ButtonPrimary from "../components/buttons/ButtonPrimary";
+import Modal from "../components/modal/Modal";
 
 function SingleVenue() {
   let { id } = useParams();
@@ -208,6 +209,11 @@ function SingleVenue() {
           </div>
           <h1 className="text-2xl py-2 font-bold">{venue.name}</h1>
           <span className="text-xl py-2 ">{venue.price} NOK /night</span>
+          {isMobile && (
+            <div className=" w-full py-4 pb-0 justify-start">
+              <ButtonPrimary text="Check availability" />
+            </div>
+          )}
           <div className="maxguests pt-5 md:py-5">
             <h2 className="text-sm font-regular">This venue offers</h2>
             <Facilities venue={venue} />
@@ -215,13 +221,19 @@ function SingleVenue() {
           {isMobile && (
             <div className="flex flex-wrap flex-row justify-start items-end mb-6">
               {venue.rating > 0 && (
-                <div className=" p-6 min-w-40 flex flex-row justify-center items-end gap-3">
+                <div
+                  title={`This venue is rated ${venue.rating} stars`}
+                  className="p-3 min-w-40 flex flex-row justify-start items-end gap-3"
+                >
                   <StarRateSharpIcon className="text-yellow-400" />
                   <p className=" font-bold poppins-semibold">{venue.rating}</p>
                 </div>
               )}
               {venue.rating === 0 && (
-                <div className=" p-3 min-w-40 flex flex-row justify-center items-end gap-3">
+                <div
+                  title={`This venue is yet to be rated`}
+                  className=" p-3 min-w-40 flex flex-row justify-start items-end gap-3"
+                >
                   <StarRateSharpIcon className="text-yellow-400" />
                   <p className="text-gray-400 pt-sans-regular">No rating yet</p>
                 </div>
@@ -229,34 +241,43 @@ function SingleVenue() {
               <AddToFavorites venue={venue} size="large" />
             </div>
           )}
-          <div className="description pt-0 py-5">
+          <div className="description pt-0 py-0 sm:py-5">
             <h2 className="text-sm font-regular">Description</h2>
             <p className="py-2 text-gray-600 text-sm">
               {venue.description ? venue.description : "No description found"}
             </p>
           </div>
         </div>
-        <div className="md:w-1/2 px-8 p-6">
+        <div className="md:w-1/2 px-8 sm:p-6 p-0 pb-6">
           {!isMobile && (
-            <div className="flex flex-col justify-start items-end w-full px-8 p-6">
-              {venue.rating > 0 && (
-                <div className=" p-6 min-w-40 flex flex-row justify-end items-end gap-3">
-                  <StarRateSharpIcon className="text-yellow-400" />
-                  <p className=" font-bold poppins-semibold">{venue.rating}</p>
+            <>
+              <div className="flex flex-row justify-end items-end w-full pt-0 px-8 p-6">
+                {venue.rating > 0 && (
+                  <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
+                    <StarRateSharpIcon className="text-yellow-400" />
+                    <p className=" font-bold poppins-semibold">
+                      {venue.rating}
+                    </p>
+                  </div>
+                )}
+                {venue.rating === 0 && (
+                  <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
+                    <StarRateSharpIcon className="text-yellow-400" />
+                    <p className="text-gray-400 pt-sans-regular">
+                      No rating yet
+                    </p>
+                  </div>
+                )}
+                <div className=" flex min-w-40 flex-row justify-start gap-3">
+                  <AddToFavorites venue={venue} size="large" />
                 </div>
-              )}
-              {venue.rating === 0 && (
-                <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
-                  <StarRateSharpIcon className="text-yellow-400" />
-                  <p className="text-gray-400 pt-sans-regular">No rating yet</p>
-                </div>
-              )}
-              <div className=" flex min-w-40 flex-row justify-start gap-3">
-                <AddToFavorites venue={venue} size="large" />
               </div>
-            </div>
+              <div className="button-container w-full">
+                <ButtonPrimary text="Check availability" />
+              </div>
+            </>
           )}
-          <ButtonPrimary venue={venue} />
+          <Modal />
         </div>
       </div>
     </div>

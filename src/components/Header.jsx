@@ -179,19 +179,6 @@ function Header() {
             >
               Contact
             </Link>
-            <Link
-              className="flex items-center justify-start gap-1 min-w-36"
-              to="favorites"
-              onClick={() => {
-                setToggle(!toggle);
-              }}
-            >
-              <FavoriteBorderOutlinedIcon
-                className={
-                  " " + (headerColor ? "white-hover-text" : "blue-hover-text")
-                }
-              />
-            </Link>
           </nav>
         )}
       </header>

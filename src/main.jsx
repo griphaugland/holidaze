@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { TransitionGroup } from "react-transition-group";
+import { ModalProvider } from "react-modal-hook";
 import App from "./App.jsx";
 import "./index.css";
 import Layout from "./layout/Layout";
@@ -15,7 +17,11 @@ import SingleVenue from "./pages/SingleVenue";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <ModalProvider rootComponent={TransitionGroup}>
+        <Layout />
+      </ModalProvider>
+    ),
     children: [
       { path: "", element: <App /> },
       {

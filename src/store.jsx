@@ -15,6 +15,8 @@ export const useVenues = create(
       url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
       setUrl: (value) => set({ url: value }),
       venues: [],
+      loggedIn: false,
+      setLoggedIn: (value) => set({ loggedIn: value }),
       resetVenues: () =>
         set({
           venues: [],
