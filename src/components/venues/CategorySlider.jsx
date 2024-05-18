@@ -46,14 +46,17 @@ function CategorySlider() {
   ];
 
   useEffect(() => {
-    const categoryQuery = query.get("category");
+    const categoryQuery = query.get("q");
     const category =
       categories.find(
-        (cat) => cat.name.toLowerCase() === categoryQuery?.toLowerCase()
+        (category) =>
+          category.name.toLowerCase() === categoryQuery?.toLowerCase()
       ) || categories[0];
     setSelectedCategory(category.id);
     if (query.get("q") === null) {
+      return;
     } else if (query.get("q").length > 0) {
+      return;
     } else {
       handleCategoryClick(category);
     }

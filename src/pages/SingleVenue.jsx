@@ -6,7 +6,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Facilities from "../components/venues/Facilities";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
-import ButtonPrimary from "../components/buttons/ButtonPrimary";
+import ModalButton from "../components/buttons/ModalButton";
 
 function SingleVenue() {
   let { id } = useParams();
@@ -170,7 +170,7 @@ function SingleVenue() {
       </div>
       <div className="info-wrapper w-screen flex-row flex flex-wrap">
         <div className="md:w-1/2 px-8 p-6">
-          <div className="location flex  flex-row gap-2 items-center">
+          <div className={`location flex gap-1 items-center flex-row `}>
             <RoomOutlinedIcon />
             {venue.location.city === null &&
               venue.location.address === null &&
@@ -211,7 +211,7 @@ function SingleVenue() {
           <span className="text-xl py-2 ">{venue.price} NOK /night</span>
           {isMobile && (
             <div className=" w-full py-4 pb-0 justify-start">
-              <ButtonPrimary text="Check availability" />
+              <ModalButton text="Check availability" />
             </div>
           )}
           <div className="maxguests pt-5 md:py-5">
@@ -273,7 +273,7 @@ function SingleVenue() {
                 </div>
               </div>
               <div className="button-container w-full">
-                <ButtonPrimary text="Check availability" />
+                <ModalButton text="Check availability" />
               </div>
             </>
           )}

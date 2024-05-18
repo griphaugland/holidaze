@@ -36,16 +36,17 @@ export const useVenues = create(
                 message: data.errors ? data.errors[0].message : "Unknown error",
               },
             });
+            console.log(get().error);
             set({ loading: false });
             return;
           }
 
-          // Combine existing venues with new data, avoiding duplicates
           const currentVenues = get().venues;
           const newVenues = data.data.filter(
             (venue) => !currentVenues.some((v) => v.id === venue.id)
           );
           const updatedVenues = [...currentVenues, ...newVenues];
+
           set({
             url: data.meta.nextPage
               ? `https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=${data.meta.nextPage}`
@@ -55,14 +56,16 @@ export const useVenues = create(
             error: null,
           });
         } catch (e) {
-          set({
-            error: {
-              statusCode: e.message,
-              status: e.status,
-              message: e.message,
-            },
-            loading: false,
-          });
+          console.log(e),
+            set({
+              error: {
+                statusCode: e.message,
+                status: e.status,
+                message: e.message,
+              },
+
+              loading: false,
+            });
         }
       },
       getMoreVenues: async () => {

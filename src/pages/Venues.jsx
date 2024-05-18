@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom"; // Use useNavigate for URL manipulation
+import { useLocation, useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import VenueList from "../components/venues/VenueList";
 import Loader from "../components/Loader";
@@ -16,28 +16,34 @@ function Venues() {
   const location = useLocation();
   const navigate = useNavigate();
   const query = useQuery();
-  const error = useVenues((state) => state.error);
-  const loading = useVenues((state) => state.loading);
-  const venues = useVenues((state) => state.venues);
-  const url = useVenues((state) => state.url);
-  const getMoreVenues = useVenues((state) => state.getMoreVenues);
-  const resetVenues = useVenues((state) => state.resetVenues);
+  const { error, loading, venues, url, resetVenues, getVenues, getMoreVenues } =
+    useVenues((state) => ({
+      error: state.error,
+      loading: state.loading,
+      venues: state.venues,
+      url: state.url,
+      resetVenues: state.resetVenues,
+      getVenues: state.getVenues,
+      getMoreVenues: state.getMoreVenues,
+    }));
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    resetVenues();
-    const searchQuery = query.get("q");
-    if (searchQuery !== "All") {
-      setSearch(searchQuery);
-      const searchUrl = `https://v2.api.noroff.dev/holidaze/venues/search?q=${searchQuery}`;
-      useVenues.getState().getVenues(searchUrl);
-    } else if (searchQuery === "All") {
-      setSearch(searchQuery);
-      useVenues.getState().getVenues(url);
-    } else {
-      setSearch("");
-      useVenues.getState().getVenues(url);
-    }
+    const fetchVenues = async () => {
+      resetVenues();
+      const searchQuery = query.get("q");
+
+      if (searchQuery && searchQuery !== "All") {
+        setSearch(searchQuery);
+        const searchUrl = `https://v2.api.noroff.dev/holidaze/venues/search?q=${searchQuery}`;
+        await getVenues(searchUrl);
+      } else {
+        setSearch("");
+        await getVenues(url);
+      }
+    };
+
+    fetchVenues();
   }, [location.key]);
 
   const handleSearchValue = (e) => {

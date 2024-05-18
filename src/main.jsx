@@ -11,11 +11,13 @@ import Venues from "./pages/Venues";
 import Favorites from "./pages/Favorites";
 import Profile from "./pages/Profile";
 import SingleVenue from "./pages/SingleVenue";
+import Error from "./pages/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <Error />,
     children: [
       { path: "", element: <App /> },
       {
@@ -27,6 +29,7 @@ const router = createBrowserRouter([
         element: <SingleVenue />,
       },
       { path: "about", element: <About /> },
+      { path: "error", element: <Error /> },
       { path: "contact", element: <Contact /> },
       { path: "favorites", element: <Favorites /> },
       { path: "profile", element: <Profile /> },
