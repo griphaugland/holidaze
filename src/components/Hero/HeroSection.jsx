@@ -1,4 +1,5 @@
 import React from "react";
+import HeroButton from "../buttons/HeroButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 function HeroSection({ src, title, price }) {
@@ -9,10 +10,7 @@ function HeroSection({ src, title, price }) {
         <p className="hero-text-price text-xl pt-sans-semibold text-white">
           {price}
         </p>
-        <button className="hero-btn-primary text-sm poppins-semibold">
-          <p className="">view</p>
-          <ArrowForwardIcon />
-        </button>
+        <HeroButton text="View" searchFor="Tokyo" />
       </div>
       <button className="hero-btn-next absolute p-3">
         <ArrowForwardIcon />

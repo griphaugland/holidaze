@@ -1,47 +1,50 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import VenueList from "../components/venues/VenueList";
 import Loader from "../components/Loader";
 import { useVenues } from "../store";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import BeachAccessIcon from "@mui/icons-material/BeachAccess";
-import HouseboatIcon from "@mui/icons-material/Houseboat";
-import CabinIcon from "@mui/icons-material/Cabin";
-import CastleIcon from "@mui/icons-material/Castle";
-import LocationCityIcon from "@mui/icons-material/LocationCity";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import TerrainIcon from "@mui/icons-material/Terrain";
-import ForestIcon from "@mui/icons-material/Forest";
-import DownhillSkiingIcon from "@mui/icons-material/DownhillSkiing";
-import GolfCourseIcon from "@mui/icons-material/GolfCourse";
-import LiquorIcon from "@mui/icons-material/Liquor";
-import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
-import DinnerDiningIcon from "@mui/icons-material/DinnerDining";
-import MovieIcon from "@mui/icons-material/Movie";
-import SailingIcon from "@mui/icons-material/Sailing";
 import CategorySlider from "../components/venues/CategorySlider";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-function Venues() {
-  const error = useVenues((state) => state.error);
-  const loading = useVenues((state) => state.loading);
-  const venues = useVenues((state) => state.venues);
-  const url = useVenues((state) => state.url);
-  const getMoreVenues = useVenues((state) => state.getMoreVenues);
-  const searchVenues = useVenues((state) => state.searchVenues);
-  const resetVenues = useVenues((state) => state.resetVenues);
-  const searchQuery = useVenues((state) => state.searchQuery);
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
-  const [search, setSearch] = useState(searchQuery);
+function Venues() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const query = useQuery();
+  const { error, loading, venues, url, resetVenues, getVenues, getMoreVenues } =
+    useVenues((state) => ({
+      error: state.error,
+      loading: state.loading,
+      venues: state.venues,
+      url: state.url,
+      resetVenues: state.resetVenues,
+      getVenues: state.getVenues,
+      getMoreVenues: state.getMoreVenues,
+    }));
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    resetVenues(); // Reset venues on mount to avoid issues
-    if (searchQuery) {
-      searchVenues(searchQuery); // Re-fetch the search query if it exists
-    } else {
-      useVenues.getState().getVenues(url);
-    }
-  }, []);
+    const fetchVenues = async () => {
+      resetVenues();
+      const searchQuery = query.get("q");
+
+      if (searchQuery && searchQuery !== "All") {
+        setSearch(searchQuery);
+        const searchUrl = `https://v2.api.noroff.dev/holidaze/venues/search?q=${searchQuery}`;
+        await getVenues(searchUrl);
+      } else {
+        setSearch("");
+        await getVenues(url);
+      }
+    };
+
+    fetchVenues();
+  }, [location.key]);
 
   const handleSearchValue = (e) => {
     setSearch(e.target.value);
@@ -49,7 +52,13 @@ function Venues() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    searchVenues(search);
+    if (search === "") {
+      const searchInput = document.getElementById("search-input");
+      searchInput.focus();
+      searchInput.placeholder = "Please enter a search query";
+    } else {
+      navigate(`?q=${search}`);
+    }
   };
 
   if (error) {
@@ -57,7 +66,7 @@ function Venues() {
   }
 
   return (
-    <>
+    <div className="align-top-header flex flex-col justify-center">
       <form
         className="bg-white md:mt-6 h-12 mx-4 max-w-full md:self-center md:w-2/5 searchbar rounded-md flex flex-row items-center p-4 justify-center gap-4"
         onSubmit={handleSubmit}
@@ -72,7 +81,7 @@ function Venues() {
           id="search-input"
           onChange={handleSearchValue}
           type="text"
-          value={search}
+          value={search || ""}
         />
         <button className="arrow-move-search text-end" type="submit">
           <ArrowForwardIcon className="" />
@@ -90,7 +99,7 @@ function Venues() {
           <VenueList venues={venues} />
         </InfiniteScroll>
       )}
-    </>
+    </div>
   );
 }
 
