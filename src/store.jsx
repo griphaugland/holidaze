@@ -1,6 +1,16 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+const getItemFromLocalStorage = (key) => {
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
+  } catch (error) {
+    console.error(`Error parsing JSON from localStorage key "${key}":`, error);
+    return null;
+  }
+};
+
 export const useVenues = create(
   persist(
     (set, get) => ({
@@ -15,13 +25,22 @@ export const useVenues = create(
       url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
       setUrl: (value) => set({ url: value }),
       venues: [],
-      loggedIn: false,
-      setLoggedIn: (value) => set({ loggedIn: value }),
-      resetVenues: () =>
+      isLoggedIn: !!getItemFromLocalStorage("storage")?.user,
+      login: () => set({ isLoggedIn: true }),
+      logout: () => {
+        set({ isLoggedIn: false, user: null, apiKey: null });
+        localStorage.removeItem("storage");
+      },
+      user: getItemFromLocalStorage("storage")?.user || null,
+      setUser: (value) => set({ user: value }),
+      apiKey: getItemFromLocalStorage("storage")?.apiKey || null,
+      setApiKey: (value) => set({ apiKey: value }),
+      resetVenues: () => {
         set({
           venues: [],
           url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
-        }),
+        });
+      },
       getVenues: async (url) => {
         try {
           set({ loading: true });
@@ -56,16 +75,14 @@ export const useVenues = create(
             error: null,
           });
         } catch (e) {
-          console.log(e),
-            set({
-              error: {
-                statusCode: e.message,
-                status: e.status,
-                message: e.message,
-              },
-
-              loading: false,
-            });
+          set({
+            error: {
+              statusCode: e.message,
+              status: e.status,
+              message: e.message,
+            },
+            loading: false,
+          });
         }
       },
       getMoreVenues: async () => {
@@ -84,8 +101,13 @@ export const useVenues = create(
       clearFavorites: () => set({ favorites: [] }),
     }),
     {
-      name: "favorites-storage",
-      partialize: (state) => ({ favorites: state.favorites }),
+      name: "storage",
+      partialize: (state) => ({
+        favorites: state.favorites,
+        user: state.user,
+        apiKey: state.apiKey,
+        isLoggedIn: state.isLoggedIn,
+      }),
     }
   )
 );

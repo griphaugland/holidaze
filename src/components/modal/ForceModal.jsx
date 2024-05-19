@@ -1,11 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import "../../css/components/modal/modal.css";
-import CloseIcon from "@mui/icons-material/Close";
 
-const Modal = ({ isVisible, hideModal, children }) =>
+const Modal = ({ isVisible, children, hideModal, showModal }) =>
   isVisible ? (
-    <div className="modal-overlay" onClick={hideModal}>
+    <div className="modal-overlay">
       <motion.div
         className="modal-content"
         initial={{ opacity: 0, scale: 0.9 }}
@@ -14,9 +13,6 @@ const Modal = ({ isVisible, hideModal, children }) =>
         onClick={(e) => e.stopPropagation()}
       >
         {children}
-        <button className="close-modal" onClick={hideModal}>
-          <CloseIcon className="text-gray-500 red-on-hover" />
-        </button>
       </motion.div>
     </div>
   ) : null;

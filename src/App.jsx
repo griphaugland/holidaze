@@ -5,6 +5,13 @@ import desktopImage from "/desktopimage2.jpg?url";
 import { useEffect } from "react";
 
 function App() {
+  const { loading, setLoading, apiKey, setApiKey, user } = useVenues();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+  
+  }, []);
   const setTransparentHeader = useVenues((state) => state.setTransparentHeader);
 
   useEffect(() => {

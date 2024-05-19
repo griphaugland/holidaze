@@ -203,6 +203,40 @@ footer {
   right: 0.7rem;
   transition: right 0.3s ease-out;
 }
+.btn-primary:hover {
+  background-color: #1e6ea4;
+}
+.btn-logout {
+  position: relative;
+  font-family: "poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid white;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: white;
+  background-color: #df5151;
+  cursor: pointer;
+}
+.btn-logout svg {
+  position: absolute;
+  right: 2rem;
+  color: white;
+  transition: 0.3s ease-in-out;
+}
+.btn-logout:hover svg,
+.btn-logout:focus svg {
+  right: 0.7rem;
+  transition: right 0.3s ease-out;
+}
+.btn-logout:hover {
+  background-color: #f18a8a;
+}
 .arrow-move svg {
   position: absolute;
   margin-left: 3.5rem;
@@ -218,7 +252,8 @@ footer {
   border-radius: 50%;
 }
 .arrow-move-search:hover {
-  outline: 2px solid #103954;
+  background-color: #103954;
+  color: white;
 }
 .hero-btn-primary:hover svg,
 .hero-btn-primary:focus svg {
