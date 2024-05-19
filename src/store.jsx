@@ -16,6 +16,8 @@ export const useVenues = create(
       setUrl: (value) => set({ url: value }),
       venues: [],
       loggedIn: false,
+      user: null,
+      setUser: (value) => set({ user: value }),
       setLoggedIn: (value) => set({ loggedIn: value }),
       resetVenues: () => {
         set({
