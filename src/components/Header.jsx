@@ -6,16 +6,19 @@ import CloseIcon from "@mui/icons-material/Close";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Logo from "/logo.svg?url";
 import LogoBlue from "/logoBlue.svg?url";
+import LogoutButton from "./buttons/LogoutButton";
 import { useVenues } from "../store";
+import ForceModal from "./modal/ForceModal";
+import useModal from "../components/modal/useModal";
 
 function Header() {
   const [headerColor, setHeaderColor] = useState(true);
   const [mobile, setMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [animate, setAnimate] = useState(false);
-  const cart = useVenues((state) => state.favorites);
   const location = useLocation(); // Get current location object
-
+  const { apiKey, user, isLoggedIn } = useVenues();
+  const { showModal, hideModal, isVisible } = useModal();
   useEffect(() => {
     // Set header color based on the scroll position and path
     const checkScrollAndPath = () => {
@@ -72,6 +75,16 @@ function Header() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    /*     if (!apiKey || apiKey.data.status !== "ACTIVE") {
+      showModal();
+      console.log("API key is not active");
+    } else {
+      console.log("API key is active");
+      hideModal();
+    } */
+  }, [apiKey, showModal, hideModal]);
 
   if (mobile) {
     return (
@@ -312,6 +325,17 @@ function Header() {
             </div>
           </Link>
         </div>
+        {isLoggedIn && (
+          <ForceModal isVisible={isVisible}>
+            <div className="flex justify-center items-center">
+              <div className="bg-white p-8 rounded w-screen max-w-md">
+                <h1 className="text-xl mb-3">Your session has expired</h1>
+                <p className="mb-4">Please login again to continue</p>
+                <LogoutButton onClick={hideModal} />
+              </div>
+            </div>
+          </ForceModal>
+        )}
       </header>
     );
   }

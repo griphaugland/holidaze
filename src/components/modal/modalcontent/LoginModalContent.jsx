@@ -51,6 +51,8 @@ function Login() {
         throw new Error("Failed to create API Key. Please try again");
       }
       const result = await response.json();
+      console.log(result);
+      console.log(response);
       setApiKey(result);
       const storage = JSON.parse(localStorage.getItem("storage")) || {};
       storage.apiKey = result;
@@ -84,12 +86,12 @@ function Login() {
       const storage = JSON.parse(localStorage.getItem("storage")) || {};
       storage.user = result;
       localStorage.setItem("storage", JSON.stringify(storage));
-
-      if (!apiKey || apiKey.data.status !== "ACTIVE") {
+      await createApiKey();
+      /*      if (!apiKey || apiKey.data.status !== "ACTIVE") {
         createApiKey();
       } else {
         console.log("API key is active");
-      }
+      } */
 
       login();
     } catch (error) {

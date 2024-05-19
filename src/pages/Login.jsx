@@ -30,8 +30,6 @@ function Login() {
   }, [isLoggedIn, navigate]);
 
   const createApiKey = async () => {
-    if (!user || !user.data || !user.data.accessToken) return;
-
     setLoading(true);
     try {
       const response = await fetch(
@@ -51,12 +49,13 @@ function Login() {
         throw new Error("Failed to create API Key. Please try again");
       }
       const result = await response.json();
+      console.log("API Key creation result:", result);
       setApiKey(result);
       const storage = JSON.parse(localStorage.getItem("storage")) || {};
       storage.apiKey = result;
       localStorage.setItem("storage", JSON.stringify(storage));
     } catch (error) {
-      console.error(error.message);
+      console.error("Error creating API Key:", error.message);
     } finally {
       setLoading(false);
     }
@@ -80,17 +79,12 @@ function Login() {
       }
 
       const result = await response.json();
+      console.log("Login result:", result);
       setUser(result);
       const storage = JSON.parse(localStorage.getItem("storage")) || {};
       storage.user = result;
       localStorage.setItem("storage", JSON.stringify(storage));
-
-      if (!apiKey || apiKey.data.status !== "ACTIVE") {
-        createApiKey();
-      } else {
-        console.log("API key is active");
-      }
-
+      await createApiKey();
       login();
     } catch (error) {
       setError(error.message);
@@ -166,4 +160,3 @@ function Login() {
 }
 
 export default Login;
-``;
