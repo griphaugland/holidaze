@@ -56,16 +56,15 @@ export const useVenues = create(
             error: null,
           });
         } catch (e) {
-          console.log(e),
-            set({
-              error: {
-                statusCode: e.message,
-                status: e.status,
-                message: e.message,
-              },
+          set({
+            error: {
+              statusCode: e.message,
+              status: e.status,
+              message: e.message,
+            },
 
-              loading: false,
-            });
+            loading: false,
+          });
         }
       },
       getMoreVenues: async () => {

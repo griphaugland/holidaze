@@ -88,7 +88,16 @@ function Header() {
         }
       >
         <div className="flex justify-between w-full">
-          <Link to="" className="logo-container no-hover-effect">
+          <Link
+            to=""
+            className="logo-container no-hover-effect"
+            onClick={(e) => {
+              if (location.pathname === "/") {
+                e.preventDefault();
+                window.location.reload();
+              }
+            }}
+          >
             <img
               className="logo"
               src={
@@ -206,7 +215,16 @@ function Header() {
           (headerColor ? "bg-transparent" : "bg-white")
         }
       >
-        <Link to="" className="logo-container mr-auto">
+        <Link
+          to=""
+          className="logo-container mr-auto"
+          onClick={(e) => {
+            if (location.pathname === "/") {
+              e.preventDefault();
+              window.location.reload();
+            }
+          }}
+        >
           <img
             className="logo"
             src={headerColor ? Logo : LogoBlue}
@@ -221,6 +239,12 @@ function Header() {
             }
             style={{ color: headerColor ? "#ffffff" : "#103954" }}
             to=""
+            onClick={(e) => {
+              if (location.pathname === "/") {
+                e.preventDefault();
+                window.location.reload();
+              }
+            }}
           >
             HOME
           </Link>
@@ -231,6 +255,12 @@ function Header() {
             }
             style={{ color: headerColor ? "#ffffff" : "#103954" }}
             to="venues"
+            onClick={(e) => {
+              if (location.pathname === "/venues") {
+                e.preventDefault();
+                window.location.reload();
+              }
+            }}
           >
             VENUES
           </Link>
@@ -241,6 +271,12 @@ function Header() {
             }
             style={{ color: headerColor ? "#ffffff" : "#103954" }}
             to="contact"
+            onClick={(e) => {
+              if (location.pathname === "/contact") {
+                e.preventDefault();
+                window.location.reload();
+              }
+            }}
           >
             CONTACT
           </Link>

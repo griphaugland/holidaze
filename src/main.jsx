@@ -12,6 +12,7 @@ import Favorites from "./pages/Favorites";
 import Profile from "./pages/Profile";
 import SingleVenue from "./pages/SingleVenue";
 import Error from "./pages/Error";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
         element: <SingleVenue />,
       },
       { path: "about", element: <About /> },
+      { path: "register", element: <Register /> },
       { path: "error", element: <Error /> },
       { path: "contact", element: <Contact /> },
       { path: "favorites", element: <Favorites /> },

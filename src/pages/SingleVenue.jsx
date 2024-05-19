@@ -170,48 +170,48 @@ function SingleVenue() {
       </div>
       <div className="info-wrapper w-screen flex-row flex flex-wrap">
         <div className="md:w-1/2 px-8 p-6">
-          <div className={`location flex gap-1 items-center flex-row `}>
+          <div
+            className={`location flex gap-3 items-center flex-row pt-sans-regular text-gray-700 font-light`}
+          >
             <RoomOutlinedIcon />
-            {venue.location.city === null &&
-              venue.location.address === null &&
-              venue.location.country === null && (
-                <span className="pt-sans-regular text-gray-700 font-light">
-                  Location not listed
-                </span>
-              )}
-            {venue.location.address && (
-              <h2 className="pt-sans-regular text-gray-700 font-light">
-                {capitalizeFirstLetter(venue.location.address)}
-                {venue.location.city && (
+            <h2 className="pt-sans-regular text-gray-700 font-light">
+              {venue.location.city === null &&
+                venue.location.address === null &&
+                venue.location.country === null && (
                   <span className="pt-sans-regular text-gray-700 font-light">
-                    ,
+                    Location not listed
                   </span>
                 )}
-              </h2>
-            )}
-            {venue.location.city && (
-              <>
-                <h2 className="pt-sans-regular text-gray-700 font-light">
+              {venue.location.address && (
+                <>
+                  {capitalizeFirstLetter(venue.location.address)}
+                  {venue.location.city && (
+                    <span className="pt-sans-regular text-gray-700 font-light">
+                      {", "}
+                    </span>
+                  )}
+                </>
+              )}
+              {venue.location.city && (
+                <>
                   {capitalizeFirstLetter(venue.location.city)}
                   {venue.location.country && (
                     <span className="pt-sans-regular text-gray-700 font-light">
-                      ,
+                      {", "}
                     </span>
                   )}
-                </h2>
-              </>
-            )}
-            {venue.location.country && (
-              <h2 className="pt-sans-regular text-gray-700 font-light">
-                {capitalizeFirstLetter(venue.location.country)}
-              </h2>
-            )}
+                </>
+              )}
+              {venue.location.country && (
+                <> {capitalizeFirstLetter(venue.location.country)}</>
+              )}
+            </h2>
           </div>
           <h1 className="text-2xl py-2 font-bold">{venue.name}</h1>
           <span className="text-xl py-2 ">{venue.price} NOK /night</span>
           {isMobile && (
             <div className=" w-full py-4 pb-0 justify-start">
-              <ModalButton text="Check availability" />
+              <ModalButton text="Check availability" venue={venue} />
             </div>
           )}
           <div className="maxguests pt-5 md:py-5">
@@ -273,7 +273,7 @@ function SingleVenue() {
                 </div>
               </div>
               <div className="button-container w-full">
-                <ModalButton text="Check availability" />
+                <ModalButton text="Check availability" venue={venue} />
               </div>
             </>
           )}

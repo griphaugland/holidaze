@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 function Login() {
   const {
@@ -67,6 +68,12 @@ function Login() {
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
+        <div className="">
+          No account?{" "}
+          <Link to="/register" className="text-blue-500">
+            Register
+          </Link>
+        </div>
       </form>
     </div>
   );

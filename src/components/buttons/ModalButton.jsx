@@ -4,8 +4,10 @@ import { useVenues } from "../../store";
 import { Link } from "react-router-dom";
 import Modal from "../modal/Modal";
 import useModal from "../modal/useModal";
+import LoginModalContent from "../modal/modalcontent/LoginModalContent";
+import BookingModalContent from "../modal/modalcontent/Booking";
 
-function ButtonPrimary({ text }) {
+function ButtonPrimary({ text, venue }) {
   const { isVisible, showModal, hideModal } = useModal();
   const loggedIn = useVenues((state) => state.loggedIn);
   if (loggedIn) {
@@ -19,7 +21,7 @@ function ButtonPrimary({ text }) {
           <ArrowForwardIcon />
         </button>
         <Modal isVisible={isVisible} hideModal={hideModal}>
-          <h1>Hello, I am Bookingmodal!</h1>
+          <BookingModalContent venue={venue} />
         </Modal>
       </>
     );
@@ -34,7 +36,7 @@ function ButtonPrimary({ text }) {
           <ArrowForwardIcon />
         </button>
         <Modal isVisible={isVisible} hideModal={hideModal}>
-          <h1>Hello, I am a LoginModal!</h1>
+          <LoginModalContent />
         </Modal>
       </>
     );
