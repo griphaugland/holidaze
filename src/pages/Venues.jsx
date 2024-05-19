@@ -20,7 +20,7 @@ function Venues() {
     useVenues((state) => ({
       error: state.error,
       loading: state.loading,
-      venues: state.venues,
+      venues: state.venues || [], // Default to empty array
       url: state.url,
       resetVenues: state.resetVenues,
       getVenues: state.getVenues,
@@ -29,22 +29,26 @@ function Venues() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const fetchVenues = async () => {
       resetVenues();
       const searchQuery = query.get("q");
-
       if (searchQuery && searchQuery !== "All") {
         setSearch(searchQuery);
         const searchUrl = `https://v2.api.noroff.dev/holidaze/venues/search?q=${searchQuery}`;
         await getVenues(searchUrl);
       } else {
-        setSearch("");
-        await getVenues(url);
+        await getVenues(
+          "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1"
+        );
       }
     };
 
     fetchVenues();
-  }, [location.key]);
+  }, [location.key]); // Fetch venues on component mount and location change
 
   const handleSearchValue = (e) => {
     setSearch(e.target.value);

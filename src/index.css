@@ -203,6 +203,9 @@ footer {
   right: 0.7rem;
   transition: right 0.3s ease-out;
 }
+.btn-primary:hover {
+  background-color: #1e6ea4;
+}
 .arrow-move svg {
   position: absolute;
   margin-left: 3.5rem;
@@ -218,7 +221,8 @@ footer {
   border-radius: 50%;
 }
 .arrow-move-search:hover {
-  outline: 2px solid #103954;
+  background-color: #103954;
+  color: white;
 }
 .hero-btn-primary:hover svg,
 .hero-btn-primary:focus svg {

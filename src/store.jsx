@@ -17,11 +17,12 @@ export const useVenues = create(
       venues: [],
       loggedIn: false,
       setLoggedIn: (value) => set({ loggedIn: value }),
-      resetVenues: () =>
+      resetVenues: () => {
         set({
           venues: [],
           url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
-        }),
+        });
+      },
       getVenues: async (url) => {
         try {
           set({ loading: true });
@@ -62,7 +63,6 @@ export const useVenues = create(
               status: e.status,
               message: e.message,
             },
-
             loading: false,
           });
         }

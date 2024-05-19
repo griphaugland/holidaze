@@ -9,6 +9,9 @@ import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
 import ModalButton from "../components/buttons/ModalButton";
 
 function SingleVenue() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   let { id } = useParams();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);

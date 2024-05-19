@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useVenues } from "../../../store";
 
 function Login() {
   const {
@@ -8,8 +10,8 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { loading, setLoading } = useVenues();
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -37,44 +39,68 @@ function Login() {
       setLoading(false);
     }
   };
-
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            {...register("email", { required: "Email is required" })}
-          />
-          {errors.email && (
-            <p style={{ color: "red" }}>{errors.email.message}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            {...register("password", { required: "Password is required" })}
-          />
-          {errors.password && (
-            <p style={{ color: "red" }}>{errors.password.message}</p>
-          )}
-        </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-        <div className="">
-          No account?{" "}
-          <Link to="/register" className="text-blue-500">
-            Register
-          </Link>
-        </div>
-      </form>
+    <div className="flex justify-center items-center">
+      <div className="bg-white p-8 rounded w-screen max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-start">Login</h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 font-semibold mb-2"
+            >
+              Email:
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="w-full px-3 py-2 border border-gray-300 rounded"
+              {...register("email", { required: "Email is required" })}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="block text-gray-700 font-semibold mb-2"
+            >
+              Password:
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="w-full px-3 py-2 border border-gray-300 rounded"
+              {...register("password", { required: "Password is required" })}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          <button
+            type="submit"
+            className={`w-full btn-primary py-2 button-custom px-4 text-white transition duration-300 ${
+              loading ? "bg-gray-400 cursor-not-allowed" : "button-color"
+            }`}
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+            <ArrowForwardIcon />
+          </button>
+          <div className="mt-4 text-gray-400 text-sm text-start">
+            No account?{" "}
+            <Link to="/register" className=" hover:underline">
+              Register
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
