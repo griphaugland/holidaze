@@ -8,7 +8,7 @@ import BookingModalContent from "../modal/modalcontent/Booking";
 
 function ButtonPrimary({ text, venue }) {
   const { isVisible, showModal, hideModal } = useModal();
-  const { loggedIn, loading, setLoading } = useVenues();
+  const { isLoggedIn, loading, setLoading } = useVenues();
 
   const handleClick = () => {
     setLoading(true);
@@ -25,11 +25,11 @@ function ButtonPrimary({ text, venue }) {
         }`}
         disabled={loading}
       >
-        <p>{loggedIn ? text : "Log in to book"}</p>
+        <p>{isLoggedIn ? text : "Log in to book"}</p>
         <ArrowForwardIcon />
       </button>
       <Modal isVisible={isVisible} hideModal={hideModal}>
-        {loggedIn ? (
+        {isLoggedIn ? (
           <BookingModalContent venue={venue} />
         ) : (
           <LoginModalContent />

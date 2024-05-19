@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useVenues } from "../../../store";
+import { useVenues } from "../store";
 
 function Login() {
   const {
@@ -100,7 +100,7 @@ function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center min-h-screen">
       <div className="bg-white p-8 rounded w-screen max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-start">Login</h2>
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -13,6 +13,8 @@ import Profile from "./pages/Profile";
 import SingleVenue from "./pages/SingleVenue";
 import Error from "./pages/Error";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +32,22 @@ const router = createBrowserRouter([
         element: <SingleVenue />,
       },
       { path: "about", element: <About /> },
-      { path: "register", element: <Register /> },
+      {
+        path: "register",
+        element: (
+          <ProtectedRoute>
+            <Register />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "login",
+        element: (
+          <ProtectedRoute>
+            <Login />
+          </ProtectedRoute>
+        ),
+      },
       { path: "error", element: <Error /> },
       { path: "contact", element: <Contact /> },
       { path: "favorites", element: <Favorites /> },

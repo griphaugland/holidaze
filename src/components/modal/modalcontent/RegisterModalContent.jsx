@@ -23,15 +23,15 @@ function RegisterModalContent({ hideModal, onFinish }) {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+            "X-Noroff-API-Key": apiKey.data.key,
           },
           body: JSON.stringify(data),
         }
       );
-
       if (!response.ok) {
         throw new Error("Failed to update profile. Please check your details.");
       }
-
       const result = await response.json();
       console.log("Profile update successful:", result);
       onFinish();

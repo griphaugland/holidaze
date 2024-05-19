@@ -13,13 +13,18 @@ function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { loading, setLoading, user, setUser } = useVenues();
+  const { loading, setLoading, user, setUser, isLoggedIn } = useVenues();
   const [error, setError] = useState(null);
   const { isVisible, showModal, hideModal } = useModal();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  useEffect(() => {
+    {
+      isLoggedIn && navigate("/");
+    }
+  }, [isLoggedIn]);
 
   const onSubmit = async (data) => {
     setLoading(true);
