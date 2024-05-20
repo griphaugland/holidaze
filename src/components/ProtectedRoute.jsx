@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
-import { useVenues } from "../store";
+import { useGeneral } from "../store";
 
-const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn } = useVenues();
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+const ProtectedRoute = ({ children, access }) => {
+  const { isLoggedIn } = useGeneral((state) => ({
+    isLoggedIn: state.isLoggedIn,
+  }));
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      const timeoutId = setTimeout(() => {
-        setShouldRedirect(true);
-      }, 2000);
+  if (access === "loggedIn" && !isLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
-      return () => clearTimeout(timeoutId);
-    }
-  }, [isLoggedIn]);
-
-  if (shouldRedirect) {
+  if (access === "notLoggedIn" && isLoggedIn) {
     return <Navigate to="/" />;
   }
 

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useVenues } from "../store";
+import { useVenues, useGeneral, useProfiles } from "../store";
+
+import useCreateApiKey from "../components/useCreateApiKey";
 
 function Login() {
   const {
@@ -10,56 +12,17 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const {
-    loading,
-    setLoading,
-    apiKey,
-    setApiKey,
-    user,
-    setUser,
-    login,
-    isLoggedIn,
-  } = useVenues();
+  const { loading, setLoading } = useProfiles();
+  const { user, setUser, login, isLoggedIn } = useGeneral();
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { createApiKey, error: apiKeyError } = useCreateApiKey();
 
   useEffect(() => {
     if (isLoggedIn) {
       navigate("/");
     }
   }, [isLoggedIn, navigate]);
-
-  const createApiKey = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(
-        `https://v2.api.noroff.dev/auth/create-api-key`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.data.accessToken}`,
-          },
-          body: JSON.stringify({
-            name: "apiKey",
-          }),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to create API Key. Please try again");
-      }
-      const result = await response.json();
-      console.log("API Key creation result:", result);
-      setApiKey(result);
-      const storage = JSON.parse(localStorage.getItem("storage")) || {};
-      storage.apiKey = result;
-      localStorage.setItem("storage", JSON.stringify(storage));
-    } catch (error) {
-      console.error("Error creating API Key:", error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -84,7 +47,12 @@ function Login() {
       const storage = JSON.parse(localStorage.getItem("storage")) || {};
       storage.user = result;
       localStorage.setItem("storage", JSON.stringify(storage));
-      await createApiKey();
+
+      if (result && result.data && result.data.accessToken) {
+        await createApiKey(result.data.accessToken);
+      } else {
+        throw new Error("Invalid user data received from login response");
+      }
       login();
     } catch (error) {
       setError(error.message);
@@ -137,6 +105,9 @@ function Login() {
             )}
           </div>
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          {apiKeyError && (
+            <p className="text-red-500 text-sm mb-4">{apiKeyError}</p>
+          )}
           <button
             type="submit"
             className={`w-full btn-primary py-2 button-custom px-4 text-white transition duration-300 ${

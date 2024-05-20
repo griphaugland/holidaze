@@ -11,7 +11,7 @@ import Venues from "./pages/Venues";
 import Favorites from "./pages/Favorites";
 import Profile from "./pages/Profile";
 import SingleVenue from "./pages/SingleVenue";
-import Error from "./pages/Error";
+import ErrorPage from "./pages/Error";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -20,22 +20,16 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: <Error />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "", element: <App /> },
-      {
-        path: "venues",
-        element: <Venues />,
-      },
-      {
-        path: "venues/:id",
-        element: <SingleVenue />,
-      },
+      { path: "venues", element: <Venues /> },
+      { path: "venues/:id", element: <SingleVenue /> },
       { path: "about", element: <About /> },
       {
         path: "register",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute access="notLoggedIn">
             <Register />
           </ProtectedRoute>
         ),
@@ -43,15 +37,22 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute access="notLoggedIn">
             <Login />
           </ProtectedRoute>
         ),
       },
-      { path: "error", element: <Error /> },
+      { path: "error", element: <ErrorPage /> },
       { path: "contact", element: <Contact /> },
       { path: "favorites", element: <Favorites /> },
-      { path: "profile", element: <Profile /> },
+      {
+        path: "profile/:username?",
+        element: (
+          <ProtectedRoute access="loggedIn">
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
       { path: "*", element: <NotFoundPage /> },
     ],
   },

@@ -1,6 +1,6 @@
 import React from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useVenues } from "../../store";
+import { useGeneral } from "../../store";
 import Modal from "../modal/Modal";
 import useModal from "../modal/useModal";
 import LoginModalContent from "../modal/modalcontent/LoginModalContent";
@@ -8,7 +8,7 @@ import BookingModalContent from "../modal/modalcontent/Booking";
 
 function ButtonPrimary({ text, venue }) {
   const { isVisible, showModal, hideModal } = useModal();
-  const { isLoggedIn, loading, setLoading } = useVenues();
+  const { isLoggedIn, loading, setLoading } = useGeneral();
 
   const handleClick = () => {
     setLoading(true);

@@ -6,19 +6,25 @@ import CloseIcon from "@mui/icons-material/Close";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Logo from "/logo.svg?url";
 import LogoBlue from "/logoBlue.svg?url";
-import LogoutButton from "./buttons/LogoutButton";
-import { useVenues } from "../store";
-import ForceModal from "./modal/ForceModal";
-import useModal from "../components/modal/useModal";
+import {
+  useErrorGeneral,
+  useErrorVenues,
+  useErrorProfiles,
+} from "../components/useErrorNavigation";
+import { useGeneral } from "../store";
 
 function Header() {
+  useErrorProfiles();
+  useErrorGeneral();
+  useErrorVenues();
+
   const [headerColor, setHeaderColor] = useState(true);
   const [mobile, setMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [animate, setAnimate] = useState(false);
-  const location = useLocation(); // Get current location object
-  const { apiKey, user, isLoggedIn } = useVenues();
-  const { showModal, hideModal, isVisible } = useModal();
+  const { isLoggedIn } = useGeneral();
+  const location = useLocation();
+
   useEffect(() => {
     // Set header color based on the scroll position and path
     const checkScrollAndPath = () => {
@@ -62,29 +68,21 @@ function Header() {
   }
 
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      setMobile(true);
-    } else if (window.innerWidth > 768) {
-      setMobile(false);
-    }
-    window.addEventListener("resize", () => {
+    const handleResize = () => {
       if (window.innerWidth < 768) {
         setMobile(true);
-      } else if (window.innerWidth > 768) {
+      } else {
         setMobile(false);
       }
-    });
-  }, []);
+    };
 
-  useEffect(() => {
-    /*     if (!apiKey || apiKey.data.status !== "ACTIVE") {
-      showModal();
-      console.log("API key is not active");
-    } else {
-      console.log("API key is active");
-      hideModal();
-    } */
-  }, [apiKey, showModal, hideModal]);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   if (mobile) {
     return (
@@ -216,6 +214,38 @@ function Header() {
             >
               Contact
             </Link>
+            {isLoggedIn ? (
+              <Link
+                className="flex items-center justify-start gap-1 min-w-36"
+                to="profile"
+                onClick={() => {
+                  setToggle(!toggle);
+                }}
+              >
+                Profile
+              </Link>
+            ) : (
+              <>
+                <Link
+                  className="flex items-center justify-start gap-1 min-w-36"
+                  to="login"
+                  onClick={() => {
+                    setToggle(!toggle);
+                  }}
+                >
+                  Log in
+                </Link>
+                <Link
+                  className="flex items-center justify-start gap-1 min-w-36"
+                  to="register"
+                  onClick={() => {
+                    setToggle(!toggle);
+                  }}
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </nav>
         )}
       </header>
@@ -325,17 +355,6 @@ function Header() {
             </div>
           </Link>
         </div>
-        {isLoggedIn && (
-          <ForceModal isVisible={isVisible}>
-            <div className="flex justify-center items-center">
-              <div className="bg-white p-8 rounded w-screen max-w-md">
-                <h1 className="text-xl mb-3">Your session has expired</h1>
-                <p className="mb-4">Please login again to continue</p>
-                <LogoutButton onClick={hideModal} />
-              </div>
-            </div>
-          </ForceModal>
-        )}
       </header>
     );
   }

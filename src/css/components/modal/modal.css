@@ -41,6 +41,9 @@
   width: 70%;
   cursor: pointer;
 }
+.success-icon {
+  font-size: 40px;
+}
 
 .modal-enter {
   opacity: 0;
