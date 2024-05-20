@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { useVenues } from "../../store";
+import { useGeneral } from "../../store";
 
 function AddToFavorite({ venue, size }) {
-  const favorites = useVenues((state) => state.favorites);
-  const addToFavorites = useVenues((state) => state.addToFavorites);
-  const removeFromFavorites = useVenues((state) => state.removeFromFavorites);
+  const favorites = useGeneral((state) => state.favorites);
+  const addToFavorites = useGeneral((state) => state.addToFavorites);
+  const removeFromFavorites = useGeneral((state) => state.removeFromFavorites);
 
   useEffect(() => {
     const previousData = localStorage.getItem("favorites");

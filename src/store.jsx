@@ -10,8 +10,7 @@ const getItemFromLocalStorage = (key) => {
     return null;
   }
 };
-
-export const useVenues = create(
+export const useGeneral = create(
   persist(
     (set, get) => ({
       error: null,
@@ -20,11 +19,6 @@ export const useVenues = create(
       setLoading: (value) => set({ loading: value }),
       transparentHeader: false,
       setTransparentHeader: (value) => set({ transparentHeader: value }),
-      data: [],
-      setData: (value) => set({ data: value }),
-      url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
-      setUrl: (value) => set({ url: value }),
-      venues: [],
       isLoggedIn: !!getItemFromLocalStorage("storage")?.user,
       login: () => set({ isLoggedIn: true }),
       logout: () => {
@@ -35,6 +29,39 @@ export const useVenues = create(
       setUser: (value) => set({ user: value }),
       apiKey: getItemFromLocalStorage("storage")?.apiKey || null,
       setApiKey: (value) => set({ apiKey: value }),
+      favorites: [],
+      addToFavorites: (venue) =>
+        set((state) => ({ favorites: [...state.favorites, venue] })),
+      removeFromFavorites: (venue) =>
+        set((state) => ({
+          favorites: state.favorites.filter((v) => v.id !== venue.id),
+        })),
+      clearFavorites: () => set({ favorites: [] }),
+    }),
+    {
+      name: "storage",
+      partialize: (state) => ({
+        favorites: state.favorites,
+        user: state.user,
+        apiKey: state.apiKey,
+        isLoggedIn: state.isLoggedIn,
+      }),
+    }
+  )
+);
+
+export const useVenues = create(
+  persist(
+    (set, get) => ({
+      error: null,
+      setError: (error) => set({ error }),
+      loading: false,
+      setLoading: (value) => set({ loading: value }),
+      data: [],
+      setData: (value) => set({ data: value }),
+      url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
+      setUrl: (value) => set({ url: value }),
+      venues: [],
       resetVenues: () => {
         set({
           venues: [],
@@ -83,6 +110,7 @@ export const useVenues = create(
             },
             loading: false,
           });
+          console.error("Error fetching venues:", e);
         }
       },
       getMoreVenues: async () => {
@@ -91,22 +119,88 @@ export const useVenues = create(
           await get().getVenues(url);
         }
       },
-      favorites: [],
-      addToFavorites: (venue) =>
-        set((state) => ({ favorites: [...state.favorites, venue] })),
-      removeFromFavorites: (venue) =>
-        set((state) => ({
-          favorites: state.favorites.filter((v) => v.id !== venue.id),
-        })),
-      clearFavorites: () => set({ favorites: [] }),
     }),
     {
-      name: "storage",
+      name: "venue-storage",
       partialize: (state) => ({
-        favorites: state.favorites,
-        user: state.user,
-        apiKey: state.apiKey,
-        isLoggedIn: state.isLoggedIn,
+        venues: state.venues,
+        error: state.error,
+        loading: state.loading,
+      }),
+    }
+  )
+);
+
+export const useProfiles = create(
+  persist(
+    (set) => ({
+      error: null,
+      setError: (error) => set({ error }),
+      loading: false,
+      setLoading: (value) => set({ loading: value }),
+      profile: null,
+      setProfile: (profile) => set({ profile }),
+      fetchProfile: async (username, accessToken, apiKey) => {
+        set({ loading: true });
+        try {
+          const res = await fetch(
+            `https://v2.api.noroff.dev/holidaze/profiles/${username}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+                "X-Noroff-API-Key": apiKey.data.key,
+              },
+            }
+          );
+          const data = await res.json();
+          if (!res.ok) {
+            set({
+              error: {
+                statusCode: res.statusText,
+                status: res.status,
+                message: data.errors ? data.errors[0].message : "Unknown error",
+              },
+            });
+          } else {
+            set({ profile: data.data, error: null });
+          }
+        } catch (e) {
+          set({
+            error: {
+              statusCode: e.message,
+              status: e.status,
+              message: e.message,
+            },
+          });
+        } finally {
+          set({ loading: false });
+        }
+      },
+    }),
+    {
+      name: "profile-storage",
+      partialize: (state) => ({
+        profile: state.profile,
+        error: state.error,
+        loading: state.loading,
+      }),
+    }
+  )
+);
+
+export const useErrors = create(
+  persist(
+    (set) => ({
+      error: null,
+      setError: (error) => set({ error }),
+    }),
+    {
+      name: "error-storage",
+      partialize: (state) => ({
+        error: state.error,
+        loading: state.loading,
       }),
     }
   )

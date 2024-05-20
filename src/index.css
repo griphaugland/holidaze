@@ -58,6 +58,7 @@ header {
   font-size: 1.5rem;
   z-index: 5;
   padding-inline: 2rem;
+  padding-bottom: 2rem;
 }
 
 .logo {
@@ -205,6 +206,35 @@ footer {
 }
 .btn-primary:hover {
   background-color: #1e6ea4;
+}
+.btn-secondary {
+  position: relative;
+  font-family: "poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid #103954 inset;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: #103954;
+  cursor: pointer;
+}
+.btn-secondary svg {
+  position: absolute;
+  right: 2rem;
+  transition: 0.3s ease-in-out;
+}
+.btn-secondary:hover svg,
+.btn-secondary:focus svg {
+  right: 0.7rem;
+  transition: right 0.3s ease-out;
+}
+.btn-secondary:hover {
+  background-color: #cbcbcb;
 }
 .btn-logout {
   position: relative;
@@ -520,6 +550,12 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+}
+.loader-small {
   display: flex;
   justify-content: center;
   align-items: center;

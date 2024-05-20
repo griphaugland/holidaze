@@ -1,18 +1,23 @@
 import React, { useEffect } from "react";
-import { useVenues } from "../store";
+import { useErrors } from "../store";
 import ErrorBackground from "/error-background.png?url";
 import ButtonPrimary from "../components/buttons/ButtonPrimary";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Error() {
   const navigate = useNavigate();
-  const { error } = useVenues((state) => ({
+  const { error } = useErrors((state) => ({
     error: state.error,
   }));
-  const ErrorNumber1 = JSON.stringify(error.status).split("")[0];
-  const ErrorNumber2 = JSON.stringify(error.status).split("")[1];
-  const ErrorNumber3 = JSON.stringify(error.status).split("")[2];
-  const ErrorText = error.message;
+
+  useEffect(() => {
+    console.log("Error state:", error);
+  }, [error]);
+
+  const ErrorNumber1 = error?.status?.toString().split("")[0] || "0";
+  const ErrorNumber2 = error?.status?.toString().split("")[1] || "0";
+  const ErrorNumber3 = error?.status?.toString().split("")[2] || "0";
+  const ErrorText = error?.message || "Unknown Page";
 
   return (
     <div>
@@ -20,20 +25,15 @@ function Error() {
         <div className="error-text container absolute flex items-center text-black">
           <div className="error-text-container">
             <div className="error-text-price pt-sans-semibold text-black">
-              {error.status && (
-                <div className="status-numbers">
-                  <span className="text-4xl">{ErrorNumber1}</span>
-                  <span className="text-4xl">{ErrorNumber2}</span>
-                  <span className="text-4xl">{ErrorNumber3}</span>
-                </div>
-              )}
-              {!error.status && "000"}
+              <div className="status-numbers">
+                <span className="text-4xl">{ErrorNumber1}</span>
+                <span className="text-4xl">{ErrorNumber2}</span>
+                <span className="text-4xl">{ErrorNumber3}</span>
+              </div>
             </div>
             <div className="flex flex-col w-full items-center gap-5">
-              <h1 className="text-4xl poppins-bold p-3 text-black">
-                {error.message && ErrorText}
-                {!error.message && "Unknown Page"}
-              </h1>
+              <h1 className="text-4xl poppins-bold p-3 text-black">Whoops!</h1>
+              <p>Error: {ErrorText}</p>
               <div className="flex justify-start p-4">
                 <ButtonPrimary text="Go home" onClick={() => navigate("/")} />
               </div>

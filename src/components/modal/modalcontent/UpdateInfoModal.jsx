@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useVenues } from "../../../store";
+import { useGeneral } from "../../../store";
+import { useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Loader from "../../Loader";
 
-function RegisterModalContent({ hideModal, onFinish }) {
+function UpdateInfoModal({ hideModal, onFinish }) {
   const {
     register,
     handleSubmit,
@@ -11,32 +13,47 @@ function RegisterModalContent({ hideModal, onFinish }) {
     formState: { errors },
   } = useForm();
   const [currentStep, setCurrentStep] = useState(1);
-  const { loading, setLoading, user } = useVenues();
+  const { user, loading, setLoading } = useGeneral();
+  const [redirect, setRedirect] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     setLoading(true);
+    setError(null);
     try {
-      // Make the API request to update the user profile with additional info
       const response = await fetch(
         `https://v2.api.noroff.dev/holidaze/profiles/${user.username}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-            "X-Noroff-API-Key": apiKey.data.key,
+            Authorization: `Bearer ${user.accessToken}`, // Assuming user object contains accessToken
+            "X-Noroff-API-Key": user.apiKey.data.key, // Assuming user object contains apiKey
           },
           body: JSON.stringify(data),
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to update profile. Please check your details.");
+        const errorResponse = await response.json();
+        const errorMessage =
+          errorResponse.errors && errorResponse.errors.length > 0
+            ? errorResponse.errors[0].message
+            : "Failed to update profile. Please check your details.";
+        throw new Error(errorMessage);
       }
+
       const result = await response.json();
       console.log("Profile update successful:", result);
       onFinish();
+      setRedirect(true);
+      setTimeout(() => {
+        navigate("/login");
+        setRedirect(false);
+      }, 2000);
     } catch (error) {
       console.error(error.message);
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -45,7 +62,10 @@ function RegisterModalContent({ hideModal, onFinish }) {
   return (
     <div className="p-4">
       {currentStep === 1 && (
-        <form onSubmit={handleSubmit(() => setCurrentStep(2))}>
+        <form
+          className="min-w-72"
+          onSubmit={handleSubmit(() => setCurrentStep(2))}
+        >
           <h3 className="text-xl font-bold mb-4">Profile Picture and Banner</h3>
           <div className="mb-4">
             <label
@@ -147,18 +167,35 @@ function RegisterModalContent({ hideModal, onFinish }) {
               </p>
             )}
           </div>
-          <button
-            type="submit"
-            className="btn-primary text-sm flex items-center justify-center w-full py-2 px-4 mt-4"
-          >
-            Next
-            <ArrowForwardIcon className="ml-2" />
-          </button>
+          <div className="flex justify-between">
+            <button
+              type="button"
+              className="btn-secondary text-sm flex items-center justify-center w-1/2 py-2 px-4 mt-4 mr-2"
+              onClick={() => {
+                setRedirect(true);
+                setTimeout(() => {
+                  hideModal();
+                  onFinish();
+                  setRedirect(false);
+                  navigate("/login");
+                }, 2000);
+              }}
+            >
+              Skip
+            </button>
+            <button
+              type="submit"
+              className="btn-primary text-sm flex items-center justify-center w-1/2 py-2 px-4 mt-4"
+            >
+              Next
+              <ArrowForwardIcon className="ml-2" />
+            </button>
+          </div>
         </form>
       )}
 
       {currentStep === 2 && (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="min-w-72" onSubmit={handleSubmit(onSubmit)}>
           <h3 className="text-xl font-bold mb-4">Venue Manager</h3>
           <div className="mb-4 flex items-center">
             <input
@@ -174,20 +211,35 @@ function RegisterModalContent({ hideModal, onFinish }) {
               Do you plan to list venues?
             </label>
           </div>
-          <button
-            type="submit"
-            className={`btn-primary text-sm flex items-center justify-center w-full py-2 px-4 mt-4 ${
-              loading ? "bg-gray-400 cursor-not-allowed" : ""
-            }`}
-            disabled={loading}
-          >
-            {loading ? "Submitting..." : "Submit"}
-            <ArrowForwardIcon className="ml-2" />
-          </button>
+          <div className="flex justify-between">
+            <button
+              type="button"
+              className="btn-secondary text-sm flex items-center justify-center w-1/2 py-2 px-4 mt-4 mr-2"
+              onClick={() => setCurrentStep(1)}
+            >
+              Back
+            </button>
+            <button
+              type="submit"
+              className={`btn-primary text-sm flex items-center justify-center w-1/2 py-2 px-4 mt-4 ${
+                loading ? "bg-gray-400 cursor-not-allowed" : ""
+              }`}
+              disabled={loading}
+            >
+              {loading
+                ? "Submitting..."
+                : redirect
+                ? "Redirecting to login..."
+                : "Submit"}
+              <ArrowForwardIcon className="ml-2" />
+            </button>
+          </div>
         </form>
       )}
+      {error && <p className="text-red-500 text-sm mb-3 pt-5">{error}</p>}
+      {redirect && <p className="text-green-800 text-sm">Redirecting...</p>}
     </div>
   );
 }
 
-export default RegisterModalContent;
+export default UpdateInfoModal;

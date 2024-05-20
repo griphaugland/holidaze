@@ -1,30 +1,34 @@
+// Register.jsx
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useVenues } from "../store";
-import Modal from "../components/modal/Modal";
-import RegisterModalContent from "../components/modal/modalcontent/RegisterModalContent.jsx";
+import { useVenues, useGeneral } from "../store";
+import ForceModal from "../components/modal/ForceModal";
+import RegisterSuccess from "../components/modal/modalcontent/RegisterSuccess";
 import useModal from "../components/modal/useModal";
 
 function Register() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { loading, setLoading, user, setUser, isLoggedIn } = useVenues();
+  const { loading, setLoading } = useVenues();
+  const { isLoggedIn } = useGeneral();
   const [error, setError] = useState(null);
   const { isVisible, showModal, hideModal } = useModal();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   useEffect(() => {
-    {
-      isLoggedIn && navigate("/");
+    if (isLoggedIn) {
+      navigate("/");
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -40,12 +44,17 @@ function Register() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to register. Please check your details.");
+        const errorResponse = await response.json();
+        const errorMessage =
+          errorResponse.errors && errorResponse.errors.length > 0
+            ? errorResponse.errors[0].message
+            : "Failed to register. Please check your details.";
+        throw new Error(errorMessage);
       }
 
       const result = await response.json();
-      setUser(result);
       console.log("Registration successful:", result);
+
       showModal();
     } catch (error) {
       setError(error.message);
@@ -53,7 +62,6 @@ function Register() {
       setLoading(false);
     }
   };
-
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="p-8 rounded w-full max-w-md">
@@ -152,9 +160,11 @@ function Register() {
           </Link>
         </form>
       </div>
-      <Modal isVisible={isVisible} hideModal={hideModal}>
-        <RegisterModalContent hideModal={hideModal} onFinish={hideModal} />
-      </Modal>
+      {
+        <ForceModal isVisible={isVisible} hideModal={hideModal}>
+          <RegisterSuccess hideModal={hideModal} onFinish={hideModal} />
+        </ForceModal>
+      }
     </div>
   );
 }
