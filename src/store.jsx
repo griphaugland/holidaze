@@ -155,6 +155,7 @@ export const useProfiles = create(
             }
           );
           const data = await res.json();
+          console.log("Profile data:", data);
           if (!res.ok) {
             set({
               error: {
