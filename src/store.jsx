@@ -59,13 +59,13 @@ export const useVenues = create(
       setLoading: (value) => set({ loading: value }),
       data: [],
       setData: (value) => set({ data: value }),
-      url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
+      url: "https://v2.api.noroff.dev/holidaze/venues/?limit=15&page=1&_owner=true",
       setUrl: (value) => set({ url: value }),
       venues: [],
       resetVenues: () => {
         set({
           venues: [],
-          url: "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1",
+          url: "https://v2.api.noroff.dev/holidaze/venues/?limit=15&page=1&_owner=true",
         });
       },
       getVenues: async (url) => {
@@ -73,7 +73,7 @@ export const useVenues = create(
           set({ loading: true });
           const res = await fetch(url);
           const data = await res.json();
-
+          console.log(data);
           if (!res.ok) {
             set({
               error: {
@@ -95,7 +95,7 @@ export const useVenues = create(
 
           set({
             url: data.meta.nextPage
-              ? `https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=${data.meta.nextPage}`
+              ? `https://v2.api.noroff.dev/holidaze/venues/?limit=15&page=${data.meta.nextPage}`
               : null,
             venues: updatedVenues,
             loading: false,
@@ -144,7 +144,7 @@ export const useProfiles = create(
         set({ loading: true });
         try {
           const res = await fetch(
-            `https://v2.api.noroff.dev/holidaze/profiles/${username}`,
+            `https://v2.api.noroff.dev/holidaze/profiles/${username}?_bookings=true&_venues=true`,
             {
               method: "GET",
               headers: {

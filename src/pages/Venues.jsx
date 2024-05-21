@@ -42,7 +42,7 @@ function Venues() {
         await getVenues(searchUrl);
       } else {
         await getVenues(
-          "https://v2.api.noroff.dev/holidaze/venues/?limit=12&page=1"
+          "https://v2.api.noroff.dev/holidaze/venues/?limit=15&page=1&_owner=true"
         );
       }
     };

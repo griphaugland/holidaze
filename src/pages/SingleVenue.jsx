@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import AddToFavorites from "../components/buttons/AddToFavorite";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -39,6 +39,10 @@ function SingleVenue() {
       },
     ],
     meta: { wifi: false, parking: false, breakfast: false },
+    owner: {
+      name: "Doja Cat",
+      avatar: "https://example.com/avatar.jpg",
+    },
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -63,7 +67,7 @@ function SingleVenue() {
 
   useEffect(() => {
     setLoading(true);
-    const url = `https://v2.api.noroff.dev/holidaze/venues/${id}`;
+    const url = `https://v2.api.noroff.dev/holidaze/venues/${id}?_owner=true&_bookings=true`;
     getSingleVenue(url);
   }, [id]);
 
@@ -218,7 +222,7 @@ function SingleVenue() {
             </div>
           )}
           <div className="maxguests pt-5 md:py-5">
-            <h2 className="text-sm font-regular">This venue offers</h2>
+            <h2 className="text-sm font-regula">This venue offers</h2>
             <Facilities venue={venue} />
           </div>
           {isMobile && (
@@ -245,42 +249,55 @@ function SingleVenue() {
             </div>
           )}
           <div className="description pt-0 py-0 sm:py-5">
-            <h2 className="text-sm font-regular">Description</h2>
+            <h2 className="text-sm font-regular ">Description</h2>
             <p className="py-2 text-gray-600 text-sm">
               {venue.description ? venue.description : "No description found"}
             </p>
           </div>
-        </div>
-        <div className="md:w-1/2 px-8 sm:p-6 p-0 pb-6">
-          {!isMobile && (
-            <>
-              <div className="flex flex-row justify-end items-end w-full pt-0 px-8 p-6">
-                {venue.rating > 0 && (
-                  <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
-                    <StarRateSharpIcon className="text-yellow-400" />
-                    <p className=" font-bold poppins-semibold">
-                      {venue.rating}
-                    </p>
-                  </div>
-                )}
-                {venue.rating === 0 && (
-                  <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
-                    <StarRateSharpIcon className="text-yellow-400" />
-                    <p className="text-gray-400 pt-sans-regular">
-                      No rating yet
-                    </p>
-                  </div>
-                )}
-                <div className=" flex min-w-40 flex-row justify-start gap-3">
-                  <AddToFavorites venue={venue} size="large" />
-                </div>
+          {/* Profile Section */}
+          {venue.owner && (
+            <div className="profile-section flex flex-col mt-6">
+              <h2 className="text-sm font-regular ">Venue owner</h2>
+              <div className="py-2 flex justify-between">
+                <Link
+                  to={`/profile/${venue.owner.name}`}
+                  className="flex justify-start items-center gap-3 hover:underline"
+                >
+                  <img
+                    src={venue.owner.avatar.url}
+                    alt={venue.owner.avatar.alt}
+                    className="w-7 h-7 rounded-full"
+                  />
+                  <p className=" text-gray-600 text-sm">{venue.owner.name}</p>
+                </Link>
               </div>
-              <div className="button-container w-full">
-                <ModalButton text="Check availability" venue={venue} />
-              </div>
-            </>
+            </div>
           )}
         </div>
+        {!isMobile && (
+          <div className="md:w-1/2 px-8 sm:p-6 p-0 pb-6">
+            <div className="flex flex-row justify-end items-end w-full pt-0 px-8 p-6">
+              {venue.rating > 0 && (
+                <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
+                  <StarRateSharpIcon className="text-yellow-400" />
+                  <p className=" font-bold poppins-semibold">{venue.rating}</p>
+                </div>
+              )}
+              {venue.rating === 0 && (
+                <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
+                  <StarRateSharpIcon className="text-yellow-400" />
+                  <p className="text-gray-400 pt-sans-regular">No rating yet</p>
+                </div>
+              )}
+              <div className=" flex min-w-40 flex-row justify-start gap-3">
+                <AddToFavorites venue={venue} size="large" />
+              </div>
+            </div>
+            <div className="button-container w-full">
+              <ModalButton text="Check availability" venue={venue} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

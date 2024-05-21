@@ -7,7 +7,7 @@ function VenueItem({ item }) {
       key={item.id}
       className="flex flex-col items-start justify-between"
     >
-      <a className="w-full h-full" href={`venues/${item.id}`}>
+      <a className="w-full h-full" href={`../venues/${item.id}`}>
         <img
           src={item.media[0]?.url}
           alt="venue"
@@ -33,15 +33,6 @@ function VenueItem({ item }) {
                 {item.price} NOK / night
               </p>
             </div>
-            {/*  <div className="flex items-center gap-1 w-full justify-end mt-1">
-                <AddToFavorite venue={item} />
-                <Link
-                  to={`./${item.id}`}
-                  className="secondary-button-large text-black px-4 py-2 rounded-lg"
-                >
-                  View
-                </Link>
-              </div> */}
           </div>
         </div>
 
