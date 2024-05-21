@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Logo from "/logo.svg?url";
 import LogoBlue from "/logoBlue.svg?url";
+import LogoutButton from "./buttons/LogoutButton";
 import {
   useErrorGeneral,
   useErrorVenues,
@@ -57,13 +58,18 @@ function Header() {
   }, [toggle]);
 
   function handleFreezeScroll(toggle) {
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
     if (toggle) {
-      document.querySelector("body").style.overflow = "hidden";
-      document.querySelector("header").style.paddingRight = "2rem";
+      document.body.style.overflow = "hidden";
+      document.body.style.marginRight = `${scrollbarWidth}px`;
+      document.querySelector("header").style.paddingRight = `${
+        scrollbarWidth + 15
+      }px`;
     } else {
       document.body.style.overflow = "auto";
-      document.body.style.marginRight = "0px";
-      document.querySelector("header").style.paddingRight = "1rem";
+      document.body.style.marginRight = `0px`;
+      document.querySelector("header").style.paddingRight = `1rem`;
     }
   }
 
@@ -215,15 +221,20 @@ function Header() {
               Contact
             </Link>
             {isLoggedIn ? (
-              <Link
-                className="flex items-center justify-start gap-1 min-w-36"
-                to="profile"
-                onClick={() => {
-                  setToggle(!toggle);
-                }}
-              >
-                Profile
-              </Link>
+              <>
+                <Link
+                  className="flex items-center justify-start gap-1 min-w-36"
+                  to="profile"
+                  onClick={() => {
+                    setToggle(!toggle);
+                  }}
+                >
+                  Profile
+                </Link>
+                <div className=" flex items-center justify-center gap-1 min-w-screen">
+                  <LogoutButton size="navigation" />
+                </div>
+              </>
             ) : (
               <>
                 <Link

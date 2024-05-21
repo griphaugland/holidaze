@@ -6,6 +6,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 body {
   overflow-y: hidden;
 }
@@ -101,6 +102,7 @@ h6 {
 }
 main {
   min-height: 90svh;
+  margin-bottom: 10svh;
 }
 .align-top-header {
   margin-top: 10svh;
@@ -236,6 +238,26 @@ footer {
 .btn-secondary:hover {
   background-color: #cbcbcb;
 }
+.view-venue-button {
+  color: #103954;
+  position: relative;
+  transition: right 0.3s ease-out;
+}
+.view-venue-button svg {
+  position: absolute;
+  margin-left: 6.5rem;
+  color: #103954;
+  transition: 0.3s ease-in-out;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.view-venue-button:hover svg,
+.view-venue-button:focus svg {
+  margin-left: 7.5rem;
+  transition: margin-left 0.3s ease-out;
+}
+
 .btn-logout {
   position: relative;
   font-family: "poppins", sans-serif;
@@ -253,6 +275,64 @@ footer {
   background-color: #df5151;
   cursor: pointer;
 }
+.btn-logout-nav {
+  position: relative;
+  font-family: "poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  padding-left: 0rem;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: #df5151;
+  cursor: pointer;
+}
+.btn-logout-nav svg {
+  position: absolute;
+  right: 2rem;
+  color: #df5151;
+  transition: 0.3s ease-in-out;
+}
+.btn-logout-nav:hover svg,
+.btn-logout-nav:focus svg {
+  right: 0.7rem;
+  transition: right 0.3s ease-out;
+}
+.btn-logout-profile {
+  position: relative;
+  font-family: "poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid #103954 inset;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: #df5151;
+  cursor: pointer;
+}
+.btn-logout-profile svg {
+  position: absolute;
+  right: 2rem;
+  color: #df5151;
+  transition: 0.3s ease-in-out;
+}
+.btn-logout-profile:hover svg,
+.btn-logout-profile:focus svg {
+  right: 0.7rem;
+  transition: right 0.3s ease-out;
+}
+.btn-logout-profile:hover {
+  background-color: #cbcbcb;
+}
+
 .btn-logout svg {
   position: absolute;
   right: 2rem;
@@ -379,6 +459,29 @@ footer {
 
 .category-button.selected {
   color: #d5679b;
+}
+.select-primary {
+  cursor: pointer;
+  padding: 0.5rem;
+  padding-inline: 1rem;
+  color: rgb(0, 0, 0);
+  transition: 0.1s ease-in-out;
+  font-weight: 600;
+  border-radius: 100px;
+  min-width: 105px;
+}
+.select-secondary {
+  cursor: pointer;
+  padding: 0.5rem;
+  padding-inline: 1rem;
+  color: rgb(129, 129, 129);
+  transition: 0.1s ease-in-out;
+  font-weight: 500;
+  border-radius: 100px;
+  min-width: 105px;
+}
+.select-secondary:hover {
+  background-color: #cbcbcb;
 }
 
 .slider {
@@ -614,6 +717,29 @@ footer {
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
 }
+.booking-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(303px, 1fr));
+  gap: 1.5rem;
+  place-items: center stretch;
+}
+.booking-container .booking-card {
+  max-width: 628px;
+  overflow: hidden;
+  margin: 0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
+@media (max-width: 768px) {
+  .booking-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .booking-container .booking-card {
+    width: 100%;
+    max-width: 800px;
+  }
+}
 
 .searchbar {
   overflow: hidden;
@@ -652,7 +778,7 @@ footer {
   }
   .venue-container article {
     width: 100%;
-    max-width: 450px;
+    max-width: 662px;
   }
 }
 

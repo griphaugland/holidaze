@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import useModal from "../modal/useModal";
 
-const LogoutButton = () => {
+const LogoutButton = ({ size }) => {
   const { logout } = useGeneral();
   const navigate = useNavigate();
 
@@ -12,13 +12,28 @@ const LogoutButton = () => {
     logout();
     navigate("/");
   };
-
-  return (
-    <button onClick={handleLogout} className="btn-logout">
-      Logout
-      <LogoutIcon />
-    </button>
-  );
+  if (size === "navigation") {
+    return (
+      <button onClick={handleLogout} className="btn-logout-nav">
+        Logout
+        <LogoutIcon />
+      </button>
+    );
+  } else if (size === "profile") {
+    return (
+      <button onClick={handleLogout} className="btn-logout-profile text-sm">
+        Logout
+        <LogoutIcon />
+      </button>
+    );
+  } else {
+    return (
+      <button onClick={handleLogout} className="btn-logout">
+        Logout
+        <LogoutIcon />
+      </button>
+    );
+  }
 };
 
 export default LogoutButton;
