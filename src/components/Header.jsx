@@ -58,13 +58,18 @@ function Header() {
   }, [toggle]);
 
   function handleFreezeScroll(toggle) {
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
     if (toggle) {
-      document.querySelector("body").style.overflow = "hidden";
-      document.querySelector("header").style.paddingRight = "2rem";
+      document.body.style.overflow = "hidden";
+      document.body.style.marginRight = `${scrollbarWidth}px`;
+      document.querySelector("header").style.paddingRight = `${
+        scrollbarWidth + 15
+      }px`;
     } else {
       document.body.style.overflow = "auto";
-      document.body.style.marginRight = "0px";
-      document.querySelector("header").style.paddingRight = "1rem";
+      document.body.style.marginRight = `0px`;
+      document.querySelector("header").style.paddingRight = `1rem`;
     }
   }
 

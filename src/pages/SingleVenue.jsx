@@ -266,7 +266,7 @@ function SingleVenue() {
                   <img
                     src={venue.owner.avatar.url}
                     alt={venue.owner.avatar.alt}
-                    className="w-7 h-7 rounded-full"
+                    className="w-7 h-7 rounded-full object-cover"
                   />
                   <p className=" text-gray-600 text-sm">{venue.owner.name}</p>
                 </Link>

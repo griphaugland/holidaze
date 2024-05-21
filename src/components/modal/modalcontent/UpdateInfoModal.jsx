@@ -16,6 +16,7 @@ function UpdateInfoModal({ hideModal, onFinish }) {
 
   const avatarUrl = watch("avatar.url");
   const isVenueManager = watch("venueManager", user?.data?.venueManager);
+  const bio = watch("bio", user?.data?.bio || "");
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -33,6 +34,9 @@ function UpdateInfoModal({ hideModal, onFinish }) {
         url: data.avatar.url,
       };
     }
+    if (data.bio) {
+      filteredData.bio = data.bio;
+    }
     if (data.avatar?.alt) {
       filteredData.avatar = {
         ...filteredData.avatar,
@@ -47,8 +51,8 @@ function UpdateInfoModal({ hideModal, onFinish }) {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.data.accessToken}`, // Assuming user object contains accessToken
-            "X-Noroff-API-Key": apiKey.data.key, // Assuming user object contains apiKey
+            Authorization: `Bearer ${user.data.accessToken}`,
+            "X-Noroff-API-Key": apiKey.data.key,
           },
           body: JSON.stringify(filteredData),
         }
@@ -95,19 +99,29 @@ function UpdateInfoModal({ hideModal, onFinish }) {
         <h3 className="text-xl font-bold mb-4">Profile Update</h3>
         <div className="mb-4">
           {user.data.avatar.url && (
-            <div className="flex items-center gap-4 mb-6">
-              <img
-                src={avatarUrl || user.data.avatar.url}
-                alt={user.data.avatar.alt || "Avatar"}
-                className="rounded-full w-24 h-24"
-              />
-              <div>
-                <h2 className="text-2xl font-bold">{user.data.name}</h2>
-                <p className="text-sm text-gray-500">
-                  {isVenueManager ? "Venue Manager" : "Venue Booker"}
-                </p>
+            <>
+              <div className="flex items-center gap-4 mb-6">
+                <img
+                  src={avatarUrl || user.data.avatar.url}
+                  alt={user.data.avatar.alt || "Avatar"}
+                  className="rounded-full w-24 h-24 object-cover"
+                />
+                <div>
+                  <h2 className="text-2xl font-bold">{user.data.name}</h2>
+                  <p className="text-sm text-gray-500">
+                    {isVenueManager ? "Venue Manager" : "Venue Booker"}
+                  </p>
+                </div>
               </div>
-            </div>
+              <div className="mb-6">
+                <h3 className="text-lgs font-semibold">
+                  About {user.data.name}
+                </h3>
+                <div className="text-sm mt-2">
+                  {bio || "No biography found"}
+                </div>
+              </div>
+            </>
           )}
           <label
             htmlFor="avatarUrl"
@@ -154,6 +168,28 @@ function UpdateInfoModal({ hideModal, onFinish }) {
             <p className="text-red-500 text-sm mt-1">
               {errors.avatar.alt.message}
             </p>
+          )}
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="bio"
+            className="block text-gray-700 font-semibold mb-2"
+          >
+            Write a short biography about yourself:
+          </label>
+          <input
+            type="text"
+            id="bio"
+            className="w-full px-3 py-2 border border-gray-300 rounded"
+            {...register("bio", {
+              maxLength: {
+                value: 240,
+                message: "Your biography must be less than 240 characters",
+              },
+            })}
+          />
+          {errors.bio && (
+            <p className="text-red-500 text-sm mt-1">{errors.bio.message}</p>
           )}
         </div>
         <div className="mb-4 flex items-center">
