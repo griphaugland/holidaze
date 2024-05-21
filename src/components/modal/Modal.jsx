@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import "../../css/components/modal/modal.css";
+import "../../css/components/calendar.css";
 import CloseIcon from "@mui/icons-material/Close";
 
 const Modal = ({ isVisible, hideModal, children }) =>

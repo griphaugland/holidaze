@@ -207,3 +207,15 @@ export const useErrors = create(
     }
   )
 );
+
+export const useBookingStore = create((set) => ({
+  selectedDates: [],
+  pricePerNight: null,
+  addDate: (date) =>
+    set((state) => ({ selectedDates: [...state.selectedDates, date] })),
+  removeDate: (date) =>
+    set((state) => ({
+      selectedDates: state.selectedDates.filter((d) => d !== date),
+    })),
+  clearDates: () => set({ selectedDates: [] }),
+}));
