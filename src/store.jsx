@@ -209,8 +209,15 @@ export const useErrors = create(
 );
 
 export const useBookingStore = create((set) => ({
+  error: null,
+  setError: (error) => set({ error }),
+  boookingErorr: null,
+  setBookingError: (error) => set({ bookingError: error }),
+  venueData: null,
+  setVenueData: (value) => set({ venueData: value }),
   selectedDates: [],
   pricePerNight: null,
+  setPricePerNight: (value) => set({ pricePerNight: value }),
   addDate: (date) =>
     set((state) => ({ selectedDates: [...state.selectedDates, date] })),
   removeDate: (date) =>

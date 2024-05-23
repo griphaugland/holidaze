@@ -195,6 +195,7 @@ function UpdateInfoModal({ hideModal, onFinish }) {
         <div className="mb-4 flex items-center">
           <input
             type="checkbox"
+            defaultChecked={isVenueManager}
             id="venueManager"
             className="mr-2"
             {...register("venueManager")}

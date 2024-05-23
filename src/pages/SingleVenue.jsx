@@ -3,16 +3,19 @@ import { useParams, Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import AddToFavorites from "../components/buttons/AddToFavorite";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import AddIcon from '@mui/icons-material/Add';
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Facilities from "../components/venues/Facilities";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
 import ModalButton from "../components/buttons/ModalButton";
+import { useBookingStore } from "../store";
 
 function SingleVenue() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   let { id } = useParams();
+  const { setVenueData } = useBookingStore();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [lastImage, setLastImage] = useState(false);
@@ -44,6 +47,9 @@ function SingleVenue() {
       avatar: "https://example.com/avatar.jpg",
     },
   });
+  useEffect(() => {
+    setVenueData(venue);
+  }, [venue]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1638);
@@ -294,7 +300,7 @@ function SingleVenue() {
               </div>
             </div>
             <div className="button-container w-full">
-              <ModalButton text="Check availability" venue={venue} />
+              <ModalButton text="Check availability" />
             </div>
           </div>
         )}

@@ -15,6 +15,8 @@ import ErrorPage from "./pages/Error";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
+import CreateVenue from "./pages/CreateVenue";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +47,22 @@ const router = createBrowserRouter([
       { path: "error", element: <ErrorPage /> },
       { path: "contact", element: <Contact /> },
       { path: "favorites", element: <Favorites /> },
+      {
+        path: "dashboard",
+        element: (
+          <ProtectedRoute access="loggedIn" venueManager="true">
+            <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "dashboard/create-venue",
+        element: (
+          <ProtectedRoute access="loggedIn" venueManager="true">
+            <CreateVenue />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "profile/:username?",
         element: (

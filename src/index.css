@@ -14,6 +14,13 @@ body,
 main {
   overflow-x: hidden;
 }
+.hero-main {
+  min-height: 90svh !important;
+  margin-top: 0svh;
+}
+main {
+  min-height: 100svh;
+}
 .modal {
   z-index: 200;
 }
@@ -100,10 +107,7 @@ h6 {
   font-weight: 700;
   font-style: normal;
 }
-main {
-  min-height: 90svh;
-  margin-bottom: 10svh;
-}
+
 .align-top-header {
   margin-top: 10svh;
 }
@@ -823,36 +827,74 @@ footer {
 .final-image {
   border: 2px solid black !important;
 }
+.create-venue-next-button {
+  position: absolute;
+  color: white;
+  border: 2px solid white;
+  border-radius: 100%;
+  top: 30%;
+  left: 90vw;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 5px black;
+}
+.dark-button {
+  color: black;
+  border: 2px solid black;
+}
+
 @media (max-width: 768px) {
   .single-venue-next-button {
     left: 85vw;
     top: 47%;
+  }
+  .create-venue-next-button {
+    left: 85vw;
+    top: 30%;
+  }
+  .single-venue-slider-image {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .single-venue-next-button {
+    left: 85vw;
+    top: 47%;
+  }
+  .create-venue-next-button {
+    left: 85vw;
+    top: 30%;
   }
   .single-venue-slider-image {
     width: 100%;
   }
 }
 @media (max-width: 608px) {
-  .single-venue-next-button {
+  .single-venue-next-button,
+  .create-venue-next-button {
     left: 85vw;
   }
 }
 @media (max-width: 508px) {
-  .single-venue-next-button {
+  .single-venue-next-button,
+  .create-venue-next-button {
     left: 78vw;
   }
 }
 @media (max-width: 408px) {
-  .single-venue-next-button {
+  .single-venue-next-button,
+  .create-venue-next-button {
     left: 75vw;
   }
 }
 @media (min-width: 1280px) {
-  .single-venue-next-button {
+  .single-venue-next-button,
+  .create-venue-next-button {
     left: 1200px;
   }
 }
-.single-venue-next-button:hover {
+.single-venue-next-button:hover,
+.create-venue-next-button:hover {
   box-shadow: 0 0 5px white;
 }
 .image-filter {
@@ -910,4 +952,30 @@ footer {
   max-width: 600px;
   letter-spacing: 20%;
   line-height: clamp(4rem, 10vw, 8rem);
+}
+/* Add this CSS to your styles file or within a <style> tag in your component file */
+.hidden-checkbox {
+  display: none;
+}
+
+.icon-container {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.custom-checkbox input:checked + .icon-container {
+  border-color: #007bff;
 }

@@ -11,7 +11,7 @@ function Profile() {
   const { profile, loading, error, fetchProfile } = useProfiles();
   const { user, isLoggedIn, apiKey } = useGeneral();
   const [mobile, setMobile] = useState(false);
-  const [view, setView] = useState("venues");
+  const [view, setView] = useState("bookings");
   const { username } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,10 +49,12 @@ function Profile() {
     return <Loader />;
   }
 
+  const isOwnProfile = profile.name === user.data.name;
+
   return (
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="w-full page-max-width p-4 pb-0 bg-white rounded-lg">
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-4 mb-6 mx-4">
           <img
             src={profile.avatar?.url}
             alt={profile.avatar?.alt || "Avatar"}
@@ -64,14 +66,14 @@ function Profile() {
               {profile.venueManager ? "Venue Manager" : "Venue booker"}
             </p>
           </div>
-          {!mobile && profile.name === user.data.name && (
+          {!mobile && isOwnProfile && (
             <div className="flex items-start flex-col ml-auto gap-3">
               <EditMediaButton profile={profile} />
               <LogoutButton size="profile" />
             </div>
           )}
         </div>
-        {mobile && profile.name === user.data.name && (
+        {mobile && isOwnProfile && (
           <div className="flex items-start mb-5 flex-row flex-wrap ml-1 gap-3">
             <EditMediaButton />
             <LogoutButton size="profile" />
@@ -83,23 +85,53 @@ function Profile() {
             {profile.bio || "No biography found"}
           </div>
         </div>
-        {profile.venueManager && (
-          <div className="flex gap-4">
+        {profile.venueManager && isOwnProfile && (
+          <div className="flex gap-4 sm:flex-row flex-col">
+            <button
+              onClick={() => setView("bookings")}
+              className={`btn ml-1 ${
+                view === "bookings" ? "select-primary" : "select-secondary"
+              }`}
+            >
+              Bookings
+            </button>
             <button
               onClick={() => setView("venues")}
-              className={`btn ${
+              className={`btn ml-1 ${
                 view === "venues" ? "select-primary" : "select-secondary"
               }`}
             >
               Venues
             </button>
+            <Link
+              to="/dashboard"
+              className="btn ml-1 select-secondary flex justify-center items-center gap-2"
+            >
+              Dashboard
+            </Link>
+          </div>
+        )}
+        {!profile.venueManager && isOwnProfile && (
+          <div className="flex gap-4">
             <button
               onClick={() => setView("bookings")}
-              className={`btn ${
+              className={`btn ml-1 ${
                 view === "bookings" ? "select-primary" : "select-secondary"
               }`}
             >
               Bookings
+            </button>
+          </div>
+        )}
+        {!isOwnProfile && (
+          <div className="flex gap-4">
+            <button
+              onClick={() => setView("venues")}
+              className={`btn ml-1 ${
+                view === "venues" ? "select-primary" : "select-secondary"
+              }`}
+            >
+              Venues
             </button>
           </div>
         )}
@@ -152,7 +184,8 @@ function Profile() {
                                 : "No name found"}
                             </h4>
                             <p className="text-sm text-gray-500">
-                              {numberOfNights} night{numberOfNights > 1 && "s"}{" "}
+                              {numberOfNights} night
+                              {numberOfNights > 1 && "s"}{" "}
                             </p>
                             <p className="text-sm text-gray-500">
                               {booking.guests} guests
