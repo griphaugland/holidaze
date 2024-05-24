@@ -3,7 +3,6 @@ import { useGeneral } from "../store";
 import { useForm, useFieldArray } from "react-hook-form";
 import Loader from "../components/Loader";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowBackwardsIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
@@ -13,27 +12,21 @@ import StickyNote2OutlinedIcon from "@mui/icons-material/StickyNote2Outlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import NotesOutlinedIcon from "@mui/icons-material/NotesOutlined";
 import { useNavigate, useLocation } from "react-router-dom";
-import AddToFavorites from "../components/buttons/AddToFavorite";
-import Facilities from "../components/venues/Facilities";
-import ModalButton from "../components/buttons/ModalButton";
-import { differenceInDays, parseISO, format } from "date-fns";
 
-function CreateVenue() {
+function EditVenue() {
   const { user, apiKey } = useGeneral();
-  const { search } = useLocation();
-  const navigate = useNavigate();
-  const isPreview = new URLSearchParams(search).get("preview") === "true";
-  const previewData = isPreview
-    ? JSON.parse(sessionStorage.getItem("previewData"))
-    : null;
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [lastImage, setLastImage] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1638);
+  const [successMessage, setSuccessMessage] = useState(null);
   const sliderRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const venueId = searchParams.get("id");
 
   const {
     register,
@@ -77,7 +70,7 @@ function CreateVenue() {
   const media = watch("media");
 
   useEffect(() => {
-    const storedData = sessionStorage.getItem("formData");
+    const storedData = sessionStorage.getItem("editVenueData");
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       Object.keys(parsedData).forEach((key) => {
@@ -119,17 +112,6 @@ function CreateVenue() {
     return () => window.removeEventListener("resize", handleResize);
   }, [currentImageIndex, isMobile, isMaxWidth, media.length]);
 
-  function capitalizeFirstLetter(string) {
-    if (string.includes(" ")) {
-      const words = string.split(" ");
-      const capitalizedWords = words.map((word) => {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-      });
-      return capitalizedWords.join(" ");
-    } else {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-  }
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === media.length - 1 ? 0 : prevIndex + 1
@@ -149,21 +131,18 @@ function CreateVenue() {
     removeMediaField(index);
   };
 
-  const handlePreview = (data) => {
-    sessionStorage.setItem("previewData", JSON.stringify(data));
-    navigate(`?preview=true`);
-  };
-  useEffect(() => {
+  const handleEditVenue = (data) => {
     window.scrollTo(0, 0);
-  }, [navigate, window.location.key]);
+    onSubmit(data);
+  };
 
   const onSubmit = async (data) => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://v2.api.noroff.dev/holidaze/venues",
+        `https://v2.api.noroff.dev/holidaze/venues/${venueId}`,
         {
-          method: "POST",
+          method: "PUT", // Using PUT for editing the venue
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${user.data.accessToken}`,
@@ -174,17 +153,19 @@ function CreateVenue() {
       );
       if (!response.ok) {
         const errorResponse = await response.json();
-        throw new Error(errorResponse.message || "Failed to create venue.");
+        throw new Error(errorResponse.message || "Failed to update venue.");
       }
       const responseData = await response.json();
       sessionStorage.removeItem("formData");
-      sessionStorage.removeItem("previewData");
-      navigate(`/venues/${responseData.data.id}`);
-      // show success message, redirect to venue page for the venue
+      setSuccessMessage("Venue updated successfully");
+      setTimeout(() => {
+        navigate(`/venues/${responseData.data.id}`);
+      }, 200);
+
       console.log(responseData);
     } catch (error) {
       setError(true);
-      console.error("There was a problem with your operation:", error);
+      console.error("There was a problem with your fetch operation:", error);
     } finally {
       setLoading(false);
     }
@@ -194,138 +175,9 @@ function CreateVenue() {
     return <Loader />;
   }
 
-  if (isPreview && previewData) {
-    return (
-      <div className="page-max-width md:self-start xl:self-center flex flex-wrap">
-        <div className="relative align-top-header">
-          <div className="slider-image-container relative overflow-hidden">
-            {previewData.media.length > 1 ? (
-              <div
-                className="flex image-filter"
-                ref={sliderRef}
-                style={{
-                  width: `${
-                    previewData.media.length * (isMobile ? 100 : 75)
-                  }vw`,
-                }}
-              >
-                {previewData.media.map((media, index) => (
-                  <img
-                    key={index}
-                    src={media.url}
-                    alt={media.alt}
-                    className={`min-h-96 single-venue-slider-image ${
-                      isMobile ? "w-full" : "md:w-3/4 w-full"
-                    } object-cover object-position-center`}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="flex image-filter" ref={sliderRef}>
-                <img
-                  src={previewData.media[0].url}
-                  alt={previewData.media[0].alt}
-                  className={`min-h-96  single-venue-slider-image-single-image w-full object-cover object-position-center`}
-                />
-              </div>
-            )}
-          </div>
-          {previewData.media.length > 1 && (
-            <button
-              onClick={nextImage}
-              className={`single-venue-next-button p-3  ${
-                lastImage ? "final-image" : " "
-              }`}
-            >
-              <ArrowForwardIcon />
-            </button>
-          )}
-        </div>
-        <div className="info-wrapper xl:w-full w-screen flex-row flex flex-wrap">
-          <div className="md:w-1/2 px-8 p-6">
-            <div
-              className={`location flex gap-3 items-center flex-row pt-sans-regular text-gray-700 font-light`}
-            >
-              <RoomOutlinedIcon />
-              <h2 className="pt-sans-regular text-gray-700 font-light">
-                {previewData.location.city === null &&
-                  previewData.location.address === null &&
-                  previewData.location.country === null && (
-                    <span className="pt-sans-regular text-gray-700 font-light">
-                      Location not listed
-                    </span>
-                  )}
-                {previewData.location.address && (
-                  <>
-                    {capitalizeFirstLetter(previewData.location.address)}
-                    {previewData.location.city && (
-                      <span className="pt-sans-regular text-gray-700 font-light">
-                        {", "}
-                      </span>
-                    )}
-                  </>
-                )}
-                {previewData.location.city && (
-                  <>
-                    {capitalizeFirstLetter(previewData.location.city)}
-                    {previewData.location.country && (
-                      <span className="pt-sans-regular text-gray-700 font-light">
-                        {", "}
-                      </span>
-                    )}
-                  </>
-                )}
-                {previewData.location.country && (
-                  <> {capitalizeFirstLetter(previewData.location.country)}</>
-                )}
-              </h2>
-            </div>
-            <h1 className="text-2xl py-2 font-bold">{previewData.name}</h1>
-            <span className="text-xl py-2 ">
-              {previewData.price} NOK /night
-            </span>
-            <div className="maxguests pt-5 md:py-5">
-              <h2 className="text-lg font-regula">This venue offers</h2>
-              <Facilities venue={previewData} />
-            </div>
-            <div className="description pt-0 py-0 sm:py-5">
-              <h2 className="text-lg font-regular ">Description</h2>
-              <p className="py-2 text-gray-600 text-sm">
-                {previewData.description
-                  ? previewData.description
-                  : "No description found"}
-              </p>
-            </div>
-          </div>
-          <div className="md:w-1/2 px-8 sm:p-6 p-0 pb-6">
-            <div className="button-container md:flex-row md:gap-2 flex flex-col justify-start w-full">
-              <button
-                onClick={() => navigate(-1)}
-                className={`btn-primary-reverse min-w-40 text-end text-sm poppins-semibold mt-6 max-w-64 flex items-center md:self-end `}
-              >
-                <ArrowBackwardsIcon />
-                Back
-              </button>
-              <button
-                onClick={handleSubmit(onSubmit)}
-                className={`btn-primary text-sm poppins-semibold mt-6 max-w-64 flex items-center md:self-end justify-between ${
-                  loading ? "bg-gray-400 cursor-not-allowed" : ""
-                }`}
-                disabled={loading}
-              >
-                Create Venue
-                <ArrowForwardIcon />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <form
-      onSubmit={handleSubmit(handlePreview)}
+      onSubmit={handleSubmit(handleEditVenue)}
       className="page-max-width pt-sans-regular md:self-start xl:self-center flex flex-wrap"
     >
       <div className="relative align-top-header w-full">
@@ -386,7 +238,7 @@ function CreateVenue() {
           </button>
         </div>
       </div>
-      <div className="info-wrapper xl:w-full w-screen flex-col flex">
+      <div className="info-wrapper w-screen flex-col flex">
         <div className="flex flex-row mx-8 mt-6 gap-2">
           <ImageOutlinedIcon />
           <h2 className="poppins-semibold text-black text-md">Add Images</h2>
@@ -442,7 +294,7 @@ function CreateVenue() {
             </div>
           ))}
         </div>
-        <div className="info-wrapper xl:w-full w-screen flex-row flex flex-wrap">
+        <div className="info-wrapper w-screen flex-row flex flex-wrap">
           <div className="md:w-1/2 px-8 p-6">
             <div className="location flex gap-3 items-start flex-col pt-sans-regular text-gray-700 font-light">
               <div className="flex flex-row gap-2">
@@ -451,7 +303,7 @@ function CreateVenue() {
                   Location
                 </h2>
               </div>
-              <div className="flex flex-col gap-2 mt-3">
+              <div className="flex flex-row flex-wrap gap-2">
                 <label htmlFor="address" className="text-sm font-regular">
                   Address
                 </label>
@@ -467,8 +319,6 @@ function CreateVenue() {
                 {errors.location?.address && (
                   <span className="text-red-500">Address is required</span>
                 )}
-              </div>
-              <div className="flex flex-col gap-2 mt-3">
                 <label htmlFor="city" className="text-sm font-regular">
                   City
                 </label>
@@ -484,8 +334,6 @@ function CreateVenue() {
                 {errors.location?.city && (
                   <span className="text-red-500">City is required</span>
                 )}
-              </div>
-              <div className="flex flex-col gap-2 mt-3">
                 <label htmlFor="country" className="text-sm font-regular">
                   Country
                 </label>
@@ -508,64 +356,55 @@ function CreateVenue() {
                 <StickyNote2OutlinedIcon className="text-gray-600" />
                 <h2 className="poppins-semibold text-md">Details</h2>
               </div>
-              <div className="flex flex-col gap-2 mt-3">
-                <label htmlFor="venue-name" className="text-sm font-regular ">
-                  Venue Name
-                </label>
-                <input
-                  type="text"
-                  id="venue-name"
-                  {...register("name", { required: "Name is required" })}
-                  placeholder="Traditional Japanese house"
-                  className="border rounded w-full p-2 mb-2"
-                />
-                {errors.name && (
-                  <span className="text-red-500">Name is required</span>
-                )}
-              </div>
-              <div className="flex flex-col gap-2 mt-3">
-                <label
-                  htmlFor="price-per-night"
-                  className="text-sm font-regular "
-                >
-                  Price per night
-                </label>
-                <input
-                  type="number"
-                  id="price-per-night"
-                  {...register("price", {
-                    valueAsNumber: true,
-                    required: "Price is required",
-                  })}
-                  placeholder={2000}
-                  className="border rounded w-full p-2 mb-2"
-                />
-                {errors.price && (
-                  <span className="text-red-500">Price is required</span>
-                )}
-              </div>
-              <div className="flex flex-col gap-2 mt-3">
-                <label
-                  htmlFor="maximum-guests"
-                  className="text-sm font-regular "
-                >
-                  Maximum Guests
-                </label>
-                <input
-                  id="maximum-guests"
-                  type="number"
-                  min={1}
-                  {...register("maxGuests", {
-                    valueAsNumber: true,
-                    required: "Max Guests is required",
-                  })}
-                  placeholder={6}
-                  className="border rounded w-full p-2 mb-2"
-                />
-                {errors.maxGuests && (
-                  <span className="text-red-500">Max Guests is required</span>
-                )}
-              </div>
+              <label htmlFor="venue-name" className="text-sm font-regular ">
+                Venue Name
+              </label>
+              <input
+                type="text"
+                id="venue-name"
+                {...register("name", { required: "Name is required" })}
+                placeholder="Traditional Japanese house"
+                className="border rounded w-full p-2 mb-2"
+              />
+              {errors.name && (
+                <span className="text-red-500">Name is required</span>
+              )}
+              <label
+                htmlFor="price-per-night"
+                className="text-sm font-regular "
+              >
+                Price per night
+              </label>
+              <input
+                type="number"
+                id="price-per-night"
+                {...register("price", {
+                  valueAsNumber: true,
+                  required: "Price is required",
+                })}
+                placeholder={2000}
+                className="border rounded w-full p-2 mb-2"
+              />
+              {errors.price && (
+                <span className="text-red-500">Price is required</span>
+              )}
+              <label htmlFor="maximum-guests" className="text-sm font-regular ">
+                Maximum Guests
+              </label>
+              <input
+                id="maximum-guests"
+                type="number"
+                min={1}
+                {...register("maxGuests", {
+                  valueAsNumber: true,
+                  required: "Max Guests is required",
+                })}
+                placeholder={6}
+                className="border rounded w-full p-2 mb-2"
+              />
+              {errors.maxGuests && (
+                <span className="text-red-500">Max Guests is required</span>
+              )}
             </div>
             <div className="maxguests pt-5 md:py-5">
               <div className="flex flex-row gap-2">
@@ -614,7 +453,7 @@ function CreateVenue() {
                 <StarRateSharpIcon className="text-yellow-400" />
                 <h2 className="poppins-semibold text-md">Rating</h2>
               </div>
-              <div className="flex flex-col gap-2 mt-3">
+              <div className="flex flex-col gap-2">
                 <label
                   htmlFor="rating"
                   className="text-sm font-regular text-start md:text-end"
@@ -642,20 +481,14 @@ function CreateVenue() {
               }`}
               disabled={loading}
             >
-              Preview Venue
+              Update Venue
               <ArrowForwardIcon />
             </button>
-            <button
-              type="button"
-              onClick={handleSubmit(onSubmit)}
-              className={`btn-primary text-sm poppins-semibold mt-2 md:mr-8  max-w-64 flex items-center md:self-end justify-between ${
-                loading ? "bg-gray-400 cursor-not-allowed" : ""
-              }`}
-              disabled={loading}
-            >
-              Create Venue
-              <ArrowForwardIcon />
-            </button>
+            {successMessage && (
+              <p className="text-green-500 p-4 max-width-450px">
+                {successMessage}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -663,4 +496,4 @@ function CreateVenue() {
   );
 }
 
-export default CreateVenue;
+export default EditVenue;

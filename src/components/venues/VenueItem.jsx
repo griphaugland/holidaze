@@ -17,7 +17,7 @@ function VenueItem({ item }) {
       <div className="flex items-start gap-2 w-full flex-col justify-between min-h-36">
         <div className="flex items-start flex-col gap-2 w-full">
           <a
-            className="text-xl px-3 venue-title font-bold mt-4"
+            className="text-xl px-3 venue-title tracking-widest font-bold mt-4"
             href={`venues/${item.id}`}
             title={item.name}
           >

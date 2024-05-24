@@ -211,17 +211,18 @@ function Header() {
             >
               Venues
             </Link>
-            <Link
-              className="flex items-center justify-start gap-1 min-w-36"
-              to="contact"
-              onClick={() => {
-                setToggle(!toggle);
-              }}
-            >
-              Contact
-            </Link>
+
             {isLoggedIn ? (
               <>
+                <Link
+                  className="flex items-center justify-start gap-1 min-w-36"
+                  to="dashboard"
+                  onClick={() => {
+                    setToggle(!toggle);
+                  }}
+                >
+                  Dashboard
+                </Link>
                 <Link
                   className="flex items-center justify-start gap-1 min-w-36"
                   to="profile"

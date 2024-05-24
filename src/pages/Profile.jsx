@@ -11,7 +11,7 @@ function Profile() {
   const { profile, loading, error, fetchProfile } = useProfiles();
   const { user, isLoggedIn, apiKey } = useGeneral();
   const [mobile, setMobile] = useState(false);
-  const [view, setView] = useState("bookings");
+  const [view, setView] = useState("venues");
   const { username } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,6 +25,9 @@ function Profile() {
         setMobile(false);
       }
     };
+    if (isOwnProfile) {
+      setView("bookings");
+    }
 
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -198,7 +201,7 @@ function Profile() {
                           </div>
                           <Link
                             to={`../venues/${booking.venue.id}`}
-                            className="flex mt-auto view-venue-button font-semibold w-full justify-start"
+                            className="flex mt-auto view-venue-button text-xs font-semibold w-full items-center justify-between"
                           >
                             View venue
                             <ArrowForwardIcon />

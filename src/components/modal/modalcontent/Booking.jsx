@@ -83,7 +83,7 @@ function Booking() {
         const end = parseISO(previousBooking.dateTo);
 
         // Get all dates in the range
-        const allDates = eachDayOfInterval({ start, end: subDays(end, 1) });
+        const allDates = eachDayOfInterval({ start, end });
         allDates.forEach((date) => addDateToSet(date));
       });
     }
@@ -135,6 +135,7 @@ function Booking() {
       const result = await response.json();
       console.log("Booking successful:", result);
       setBookingMessage("Booking successful!");
+      window.location.reload();
     } catch (error) {
       console.error(error.message);
       setBookingError(error.message);
@@ -219,23 +220,37 @@ function Booking() {
             </div>
           </div>
           <div className="my-3 mx-3">
-            <button
-              onClick={() => {
-                console.log("lol");
-              }}
-              className={`btn-primary min-w-56 text-sm poppins-semibold flex items-center justify-between ${
-                loading ? "bg-gray-400 cursor-not-allowed" : ""
-              }`}
-              disabled={loading}
-            >
-              <p>Book now</p>
-              <ArrowForwardIcon />
-            </button>
+            {user.data.name === venueData.owner.name ? (
+              <button
+                className="btn-primary disabled-button min-w-56 text-sm poppins-semibold flex items-center justify-between"
+                disabled={true}
+              >
+                <p>Book now</p>
+                <ArrowForwardIcon />
+              </button>
+            ) : (
+              <button
+                onClick={handleBooking}
+                className={`btn-primary min-w-56 text-sm poppins-semibold flex items-center justify-between ${
+                  loading ? "bg-gray-400 cursor-not-allowed" : ""
+                }`}
+                disabled={loading}
+              >
+                <p>Book now</p>
+                <ArrowForwardIcon />
+              </button>
+            )}
           </div>
         </>
       )}
-      {bookingMessage && <p className="text-green-500">{bookingMessage}</p>}
-      {bookingError && <p className="text-red-500">{bookingError}</p>}
+      <div className="flex justify-center w-full">
+        {bookingMessage && (
+          <p className="text-green-500 p-4 max-width-450px">{bookingMessage}</p>
+        )}
+        {bookingError && (
+          <p className="text-red-500 p-4 max-width-450px">{bookingError}</p>
+        )}
+      </div>
     </div>
   );
 }

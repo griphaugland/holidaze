@@ -187,7 +187,7 @@ footer {
   font-family: "poppins", sans-serif;
   height: 3rem;
   padding-inline: 1rem;
-  border: 2px solid white;
+  border: 2px solid #103954;
   border-radius: 100px;
   padding-right: 4rem;
   display: flex;
@@ -199,6 +199,49 @@ footer {
   background-color: #103954;
   cursor: pointer;
 }
+.btn-primary-reverse {
+  position: relative;
+  font-family: "poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid #103954;
+  border-radius: 100px;
+  padding-left: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: #103954;
+  background-color: white;
+  cursor: pointer;
+}
+.btn-primary-reverse svg {
+  position: absolute;
+  left: 2rem;
+  color: #103954;
+  transition: 0.3s ease-in-out;
+}
+.btn-primary-reverse:hover svg,
+.btn-primary-reverse:focus svg {
+  left: 0.7rem;
+  transition: left 0.3s ease-out;
+}
+.btn-primary-reverse:hover {
+  background-color: #cbcbcb;
+}
+.disabled-button {
+  cursor: not-allowed !important;
+  background-color: rgb(144, 144, 144) !important;
+  transition: 0s ease-in-out;
+}
+.disabled-button svg {
+  right: 2rem !important;
+}
+.disabled-button:hover svg {
+  right: 2rem !important;
+}
+
 .btn-primary svg {
   position: absolute;
   right: 2rem;
@@ -246,6 +289,9 @@ footer {
   color: #103954;
   position: relative;
   transition: right 0.3s ease-out;
+  border: 2px solid #103954;
+  border-radius: 100px;
+  padding: 0.5rem;
 }
 .view-venue-button svg {
   position: absolute;
@@ -840,6 +886,13 @@ footer {
 .dark-button {
   color: black;
   border: 2px solid black;
+}
+
+.max-width-450px {
+  max-width: 450px;
+}
+.booking-container {
+  margin: none;
 }
 
 @media (max-width: 768px) {

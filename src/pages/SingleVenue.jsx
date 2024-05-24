@@ -1,16 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import AddToFavorites from "../components/buttons/AddToFavorite";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from "@mui/icons-material/Delete";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Facilities from "../components/venues/Facilities";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
 import ModalButton from "../components/buttons/ModalButton";
-import { useBookingStore } from "../store";
+import { useBookingStore, useGeneral } from "../store";
+import { differenceInDays, parseISO, format } from "date-fns";
 
 function SingleVenue() {
+  const { user, apiKey } = useGeneral();
+  const { search } = useLocation();
+  const navigate = useNavigate();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -46,7 +51,9 @@ function SingleVenue() {
       name: "Doja Cat",
       avatar: "https://example.com/avatar.jpg",
     },
+    bookings: [], // Default empty array for bookings
   });
+
   useEffect(() => {
     setVenueData(venue);
   }, [venue]);
@@ -127,6 +134,46 @@ function SingleVenue() {
     );
   };
 
+  const handleEditVenueClick = () => {
+    sessionStorage.setItem("editVenueData", JSON.stringify(venue));
+    navigate(`../dashboard/edit-venue?id=${venue.id}`);
+  };
+
+  const handleDeleteVenueClick = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this venue?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://v2.api.noroff.dev/holidaze/venues/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${user.data.accessToken}`,
+            "X-Noroff-API-Key": apiKey.data.key,
+          },
+        }
+      );
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message || "Failed to delete venue.");
+      }
+      alert("Venue deleted successfully.");
+      navigate("/dashboard"); // Redirect to the dashboard or another appropriate page
+    } catch (error) {
+      setError(true);
+      console.error("There was a problem with your fetch operation:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const userBookingArray = venue.bookings.filter(
+    (booking) => booking.customer.name === user.data.name
+  );
+
   if (error) {
     return <Error errorResponse={error} />;
   }
@@ -187,7 +234,7 @@ function SingleVenue() {
             className={`location flex gap-3 items-center flex-row pt-sans-regular text-gray-700 font-light`}
           >
             <RoomOutlinedIcon />
-            <h2 className="pt-sans-regular text-gray-700 font-light">
+            <h2 className="pt-sans-regular text-gray-700 font-light tracking-widest">
               {venue.location.city === null &&
                 venue.location.address === null &&
                 venue.location.country === null && (
@@ -220,15 +267,57 @@ function SingleVenue() {
               )}
             </h2>
           </div>
-          <h1 className="text-2xl py-2 font-bold">{venue.name}</h1>
+          <h1 className="text-2xl py-2 font-bold tracking-widest">
+            {venue.name}
+          </h1>
           <span className="text-xl py-2 ">{venue.price} NOK /night</span>
+          {userBookingArray.length > 0 &&
+            userBookingArray.map((userBooking, index) => (
+              <div
+                className="booking-info mt-4"
+                key={index + Math.random(index)}
+              >
+                <p className="text-md font-regular text-green-600">
+                  You have booked the venue from{" "}
+                  {format(parseISO(userBooking.dateFrom), "dd/MM/yyyy")} to{" "}
+                  {format(parseISO(userBooking.dateTo), "dd/MM/yyyy")}.
+                </p>
+              </div>
+            ))}
           {isMobile && (
-            <div className=" w-full py-4 pb-0 justify-start">
-              <ModalButton text="Check availability" venue={venue} />
-            </div>
+            <>
+              <div className="w-full py-4 pb-0 justify-start">
+                <ModalButton
+                  text="Check availability"
+                  venue={venue}
+                  disabled={user.data.name === venue.owner.name}
+                />
+              </div>
+              {user.data.name === venue.owner.name && (
+                <div className="w-full py-4 pb-0 justify-start">
+                  <button
+                    onClick={handleEditVenueClick}
+                    className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                  >
+                    <p>Edit venue</p>
+                    <ArrowForwardIcon />
+                  </button>
+
+                  <button
+                    onClick={handleDeleteVenueClick}
+                    className={`btn-secondary mt-4 text-sm poppins-semibold flex items-center justify-between`}
+                  >
+                    <p className="text-red-400">Delete</p>
+                    <ArrowForwardIcon className="text-red-400" />
+                  </button>
+                </div>
+              )}
+            </>
           )}
           <div className="maxguests pt-5 md:py-5">
-            <h2 className="text-sm font-regula">This venue offers</h2>
+            <h2 className="text-lg font-regula tracking-widest">
+              This venue offers
+            </h2>
             <Facilities venue={venue} />
           </div>
           {isMobile && (
@@ -255,7 +344,9 @@ function SingleVenue() {
             </div>
           )}
           <div className="description pt-0 py-0 sm:py-5">
-            <h2 className="text-sm font-regular ">Description</h2>
+            <h2 className="text-lg font-regular tracking-widest">
+              Description
+            </h2>
             <p className="py-2 text-gray-600 text-sm">
               {venue.description ? venue.description : "No description found"}
             </p>
@@ -263,7 +354,9 @@ function SingleVenue() {
           {/* Profile Section */}
           {venue.owner && (
             <div className="profile-section flex flex-col mt-6">
-              <h2 className="text-sm font-regular ">Venue owner</h2>
+              <h2 className="text-md font-regular tracking-widest">
+                Venue owner
+              </h2>
               <div className="py-2 flex justify-between">
                 <Link
                   to={`/profile/${venue.owner.name}`}
@@ -274,7 +367,11 @@ function SingleVenue() {
                     alt={venue.owner.avatar.alt}
                     className="w-7 h-7 rounded-full object-cover"
                   />
-                  <p className=" text-gray-600 text-sm">{venue.owner.name}</p>
+                  <p className=" text-gray-600 text-sm">
+                    {venue.owner.name === user.data.name
+                      ? venue.owner.name + " (You)"
+                      : venue.owner.name}
+                  </p>
                 </Link>
               </div>
             </div>
@@ -299,11 +396,182 @@ function SingleVenue() {
                 <AddToFavorites venue={venue} size="large" />
               </div>
             </div>
-            <div className="button-container w-full">
-              <ModalButton text="Check availability" />
+            <div className="button-container flex flex-col justify-start w-full">
+              <div className="w-full py-4 pb-0 flex justify-end">
+                <ModalButton
+                  text="Check availability"
+                  venue={venue}
+                  disabled={user.data.name === venue.owner.name}
+                />
+              </div>
+              {user.data.name === venue.owner.name && (
+                <div className="w-full py-4 pb-0 gap-2 flex justify-end">
+                  <button
+                    onClick={handleEditVenueClick}
+                    className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                  >
+                    <p>Edit venue</p>
+                    <ArrowForwardIcon />
+                  </button>
+                  <button
+                    onClick={handleDeleteVenueClick}
+                    className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                  >
+                    <p className="text-red-400">Delete</p>
+                    <ArrowForwardIcon className="text-red-400" />
+                  </button>
+                </div>
+              )}
             </div>
+            {user.data.name === venue.owner.name &&
+              venue.bookings.length > 0 && (
+                <div className="bookings-section mt-6 w-full ">
+                  <h2 className="text-lg font-regular tracking-widest">
+                    Bookings({venue.bookings.length}):
+                  </h2>
+                  <ul className="flex gap-4 flex-col sm:flex-row flex-wrap py-4">
+                    {venue.bookings.map((booking) => (
+                      <li
+                        key={booking.id}
+                        className="booking-card w-full shadow-md rounded-lg  p-4 flex flex-col gap-2"
+                      >
+                        <h2 className="text-lg">
+                          Booking information for{" "}
+                          {differenceInDays(
+                            parseISO(booking.dateTo),
+                            parseISO(booking.dateFrom)
+                          )}{" "}
+                          day stay
+                        </h2>
+                        <div className="text-sm flex flex-row flex-wrap justify-between gap-4">
+                          <div className="text-sm">
+                            <p className="poppins-semibold">From:</p>{" "}
+                            <p>{format(booking.dateFrom, "dd/MM/yyyy")}</p>
+                          </div>
+                          <div className="text-sm">
+                            <p className="poppins-semibold">To:</p>{" "}
+                            <p>{format(booking.dateTo, "dd/MM/yyyy")}</p>
+                          </div>{" "}
+                          <div className=" flex flex-col">
+                            <p className="poppins-semibold">Guests:</p>
+                            <p className="">{booking.guests}</p>
+                          </div>
+                          <div className=" flex flex-col">
+                            <p className="poppins-semibold">NOK Earned:</p>
+                            <p className="">
+                              {venue.price *
+                                differenceInDays(
+                                  parseISO(booking.dateTo),
+                                  parseISO(booking.dateFrom)
+                                )}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-sm flex flex-row justify-start gap-4">
+                          <div className="text-sm flex flex-col">
+                            <p className="poppins-semibold ">Booked by:</p>
+                          </div>
+                          <Link
+                            to={`/profile/${booking.customer.name}`}
+                            className="flex justify-start items-center gap-3 hover:underline"
+                          >
+                            <img
+                              src={booking.customer.avatar.url}
+                              alt={booking.customer.avatar.alt}
+                              className="w-7 h-7 rounded-full object-cover"
+                            />
+                            <p className=" text-gray-600 text-sm">
+                              {booking.customer.name === user.data.name
+                                ? booking.customer.name + " (You)"
+                                : booking.customer.name}
+                            </p>
+                          </Link>
+                        </div>
+                        <div className="text-sm flex flex-col">
+                          <p className="poppins-semibold">Booking ID:</p>{" "}
+                          <p>{booking.id}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
           </div>
         )}
+        {isMobile &&
+          user.data.name === venue.owner.name &&
+          venue.bookings.length > 0 && (
+            <div className="bookings-section mt-6 w-full px-8 ">
+              <h2 className="text-lg font-regular tracking-widest">
+                Bookings({venue.bookings.length}):
+              </h2>
+              <ul className="flex gap-4 flex-col sm:flex-row flex-wrap py-4 mb-6">
+                {venue.bookings.map((booking) => (
+                  <li
+                    key={booking.id}
+                    className="booking-card w-full sm:w-1/2 shadow-md rounded-lg  p-4 flex flex-col gap-2"
+                  >
+                    <h2 className="text-lg">
+                      Booking information for{" "}
+                      {differenceInDays(
+                        parseISO(booking.dateTo),
+                        parseISO(booking.dateFrom)
+                      )}{" "}
+                      day stay
+                    </h2>
+                    <div className="text-sm flex flex-row flex-wrap justify-between gap-4">
+                      <div className="text-sm">
+                        <p className="poppins-semibold">From:</p>{" "}
+                        <p>{format(booking.dateFrom, "dd/MM/yyyy")}</p>
+                      </div>
+                      <div className="text-sm">
+                        <p className="poppins-semibold">To:</p>{" "}
+                        <p>{format(booking.dateTo, "dd/MM/yyyy")}</p>
+                      </div>{" "}
+                      <div className=" flex flex-col">
+                        <p className="poppins-semibold">Guests:</p>
+                        <p className="">{booking.guests}</p>
+                      </div>
+                      <div className=" flex flex-col">
+                        <p className="poppins-semibold">Total sum:</p>
+                        <p className="">
+                          {venue.price *
+                            differenceInDays(
+                              parseISO(booking.dateTo),
+                              parseISO(booking.dateFrom)
+                            )}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-sm flex flex-row justify-start gap-4">
+                      <div className="text-sm flex flex-col">
+                        <p className="poppins-semibold ">Booked by:</p>
+                      </div>
+                      <Link
+                        to={`/profile/${booking.customer.name}`}
+                        className="flex justify-start items-center gap-3 hover:underline"
+                      >
+                        <img
+                          src={booking.customer.avatar.url}
+                          alt={booking.customer.avatar.alt}
+                          className="w-7 h-7 rounded-full object-cover"
+                        />
+                        <p className=" text-gray-600 text-sm">
+                          {booking.customer.name === user.data.name
+                            ? booking.customer.name + " (You)"
+                            : booking.customer.name}
+                        </p>
+                      </Link>
+                    </div>
+                    <div className="text-sm flex flex-col">
+                      <p className="poppins-semibold">Booking ID:</p>{" "}
+                      <p>{booking.id}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
       </div>
     </div>
   );

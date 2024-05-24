@@ -17,6 +17,7 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import CreateVenue from "./pages/CreateVenue";
+import EditVenue from "./pages/EditVenue";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute access="loggedIn" venueManager="true">
             <CreateVenue />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "dashboard/edit-venue",
+        element: (
+          <ProtectedRoute access="loggedIn" venueManager="true">
+            <EditVenue />
           </ProtectedRoute>
         ),
       },
