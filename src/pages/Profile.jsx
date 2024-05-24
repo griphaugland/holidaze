@@ -6,6 +6,7 @@ import { useGeneral, useProfiles } from "../store";
 import VenueList from "../components/venues/VenueList";
 import EditMediaButton from "../components/buttons/EditMediaButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { format } from "date-fns";
 
 function Profile() {
   const { profile, loading, error, fetchProfile } = useProfiles();
@@ -25,9 +26,6 @@ function Profile() {
         setMobile(false);
       }
     };
-    if (isOwnProfile) {
-      setView("bookings");
-    }
 
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -52,7 +50,7 @@ function Profile() {
     return <Loader />;
   }
 
-  const isOwnProfile = profile.name === user.data.name;
+  const isOwnProfile = profile.name === user?.data.name;
 
   return (
     <div className="align-top-header flex flex-col justify-center items-center">
@@ -89,7 +87,7 @@ function Profile() {
           </div>
         </div>
         {profile.venueManager && isOwnProfile && (
-          <div className="flex gap-4 sm:flex-row flex-col">
+          <div className="flex gap-4 flex-row flex-wrap">
             <button
               onClick={() => setView("bookings")}
               className={`btn ml-1 ${
@@ -111,6 +109,7 @@ function Profile() {
               className="btn ml-1 select-secondary flex justify-center items-center gap-2"
             >
               Dashboard
+              <ArrowForwardIcon style={{ width: "0.9rem", height: "0.9rem" }} />
             </Link>
           </div>
         )}
@@ -162,53 +161,49 @@ function Profile() {
                   );
 
                   return (
-                    <div
+                    <Link
+                      to={`/bookings/${booking.id}`}
                       key={booking.id}
-                      className="bg-white p-4 w-full rounded-md shadow-md booking-card"
+                      className="bg-white w-full rounded-md shadow-md booking-card"
                     >
-                      <div className="flex  gap-4">
+                      <div className="flex gap-4">
                         <img
                           src={booking.venue.media[0]?.url || ""}
                           alt={
                             booking.venue.media[0]?.alt || booking.venue.name
                           }
-                          className="w-32 h-32 object-cover rounded-md"
+                          className=" object-cover"
                         />
-                        <div className="flex flex-col justify-center">
-                          <div className="flex flex-col ">
+                        <div className="flex flex-col justify-start p-4">
+                          <div className="flex flex-col gap-4 justify-between">
                             <h4
                               title={booking.venue.name}
-                              className="text-lg font-semibold"
+                              className="text-md font-semibold"
                             >
                               {booking.venue.name
-                                ? booking.venue.name.length > 12
-                                  ? booking.venue.name.substring(0, 12) + "..."
+                                ? booking.venue.name.length > 20
+                                  ? booking.venue.name.substring(0, 20) + "..."
                                   : booking.venue.name
                                 : "No name found"}
                             </h4>
-                            <p className="text-sm text-gray-500">
-                              {numberOfNights} night
-                              {numberOfNights > 1 && "s"}{" "}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              {booking.guests} guests
-                            </p>
-                            <div className="flex items-center">
-                              <p className="text-sm text-gray-500">
-                                Price: {booking.venue.price} NOK / night
+                            <div className="text-xs pt-sans-regular">
+                              {" "}
+                              From:
+                              <p className="text-xs poppins-regular text-gray-500">
+                                {format(booking.dateFrom, "dd/MM/yyyy")}
+                              </p>
+                              To:
+                              <p className="text-xs poppins-regular text-gray-500">
+                                {format(booking.dateTo, "dd/MM/yyyy")}
                               </p>
                             </div>
                           </div>
-                          <Link
-                            to={`../venues/${booking.venue.id}`}
-                            className="flex mt-auto view-venue-button text-xs font-semibold w-full items-center justify-between"
-                          >
-                            View venue
+                          <div className="view-booking arrow-move-booking mt-auto">
                             <ArrowForwardIcon />
-                          </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>

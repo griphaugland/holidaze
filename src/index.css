@@ -767,6 +767,9 @@ footer {
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
 }
+.venue-container article:hover {
+  transform: translateY(-2px);
+}
 .booking-container {
   width: 100%;
   display: grid;
@@ -810,8 +813,6 @@ footer {
   height: auto;
   display: flex;
   height: 300px;
-  border-radius: 40px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Soft shadow */
 }
 @media (max-width: 662px) {
   .venue-container {
@@ -1031,4 +1032,74 @@ footer {
 
 .custom-checkbox input:checked + .icon-container {
   border-color: #007bff;
+}
+/* Booking Container */
+.booking-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Booking Card */
+.booking-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+
+.booking-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.booking-card img {
+  width: 100%;
+  height: 200px;
+  object-position: center;
+  max-width: 55%;
+  object-fit: cover;
+}
+
+.booking-card-content {
+  padding: 1rem;
+}
+
+.booking-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+.arrow-move-booking {
+  position: absolute;
+  right: 2rem;
+  transition: 0.3s ease-in-out;
+  bottom: 1rem;
+}
+.booking-card:hover .arrow-move-booking {
+  right: 0.7rem;
+}
+
+.booking-card p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.booking-card .price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .booking-container {
+    grid-template-columns: 1fr;
+  }
 }

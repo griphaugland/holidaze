@@ -1,13 +1,23 @@
 import { useState, useCallback, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const useModal = () => {
   const [isVisible, setIsVisible] = useState(false);
-
+  const location = useLocation();
   const showModal = useCallback(() => setIsVisible(true), []);
   const hideModal = useCallback(() => setIsVisible(false), []);
   useEffect(() => {
     handleFreezeScroll(isVisible);
   }, [isVisible]);
+
+  useEffect(() => {
+    if (location.pathname === "/login") {
+      hideModal();
+    }
+    if (location.pathname === "/register") {
+      hideModal();
+    }
+  }, [location.pathname, isVisible]);
 
   function handleFreezeScroll(toggle) {
     if (toggle) {

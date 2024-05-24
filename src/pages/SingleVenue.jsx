@@ -9,15 +9,18 @@ import Facilities from "../components/venues/Facilities";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
 import ModalButton from "../components/buttons/ModalButton";
 import { useBookingStore, useGeneral } from "../store";
-import { differenceInDays, parseISO, format } from "date-fns";
+import { differenceInDays, parseISO, format, set } from "date-fns";
 
 function SingleVenue() {
-  const { user, apiKey } = useGeneral();
+  const { user, apiKey, isLoggedIn } = useGeneral();
   const { search } = useLocation();
   const navigate = useNavigate();
-
+  const [loggedInUser, setLoggedInUser] = useState("");
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (user !== null) {
+      setLoggedInUser(user.data.name);
+    }
   }, []);
   let { id } = useParams();
   const { setVenueData } = useBookingStore();
@@ -73,6 +76,7 @@ function SingleVenue() {
       setLoading(false);
       setVenue(data.data);
       console.log(data);
+      setError(false);
     } catch (e) {
       setError({ error: { statusCode: e.statusCode, status: e.status } });
     }
@@ -171,7 +175,7 @@ function SingleVenue() {
     }
   };
   const userBookingArray = venue.bookings.filter(
-    (booking) => booking.customer.name === user.data.name
+    (booking) => booking.customer.name === loggedInUser
   );
 
   if (error) {
@@ -234,7 +238,7 @@ function SingleVenue() {
             className={`location flex gap-3 items-center flex-row pt-sans-regular text-gray-700 font-light`}
           >
             <RoomOutlinedIcon />
-            <h2 className="pt-sans-regular text-gray-700 font-light tracking-widest">
+            <h2 className="pt-sans-regular text-gray-700 font-light tracking-wide">
               {venue.location.city === null &&
                 venue.location.address === null &&
                 venue.location.country === null && (
@@ -267,7 +271,7 @@ function SingleVenue() {
               )}
             </h2>
           </div>
-          <h1 className="text-2xl py-2 font-bold tracking-widest">
+          <h1 className="text-2xl py-2 font-bold tracking-wide">
             {venue.name}
           </h1>
           <span className="text-xl py-2 ">{venue.price} NOK /night</span>
@@ -287,13 +291,9 @@ function SingleVenue() {
           {isMobile && (
             <>
               <div className="w-full py-4 pb-0 justify-start">
-                <ModalButton
-                  text="Check availability"
-                  venue={venue}
-                  disabled={user.data.name === venue.owner.name}
-                />
+                <ModalButton text="Check availability" venue={venue} />
               </div>
-              {user.data.name === venue.owner.name && (
+              {loggedInUser === venue.owner.name && (
                 <div className="w-full py-4 pb-0 justify-start">
                   <button
                     onClick={handleEditVenueClick}
@@ -315,7 +315,7 @@ function SingleVenue() {
             </>
           )}
           <div className="maxguests pt-5 md:py-5">
-            <h2 className="text-lg font-regula tracking-widest">
+            <h2 className="text-lg font-regula tracking-wide">
               This venue offers
             </h2>
             <Facilities venue={venue} />
@@ -344,9 +344,7 @@ function SingleVenue() {
             </div>
           )}
           <div className="description pt-0 py-0 sm:py-5">
-            <h2 className="text-lg font-regular tracking-widest">
-              Description
-            </h2>
+            <h2 className="text-lg font-regular tracking-wide">Description</h2>
             <p className="py-2 text-gray-600 text-sm">
               {venue.description ? venue.description : "No description found"}
             </p>
@@ -354,26 +352,43 @@ function SingleVenue() {
           {/* Profile Section */}
           {venue.owner && (
             <div className="profile-section flex flex-col mt-6">
-              <h2 className="text-md font-regular tracking-widest">
+              <h2 className="text-md font-regular tracking-wide">
                 Venue owner
               </h2>
-              <div className="py-2 flex justify-between">
-                <Link
-                  to={`/profile/${venue.owner.name}`}
-                  className="flex justify-start items-center gap-3 hover:underline"
-                >
-                  <img
-                    src={venue.owner.avatar.url}
-                    alt={venue.owner.avatar.alt}
-                    className="w-7 h-7 rounded-full object-cover"
-                  />
-                  <p className=" text-gray-600 text-sm">
-                    {venue.owner.name === user.data.name
-                      ? venue.owner.name + " (You)"
-                      : venue.owner.name}
-                  </p>
-                </Link>
-              </div>
+              {isLoggedIn ? (
+                <div className="py-2 flex justify-between">
+                  <Link
+                    to={`/profile/${venue.owner.name}`}
+                    className="flex justify-start items-center gap-3 hover:underline"
+                  >
+                    <img
+                      src={venue.owner.avatar.url}
+                      alt={venue.owner.avatar.alt}
+                      className="w-7 h-7 rounded-full object-cover"
+                    />
+                    <p className=" text-gray-600 text-sm">
+                      {user && venue.owner.name === loggedInUser
+                        ? venue.owner.name + " (You)"
+                        : venue.owner.name}
+                    </p>
+                  </Link>
+                </div>
+              ) : (
+                <div className="py-2 flex justify-between">
+                  <div className="flex justify-start items-center gap-3">
+                    <img
+                      src={venue.owner.avatar.url}
+                      alt={venue.owner.avatar.alt}
+                      className="w-7 h-7 rounded-full object-cover"
+                    />
+                    <p className=" text-gray-600 text-sm">
+                      {user && venue.owner.name === loggedInUser
+                        ? venue.owner.name + " (You)"
+                        : venue.owner.name}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -398,13 +413,9 @@ function SingleVenue() {
             </div>
             <div className="button-container flex flex-col justify-start w-full">
               <div className="w-full py-4 pb-0 flex justify-end">
-                <ModalButton
-                  text="Check availability"
-                  venue={venue}
-                  disabled={user.data.name === venue.owner.name}
-                />
+                <ModalButton text="Check availability" venue={venue} />
               </div>
-              {user.data.name === venue.owner.name && (
+              {user && loggedInUser === venue.owner.name && (
                 <div className="w-full py-4 pb-0 gap-2 flex justify-end">
                   <button
                     onClick={handleEditVenueClick}
@@ -423,10 +434,12 @@ function SingleVenue() {
                 </div>
               )}
             </div>
-            {user.data.name === venue.owner.name &&
-              venue.bookings.length > 0 && (
+            {user &&
+              loggedInUser === venue.owner.name &&
+              venue.bookings.length > 0 &&
+              venue.bookings.length < 3 && (
                 <div className="bookings-section mt-6 w-full ">
-                  <h2 className="text-lg font-regular tracking-widest">
+                  <h2 className="text-lg font-regular tracking-wide">
                     Bookings({venue.bookings.length}):
                   </h2>
                   <ul className="flex gap-4 flex-col sm:flex-row flex-wrap py-4">
@@ -481,7 +494,7 @@ function SingleVenue() {
                               className="w-7 h-7 rounded-full object-cover"
                             />
                             <p className=" text-gray-600 text-sm">
-                              {booking.customer.name === user.data.name
+                              {booking.customer.name === loggedInUser
                                 ? booking.customer.name + " (You)"
                                 : booking.customer.name}
                             </p>
@@ -498,70 +511,84 @@ function SingleVenue() {
               )}
           </div>
         )}
-        {isMobile &&
-          user.data.name === venue.owner.name &&
+        {user &&
+          loggedInUser === venue.owner.name &&
           venue.bookings.length > 0 && (
-            <div className="bookings-section mt-6 w-full px-8 ">
-              <h2 className="text-lg font-regular tracking-widest">
-                Bookings({venue.bookings.length}):
+            <div className="bookings-section w-full px-8 p-6">
+              <h2 className="text-lg font-regular tracking-wide">
+                Bookings made to this venue({venue.bookings.length}):
               </h2>
-              <ul className="flex gap-4 flex-col sm:flex-row flex-wrap py-4 mb-6">
+              <ul className="booking-container">
                 {venue.bookings.map((booking) => (
-                  <li
-                    key={booking.id}
-                    className="booking-card w-full sm:w-1/2 shadow-md rounded-lg  p-4 flex flex-col gap-2"
-                  >
-                    <h2 className="text-lg">
-                      Booking information for{" "}
-                      {differenceInDays(
-                        parseISO(booking.dateTo),
-                        parseISO(booking.dateFrom)
-                      )}{" "}
-                      day stay
-                    </h2>
-                    <div className="text-sm flex flex-row flex-wrap justify-between gap-4">
-                      <div className="text-sm">
-                        <p className="poppins-semibold">From:</p>{" "}
-                        <p>{format(booking.dateFrom, "dd/MM/yyyy")}</p>
-                      </div>
-                      <div className="text-sm">
-                        <p className="poppins-semibold">To:</p>{" "}
-                        <p>{format(booking.dateTo, "dd/MM/yyyy")}</p>
-                      </div>{" "}
-                      <div className=" flex flex-col">
-                        <p className="poppins-semibold">Guests:</p>
-                        <p className="">{booking.guests}</p>
-                      </div>
-                      <div className=" flex flex-col">
-                        <p className="poppins-semibold">Total sum:</p>
-                        <p className="">
-                          {venue.price *
-                            differenceInDays(
-                              parseISO(booking.dateTo),
-                              parseISO(booking.dateFrom)
-                            )}
-                        </p>
+                  <li key={booking.id} className="booking-card ">
+                    <div className="booking-card-content">
+                      <h2 className="text-lg">
+                        Booking information for{" "}
+                        {differenceInDays(
+                          parseISO(booking.dateTo),
+                          parseISO(booking.dateFrom)
+                        )}{" "}
+                        day stay
+                      </h2>
+                      <div className="text-sm flex flex-row flex-wrap justify-between gap-4">
+                        <div className="text-sm">
+                          <p className="poppins-semibold">From:</p>{" "}
+                          <p>{format(booking.dateFrom, "dd/MM/yyyy")}</p>
+                        </div>
+                        <div className="text-sm">
+                          <p className="poppins-semibold">To:</p>{" "}
+                          <p>{format(booking.dateTo, "dd/MM/yyyy")}</p>
+                        </div>{" "}
+                        <div className=" flex flex-col">
+                          <p className="poppins-semibold">Guests:</p>
+                          <p className="">{booking.guests}</p>
+                        </div>
+                        <div className=" flex flex-col">
+                          <p className="poppins-semibold">NOK Earned:</p>
+                          <p className="">
+                            {venue.price *
+                              differenceInDays(
+                                parseISO(booking.dateTo),
+                                parseISO(booking.dateFrom)
+                              )}
+                          </p>
+                        </div>
                       </div>
                     </div>
                     <div className="text-sm flex flex-row justify-start gap-4">
                       <div className="text-sm flex flex-col">
                         <p className="poppins-semibold ">Booked by:</p>
                       </div>
-                      <Link
-                        to={`/profile/${booking.customer.name}`}
-                        className="flex justify-start items-center gap-3 hover:underline"
-                      >
-                        <img
-                          src={booking.customer.avatar.url}
-                          alt={booking.customer.avatar.alt}
-                          className="w-7 h-7 rounded-full object-cover"
-                        />
-                        <p className=" text-gray-600 text-sm">
-                          {booking.customer.name === user.data.name
-                            ? booking.customer.name + " (You)"
-                            : booking.customer.name}
-                        </p>
-                      </Link>
+                      {isLoggedIn ? (
+                        <Link
+                          to={`/profile/${venue.owner.name}`}
+                          className="flex justify-start items-center gap-3 hover:underline"
+                        >
+                          <img
+                            src={venue.owner.avatar.url}
+                            alt={venue.owner.avatar.alt}
+                            className="w-7 h-7 rounded-full object-cover"
+                          />
+                          <p className=" text-gray-600 text-sm">
+                            {user && venue.owner.name === loggedInUser
+                              ? venue.owner.name + " (You)"
+                              : venue.owner.name}
+                          </p>
+                        </Link>
+                      ) : (
+                        <div className="flex justify-start items-center gap-3">
+                          <img
+                            src={venue.owner.avatar.url}
+                            alt={venue.owner.avatar.alt}
+                            className="w-7 h-7 rounded-full object-cover"
+                          />
+                          <p className=" text-gray-600 text-sm">
+                            {user && venue.owner.name === loggedInUser
+                              ? venue.owner.name + " (You)"
+                              : venue.owner.name}
+                          </p>
+                        </div>
+                      )}
                     </div>
                     <div className="text-sm flex flex-col">
                       <p className="poppins-semibold">Booking ID:</p>{" "}

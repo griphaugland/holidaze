@@ -12,10 +12,13 @@ export const useErrorVenues = () => {
   useEffect(() => {
     if (error) {
       setError(error);
+      console.log("Error:", error);
+
       navigate("/error");
     }
-  }, [error, navigate]);
+  }, [error, navigate, setError]);
 };
+
 export const useErrorGeneral = () => {
   const navigate = useNavigate();
   const { setError } = useErrors();
@@ -26,10 +29,12 @@ export const useErrorGeneral = () => {
   useEffect(() => {
     if (error) {
       setError(error);
+      console.log("Error:", error);
       navigate("/error");
     }
-  }, [error, navigate]);
+  }, [error, navigate, setError]);
 };
+
 export const useErrorProfiles = () => {
   const navigate = useNavigate();
   const { setError } = useErrors();
@@ -40,7 +45,8 @@ export const useErrorProfiles = () => {
   useEffect(() => {
     if (error) {
       setError(error);
-      navigate("/error");
+      console.log("Error:", error);
+      /* navigate("/error"); */
     }
-  }, [error, navigate]);
+  }, [error, navigate, setError]);
 };
