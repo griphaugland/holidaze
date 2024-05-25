@@ -10,12 +10,14 @@ import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
 import ModalButton from "../components/buttons/ModalButton";
 import { useBookingStore, useGeneral } from "../store";
 import { differenceInDays, parseISO, format, set } from "date-fns";
+import NoImageBookingList from "../components/bookings/NoImageBookingList";
 
 function SingleVenue() {
   const { user, apiKey, isLoggedIn } = useGeneral();
   const { search } = useLocation();
   const navigate = useNavigate();
   const [loggedInUser, setLoggedInUser] = useState("");
+  const [currentTab, setCurrentTab] = useState("upcoming");
   useEffect(() => {
     window.scrollTo(0, 0);
     if (user !== null) {
@@ -76,7 +78,6 @@ function SingleVenue() {
       setLoading(false);
       setVenue(data.data);
       console.log(data);
-      setError(false);
     } catch (e) {
       setError({ error: { statusCode: e.statusCode, status: e.status } });
     }
@@ -152,7 +153,7 @@ function SingleVenue() {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://v2.api.noroff.dev/holidaze/venues/${id}`,
+        `https://v2.api.noroff.dev/holidaze/venues/${id}?_bookings=true&_owner=true`,
         {
           method: "DELETE",
           headers: {
@@ -233,7 +234,7 @@ function SingleVenue() {
         )}
       </div>
       <div className="info-wrapper w-screen flex-row flex flex-wrap">
-        <div className="md:w-1/2 px-8 p-6">
+        <div className="md:w-1/2 px-4 sm:px-8 p-6">
           <div
             className={`location flex gap-3 items-center flex-row pt-sans-regular text-gray-700 font-light`}
           >
@@ -393,8 +394,8 @@ function SingleVenue() {
           )}
         </div>
         {!isMobile && (
-          <div className="md:w-1/2 px-8 sm:p-6 p-0 pb-6">
-            <div className="flex flex-row justify-end items-end w-full pt-0 px-8 p-6">
+          <div className="md:w-1/2 px-4 sm:px-8 p-0 pb-6">
+            <div className="flex flex-row justify-end items-end w-full pt-0 px-8 p-6 pb-0">
               {venue.rating > 0 && (
                 <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
                   <StarRateSharpIcon className="text-yellow-400" />
@@ -514,89 +515,33 @@ function SingleVenue() {
         {user &&
           loggedInUser === venue.owner.name &&
           venue.bookings.length > 0 && (
-            <div className="bookings-section w-full px-8 p-6">
-              <h2 className="text-lg font-regular tracking-wide">
+            <div className="bookings-section px-2 sm:px-8 w-full ">
+              <h2 className="text-lg  font-regular tracking-wide">
                 Bookings made to this venue({venue.bookings.length}):
               </h2>
-              <ul className="booking-container">
-                {venue.bookings.map((booking) => (
-                  <li key={booking.id} className="booking-card ">
-                    <div className="booking-card-content">
-                      <h2 className="text-lg">
-                        Booking information for{" "}
-                        {differenceInDays(
-                          parseISO(booking.dateTo),
-                          parseISO(booking.dateFrom)
-                        )}{" "}
-                        day stay
-                      </h2>
-                      <div className="text-sm flex flex-row flex-wrap justify-between gap-4">
-                        <div className="text-sm">
-                          <p className="poppins-semibold">From:</p>{" "}
-                          <p>{format(booking.dateFrom, "dd/MM/yyyy")}</p>
-                        </div>
-                        <div className="text-sm">
-                          <p className="poppins-semibold">To:</p>{" "}
-                          <p>{format(booking.dateTo, "dd/MM/yyyy")}</p>
-                        </div>{" "}
-                        <div className=" flex flex-col">
-                          <p className="poppins-semibold">Guests:</p>
-                          <p className="">{booking.guests}</p>
-                        </div>
-                        <div className=" flex flex-col">
-                          <p className="poppins-semibold">NOK Earned:</p>
-                          <p className="">
-                            {venue.price *
-                              differenceInDays(
-                                parseISO(booking.dateTo),
-                                parseISO(booking.dateFrom)
-                              )}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-sm flex flex-row justify-start gap-4">
-                      <div className="text-sm flex flex-col">
-                        <p className="poppins-semibold ">Booked by:</p>
-                      </div>
-                      {isLoggedIn ? (
-                        <Link
-                          to={`/profile/${venue.owner.name}`}
-                          className="flex justify-start items-center gap-3 hover:underline"
-                        >
-                          <img
-                            src={venue.owner.avatar.url}
-                            alt={venue.owner.avatar.alt}
-                            className="w-7 h-7 rounded-full object-cover"
-                          />
-                          <p className=" text-gray-600 text-sm">
-                            {user && venue.owner.name === loggedInUser
-                              ? venue.owner.name + " (You)"
-                              : venue.owner.name}
-                          </p>
-                        </Link>
-                      ) : (
-                        <div className="flex justify-start items-center gap-3">
-                          <img
-                            src={venue.owner.avatar.url}
-                            alt={venue.owner.avatar.alt}
-                            className="w-7 h-7 rounded-full object-cover"
-                          />
-                          <p className=" text-gray-600 text-sm">
-                            {user && venue.owner.name === loggedInUser
-                              ? venue.owner.name + " (You)"
-                              : venue.owner.name}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                    <div className="text-sm flex flex-col">
-                      <p className="poppins-semibold">Booking ID:</p>{" "}
-                      <p>{booking.id}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <div className="flex gap-4 flex-row justify-start flex-wrap my-4">
+                <button
+                  onClick={() => setCurrentTab("upcoming")}
+                  className={`btn tracking-wide ${
+                    currentTab === "upcoming"
+                      ? "select-primary"
+                      : "select-secondary"
+                  }`}
+                >
+                  Upcoming
+                </button>
+                <button
+                  onClick={() => setCurrentTab("finished")}
+                  className={`btn tracking-wide ${
+                    currentTab === "finished"
+                      ? "select-primary"
+                      : "select-secondary"
+                  }`}
+                >
+                  Finished
+                </button>
+              </div>
+              <NoImageBookingList bookings={venue.bookings} tab={currentTab} />
             </div>
           )}
       </div>

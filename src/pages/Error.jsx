@@ -4,7 +4,7 @@ import ErrorBackground from "/error-background.png?url";
 import ButtonPrimary from "../components/buttons/ButtonPrimary";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function Error() {
+function Error({ errorFromProps }) {
   const navigate = useNavigate();
   const { error, setError } = useErrors();
   const location = useLocation();
@@ -12,6 +12,7 @@ function Error() {
   useEffect(() => {
     console.log("Error state:", error);
   }, [error, location.key]);
+  if (errorFromProps) setError(errorFromProps);
 
   const ErrorNumber1 = error?.status?.toString().charAt(0) || "4";
   const ErrorNumber2 = error?.status?.toString().charAt(1) || "0";

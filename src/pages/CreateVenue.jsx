@@ -77,7 +77,7 @@ function CreateVenue() {
   const media = watch("media");
 
   useEffect(() => {
-    const storedData = sessionStorage.getItem("formData");
+    const storedData = sessionStorage.getItem("formDataCreate");
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       Object.keys(parsedData).forEach((key) => {
@@ -88,7 +88,7 @@ function CreateVenue() {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      sessionStorage.setItem("formData", JSON.stringify(value));
+      sessionStorage.setItem("formDataCreate", JSON.stringify(value));
     });
     return () => subscription.unsubscribe();
   }, [watch]);
@@ -177,7 +177,7 @@ function CreateVenue() {
         throw new Error(errorResponse.message || "Failed to create venue.");
       }
       const responseData = await response.json();
-      sessionStorage.removeItem("formData");
+      sessionStorage.removeItem("formDataCreate");
       sessionStorage.removeItem("previewData");
       navigate(`/venues/${responseData.data.id}`);
       // show success message, redirect to venue page for the venue

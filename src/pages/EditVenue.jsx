@@ -81,7 +81,7 @@ function EditVenue() {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      sessionStorage.setItem("formData", JSON.stringify(value));
+      sessionStorage.setItem("formDataEdit", JSON.stringify(value));
     });
     return () => subscription.unsubscribe();
   }, [watch]);
@@ -156,7 +156,7 @@ function EditVenue() {
         throw new Error(errorResponse.message || "Failed to update venue.");
       }
       const responseData = await response.json();
-      sessionStorage.removeItem("formData");
+      sessionStorage.removeItem("formDataEdit");
       setSuccessMessage("Venue updated successfully");
       setTimeout(() => {
         navigate(`/venues/${responseData.data.id}`);

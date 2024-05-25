@@ -87,10 +87,10 @@ function Profile() {
           </div>
         </div>
         {profile.venueManager && isOwnProfile && (
-          <div className="flex gap-4 flex-row flex-wrap">
+          <div className="flex gap-4 px-5 flex-row flex-wrap">
             <button
               onClick={() => setView("bookings")}
-              className={`btn ml-1 ${
+              className={`btn ml-1 tracking-wide ${
                 view === "bookings" ? "select-primary" : "select-secondary"
               }`}
             >
@@ -98,7 +98,7 @@ function Profile() {
             </button>
             <button
               onClick={() => setView("venues")}
-              className={`btn ml-1 ${
+              className={`btn ml-1 tracking-wide ${
                 view === "venues" ? "select-primary" : "select-secondary"
               }`}
             >
@@ -106,7 +106,7 @@ function Profile() {
             </button>
             <Link
               to="/dashboard"
-              className="btn ml-1 select-secondary flex justify-center items-center gap-2"
+              className="btn ml-auto select-secondary-link  tracking-wide flex justify-center items-center gap-2"
             >
               Dashboard
               <ArrowForwardIcon style={{ width: "0.9rem", height: "0.9rem" }} />

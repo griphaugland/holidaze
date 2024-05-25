@@ -517,21 +517,33 @@ footer {
   color: rgb(0, 0, 0);
   transition: 0.1s ease-in-out;
   font-weight: 600;
-  border-radius: 100px;
   min-width: 105px;
+  border-bottom: 2px solid #d5679b;
 }
 .select-secondary {
   cursor: pointer;
   padding: 0.5rem;
-  padding-inline: 1rem;
   color: rgb(129, 129, 129);
   transition: 0.1s ease-in-out;
   font-weight: 500;
-  border-radius: 100px;
+  border-bottom: 2px solid #8b8b8b;
   min-width: 105px;
 }
 .select-secondary:hover {
-  background-color: #cbcbcb;
+  border-bottom: 2px solid #d5679b;
+}
+.select-secondary-link {
+  cursor: pointer;
+  padding: 0.5rem;
+  color: rgb(129, 129, 129);
+  transition: 0.1s ease-in-out;
+  font-weight: 500;
+  border-bottom: 2px solid #8b8b8b;
+  min-width: 105px;
+}
+.select-secondary-link:hover {
+  border-bottom: 2px solid #d5679b;
+  color: #d5679b;
 }
 
 .slider {
@@ -761,9 +773,10 @@ footer {
   gap: 1.5rem;
   place-items: center stretch;
   min-height: 50vh;
+  padding: 2rem;
+  padding-top: 1rem;
 }
 .venue-container article {
-  max-width: 450px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
 }
@@ -800,9 +813,6 @@ footer {
   border-radius: 30px;
 }
 
-/* .venue-container article:hover {
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08); 
-} */
 .venue-container article:hover .venue-title,
 .venue-container article:hover .venue-price {
   color: rgb(75, 75, 75);
@@ -1040,7 +1050,8 @@ footer {
   gap: 1.5rem;
   width: 100%;
   margin: 0 auto;
-  padding: 1rem;
+  padding-block: 1rem;
+  padding-inline: 0rem;
   box-sizing: border-box;
 }
 
@@ -1102,4 +1113,16 @@ footer {
   .booking-container {
     grid-template-columns: 1fr;
   }
+}
+
+.stay-finished img {
+  filter: grayscale(95%);
+}
+.booking-started {
+  color: #d5679b !important;
+  font-weight: 600;
+}
+.booking-over {
+  color: rgb(255, 255, 255) !important;
+  font-weight: 600;
 }

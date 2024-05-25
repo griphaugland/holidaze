@@ -5,9 +5,7 @@ import { useVenues, useGeneral, useProfiles, useErrors } from "../store";
 export const useErrorVenues = () => {
   const navigate = useNavigate();
   const { setError } = useErrors();
-  const { error } = useVenues((state) => ({
-    error: state.error,
-  }));
+  const { error } = useVenues();
 
   useEffect(() => {
     if (error) {
@@ -22,9 +20,7 @@ export const useErrorVenues = () => {
 export const useErrorGeneral = () => {
   const navigate = useNavigate();
   const { setError } = useErrors();
-  const { error } = useGeneral((state) => ({
-    error: state.error,
-  }));
+  const { error } = useGeneral();
 
   useEffect(() => {
     if (error) {
@@ -38,15 +34,12 @@ export const useErrorGeneral = () => {
 export const useErrorProfiles = () => {
   const navigate = useNavigate();
   const { setError } = useErrors();
-  const { error } = useProfiles((state) => ({
-    error: state.error,
-  }));
+  const { error } = useProfiles();
 
   useEffect(() => {
     if (error) {
       setError(error);
       console.log("Error:", error);
-      /* navigate("/error"); */
     }
   }, [error, navigate, setError]);
 };
