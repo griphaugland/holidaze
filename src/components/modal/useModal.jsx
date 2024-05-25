@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const useModal = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -9,13 +9,20 @@ const useModal = () => {
   useEffect(() => {
     handleFreezeScroll(isVisible);
   }, [isVisible]);
+  const { search } = useLocation();
+  const navigate = useNavigate();
+  const fromLogin = new URLSearchParams(search).get("redirect") === "login";
 
   useEffect(() => {
     if (location.pathname === "/login") {
       hideModal();
     }
     if (location.pathname === "/register") {
-      hideModal();
+      if (fromLogin) {
+        hideModal();
+        location.search = "";
+      } else {
+      }
     }
   }, [location.pathname, isVisible]);
 

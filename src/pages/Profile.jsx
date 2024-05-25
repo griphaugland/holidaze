@@ -87,7 +87,7 @@ function Profile() {
           </div>
         </div>
         {profile.venueManager && isOwnProfile && (
-          <div className="flex gap-4 px-5 flex-row flex-wrap">
+          <div className="flex gap-4 px-5 flex-row ">
             <button
               onClick={() => setView("bookings")}
               className={`btn ml-1 tracking-wide ${
@@ -126,7 +126,7 @@ function Profile() {
           </div>
         )}
         {!isOwnProfile && (
-          <div className="flex gap-4">
+          <div className="mx-4 flex gap-4">
             <button
               onClick={() => setView("venues")}
               className={`btn ml-1 ${
@@ -152,7 +152,7 @@ function Profile() {
       {view === "bookings" && (
         <div className="page-max-width w-full">
           {profile.bookings && profile.bookings.length > 0 ? (
-            <div className=" p-4 rounded-lg">
+            <div className="mx-4 p-4 rounded-lg">
               <div className="flex flex-col booking-container gap-4">
                 {profile.bookings.map((booking) => {
                   const numberOfNights = Math.ceil(

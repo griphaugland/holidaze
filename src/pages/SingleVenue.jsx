@@ -395,7 +395,7 @@ function SingleVenue() {
         </div>
         {!isMobile && (
           <div className="md:w-1/2 px-4 sm:px-8 p-0 pb-6">
-            <div className="flex flex-row justify-end items-end w-full pt-0 px-8 p-6 pb-0">
+            <div className="flex flex-row justify-end items-end w-full pt-4 px-8 p-6 pb-0">
               {venue.rating > 0 && (
                 <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
                   <StarRateSharpIcon className="text-yellow-400" />
@@ -515,7 +515,7 @@ function SingleVenue() {
         {user &&
           loggedInUser === venue.owner.name &&
           venue.bookings.length > 0 && (
-            <div className="bookings-section px-2 sm:px-8 w-full ">
+            <div className="bookings-section mb-6 px-2 sm:px-8 w-full ">
               <h2 className="text-lg  font-regular tracking-wide">
                 Bookings made to this venue({venue.bookings.length}):
               </h2>

@@ -131,10 +131,10 @@ function Dashboard() {
         <h3 className="text-lg poppins-semibold mx-8 mt-6">
           Bookings to Your Venues
         </h3>
-        <div className="flex gap-4 mx-8 flex-row flex-wrap mt-6">
+        <div className="flex gap-4 mx-8 flex-row flex-wrap my-3 mt-6">
           <button
             onClick={() => setCurrentTab("upcoming")}
-            className={`btn ml-1 tracking-wide ${
+            className={`btn tracking-wide ${
               currentTab === "upcoming" ? "select-primary" : "select-secondary"
             }`}
           >
@@ -142,7 +142,7 @@ function Dashboard() {
           </button>
           <button
             onClick={() => setCurrentTab("finished")}
-            className={`btn ml-1 tracking-wide ${
+            className={`btn tracking-wide ${
               currentTab === "finished" ? "select-primary" : "select-secondary"
             }`}
           >
@@ -150,7 +150,7 @@ function Dashboard() {
           </button>
         </div>
         {venueBookings.length > 0 ? (
-          <div className="rounded-l mx-4 mb-4">
+          <div className="rounded-l mx-8 mb-4">
             <BookingList bookings={venueBookings} tab={currentTab} />
           </div>
         ) : (

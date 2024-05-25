@@ -1,10 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import "../../css/components/modal/modal.css";
+import "../../css/components/calendar.css";
+import CloseIcon from "@mui/icons-material/Close";
 
-const Modal = ({ isVisible, children, hideModal, showModal }) =>
+const ForceModal = ({ isVisible, hideModal, children }) =>
   isVisible ? (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={hideModal}>
       <motion.div
         className="modal-content"
         initial={{ opacity: 0, scale: 0.9 }}
@@ -17,4 +19,4 @@ const Modal = ({ isVisible, children, hideModal, showModal }) =>
     </div>
   ) : null;
 
-export default Modal;
+export default ForceModal;

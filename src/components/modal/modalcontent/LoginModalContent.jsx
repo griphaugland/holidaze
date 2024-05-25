@@ -122,7 +122,7 @@ function Login() {
             <ArrowForwardIcon />
           </button>
           <Link
-            to="/register"
+            to="/register?redirect=login"
             className="text-gray-400 hover:underline text-sm text-start"
           >
             <div className="mt-4">No account? Register</div>
