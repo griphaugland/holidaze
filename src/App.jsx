@@ -17,13 +17,13 @@ function App() {
   }, [setTransparentHeader]);
 
   return (
-    <>
+    <main className="flex flex-col flex-grow hero-main">
       <HeroSection
         src={desktopImage}
         title="Experience Tokyo"
         price="1200 NOK / night"
       />
-    </>
+    </main>
   );
 }
 

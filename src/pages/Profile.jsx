@@ -6,6 +6,7 @@ import { useGeneral, useProfiles } from "../store";
 import VenueList from "../components/venues/VenueList";
 import EditMediaButton from "../components/buttons/EditMediaButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { format } from "date-fns";
 
 function Profile() {
   const { profile, loading, error, fetchProfile } = useProfiles();
@@ -49,10 +50,12 @@ function Profile() {
     return <Loader />;
   }
 
+  const isOwnProfile = profile.name === user?.data.name;
+
   return (
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="w-full page-max-width p-4 pb-0 bg-white rounded-lg">
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-4 mb-6 mx-4">
           <img
             src={profile.avatar?.url}
             alt={profile.avatar?.alt || "Avatar"}
@@ -64,14 +67,14 @@ function Profile() {
               {profile.venueManager ? "Venue Manager" : "Venue booker"}
             </p>
           </div>
-          {!mobile && profile.name === user.data.name && (
+          {!mobile && isOwnProfile && (
             <div className="flex items-start flex-col ml-auto gap-3">
               <EditMediaButton profile={profile} />
               <LogoutButton size="profile" />
             </div>
           )}
         </div>
-        {mobile && profile.name === user.data.name && (
+        {mobile && isOwnProfile && (
           <div className="flex items-start mb-5 flex-row flex-wrap ml-1 gap-3">
             <EditMediaButton />
             <LogoutButton size="profile" />
@@ -83,23 +86,54 @@ function Profile() {
             {profile.bio || "No biography found"}
           </div>
         </div>
-        {profile.venueManager && (
-          <div className="flex gap-4">
+        {profile.venueManager && isOwnProfile && (
+          <div className="flex gap-4 px-5 flex-row ">
+            <button
+              onClick={() => setView("bookings")}
+              className={`btn ml-1 tracking-wide ${
+                view === "bookings" ? "select-primary" : "select-secondary"
+              }`}
+            >
+              Bookings
+            </button>
             <button
               onClick={() => setView("venues")}
-              className={`btn ${
+              className={`btn ml-1 tracking-wide ${
                 view === "venues" ? "select-primary" : "select-secondary"
               }`}
             >
               Venues
             </button>
+            <Link
+              to="/dashboard"
+              className="btn ml-auto select-secondary-link  tracking-wide flex justify-center items-center gap-2"
+            >
+              Dashboard
+              <ArrowForwardIcon style={{ width: "0.9rem", height: "0.9rem" }} />
+            </Link>
+          </div>
+        )}
+        {!profile.venueManager && isOwnProfile && (
+          <div className="flex gap-4">
             <button
               onClick={() => setView("bookings")}
-              className={`btn ${
+              className={`btn ml-1 ${
                 view === "bookings" ? "select-primary" : "select-secondary"
               }`}
             >
               Bookings
+            </button>
+          </div>
+        )}
+        {!isOwnProfile && (
+          <div className="mx-4 flex gap-4">
+            <button
+              onClick={() => setView("venues")}
+              className={`btn ml-1 ${
+                view === "venues" ? "select-primary" : "select-secondary"
+              }`}
+            >
+              Venues
             </button>
           </div>
         )}
@@ -118,7 +152,7 @@ function Profile() {
       {view === "bookings" && (
         <div className="page-max-width w-full">
           {profile.bookings && profile.bookings.length > 0 ? (
-            <div className=" p-4 rounded-lg">
+            <div className="mx-4 p-4 rounded-lg">
               <div className="flex flex-col booking-container gap-4">
                 {profile.bookings.map((booking) => {
                   const numberOfNights = Math.ceil(
@@ -127,52 +161,49 @@ function Profile() {
                   );
 
                   return (
-                    <div
+                    <Link
+                      to={`/bookings/${booking.id}`}
                       key={booking.id}
-                      className="bg-white p-4 w-full rounded-md shadow-md booking-card"
+                      className="bg-white w-full rounded-md shadow-md booking-card"
                     >
-                      <div className="flex  gap-4">
+                      <div className="flex gap-4">
                         <img
                           src={booking.venue.media[0]?.url || ""}
                           alt={
                             booking.venue.media[0]?.alt || booking.venue.name
                           }
-                          className="w-32 h-32 object-cover rounded-md"
+                          className=" object-cover"
                         />
-                        <div className="flex flex-col justify-center">
-                          <div className="flex flex-col ">
+                        <div className="flex flex-col justify-start p-4">
+                          <div className="flex flex-col gap-4 justify-between">
                             <h4
                               title={booking.venue.name}
-                              className="text-lg font-semibold"
+                              className="text-md font-semibold"
                             >
                               {booking.venue.name
-                                ? booking.venue.name.length > 12
-                                  ? booking.venue.name.substring(0, 12) + "..."
+                                ? booking.venue.name.length > 20
+                                  ? booking.venue.name.substring(0, 20) + "..."
                                   : booking.venue.name
                                 : "No name found"}
                             </h4>
-                            <p className="text-sm text-gray-500">
-                              {numberOfNights} night{numberOfNights > 1 && "s"}{" "}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              {booking.guests} guests
-                            </p>
-                            <div className="flex items-center">
-                              <p className="text-sm text-gray-500">
-                                Price: {booking.venue.price} NOK / night
+                            <div className="text-xs pt-sans-regular">
+                              {" "}
+                              From:
+                              <p className="text-xs poppins-regular text-gray-500">
+                                {format(booking.dateFrom, "dd/MM/yyyy")}
+                              </p>
+                              To:
+                              <p className="text-xs poppins-regular text-gray-500">
+                                {format(booking.dateTo, "dd/MM/yyyy")}
                               </p>
                             </div>
                           </div>
-                          <Link
-                            to={`../venues/${booking.venue.id}`}
-                            className="flex mt-auto view-venue-button font-semibold w-full justify-start"
-                          >
-                            View venue
+                          <div className="view-booking arrow-move-booking mt-auto">
                             <ArrowForwardIcon />
-                          </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>

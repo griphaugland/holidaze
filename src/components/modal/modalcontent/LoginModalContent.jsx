@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useVenues, useGeneral } from "../../../store";
 import useCreateApiKey from "../../../components/useCreateApiKey";
+import useModal from "../useModal";
 
 function Login() {
   const {
@@ -14,7 +15,9 @@ function Login() {
   const { loading, setLoading, user, setUser, login, isLoggedIn } =
     useGeneral();
   const [error, setError] = useState(null);
+  const { hideModal } = useModal();
   const navigate = useNavigate();
+
   const { createApiKey, error: apiKeyError } = useCreateApiKey();
 
   useEffect(() => {
@@ -53,6 +56,7 @@ function Login() {
         throw new Error("Invalid user data received from login response");
       }
       login();
+      window.location.reload();
     } catch (error) {
       setError(error.message);
     } finally {
@@ -118,7 +122,7 @@ function Login() {
             <ArrowForwardIcon />
           </button>
           <Link
-            to="/register"
+            to="/register?redirect=login"
             className="text-gray-400 hover:underline text-sm text-start"
           >
             <div className="mt-4">No account? Register</div>

@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useVenues, useGeneral } from "../store";
 import ForceModal from "../components/modal/ForceModal";
-import RegisterSuccess from "../components/modal/modalcontent/RegisterSuccess";
+import SucessfullyRegistered from "../components/modal/modalcontent/RegisterSuccess";
 import useModal from "../components/modal/useModal";
 
 function Register() {
@@ -22,6 +22,7 @@ function Register() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -29,6 +30,10 @@ function Register() {
       navigate("/");
     }
   }, [isLoggedIn, navigate]);
+
+  const handleRegistrationEnd = () => {
+    showModal();
+  };
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -53,10 +58,11 @@ function Register() {
       }
 
       const result = await response.json();
+      setLoading(false);
       console.log("Registration successful:", result);
-
-      showModal();
+      handleRegistrationEnd();
     } catch (error) {
+      setLoading(false);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -162,7 +168,7 @@ function Register() {
       </div>
       {
         <ForceModal isVisible={isVisible} hideModal={hideModal}>
-          <RegisterSuccess hideModal={hideModal} onFinish={hideModal} />
+          <SucessfullyRegistered />
         </ForceModal>
       }
     </div>

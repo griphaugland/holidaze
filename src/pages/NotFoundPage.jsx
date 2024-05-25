@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import ErrorBackground from "/error-background.png?url";
 import ButtonPrimary from "../components/buttons/ButtonPrimary";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useErrors } from "../store";
 
 function NotFoundPage() {
   const navigate = useNavigate();
+  const { setError } = useErrors();
   const location = useLocation();
   const ErrorNumber1 = 4;
   const ErrorNumber2 = 0;
@@ -27,7 +29,13 @@ function NotFoundPage() {
               <p>Could not find page:</p>
               <p>{location.pathname}</p>
               <div className="flex justify-start p-4">
-                <ButtonPrimary text="Go home" onClick={() => navigate("/")} />
+                <ButtonPrimary
+                  text="Go home"
+                  onClick={() => {
+                    navigate("/");
+                    setError(null);
+                  }}
+                />
               </div>
             </div>
           </div>

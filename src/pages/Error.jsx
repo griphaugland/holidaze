@@ -4,19 +4,19 @@ import ErrorBackground from "/error-background.png?url";
 import ButtonPrimary from "../components/buttons/ButtonPrimary";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function Error() {
+function Error({ errorFromProps }) {
   const navigate = useNavigate();
-  const { error } = useErrors((state) => ({
-    error: state.error,
-  }));
+  const { error, setError } = useErrors();
+  const location = useLocation();
 
   useEffect(() => {
     console.log("Error state:", error);
-  }, [error]);
+  }, [error, location.key]);
+  if (errorFromProps) setError(errorFromProps);
 
-  const ErrorNumber1 = error?.status?.toString().split("")[0] || "0";
-  const ErrorNumber2 = error?.status?.toString().split("")[1] || "0";
-  const ErrorNumber3 = error?.status?.toString().split("")[2] || "0";
+  const ErrorNumber1 = error?.status?.toString().charAt(0) || "4";
+  const ErrorNumber2 = error?.status?.toString().charAt(1) || "0";
+  const ErrorNumber3 = error?.status?.toString().charAt(2) || "4";
   const ErrorText = error?.message || "Unknown Page";
 
   return (
@@ -35,7 +35,13 @@ function Error() {
               <h1 className="text-4xl poppins-bold p-3 text-black">Whoops!</h1>
               <p>Error: {ErrorText}</p>
               <div className="flex justify-start p-4">
-                <ButtonPrimary text="Go home" onClick={() => navigate("/")} />
+                <ButtonPrimary
+                  text="Go home"
+                  onClick={() => {
+                    navigate("/");
+                    setError(null);
+                  }}
+                />
               </div>
             </div>
           </div>
