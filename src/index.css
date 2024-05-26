@@ -1189,8 +1189,8 @@ footer {
   align-items: center;
   transition: 0.3s ease-in-out;
   color: white;
-  background-color: #df5151;
-  border: 2px solid #df5151 !important;
+  background-color: rgb(220 38 38 / var(--tw-text-opacity));
+  border: 2px solid rgb(220 38 38 / var(--tw-text-opacity)) !important;
   cursor: pointer;
 }
 .dashboard-link {
@@ -1209,4 +1209,9 @@ footer {
   .booking-container {
     padding-inline: 0rem;
   }
+}
+
+.favorite-button-small svg {
+  width: 2rem;
+  height: 2rem;
 }
