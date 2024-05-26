@@ -8,9 +8,11 @@ import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Facilities from "../components/venues/Facilities";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
 import ModalButton from "../components/buttons/ModalButton";
-import { useBookingStore, useGeneral } from "../store";
-import { differenceInDays, parseISO, format, set } from "date-fns";
+import { useBookings, useGeneral } from "../store";
+import { differenceInDays, parseISO, format } from "date-fns";
 import NoImageBookingList from "../components/bookings/NoImageBookingList";
+import useModal from "../components/modal/useModal"; // Import the hook
+import DeleteConfirmation from "../components/modal/DeleteConfirmation"; // Import the DeleteModal component
 
 function SingleVenue() {
   const { user, apiKey, isLoggedIn } = useGeneral();
@@ -18,14 +20,18 @@ function SingleVenue() {
   const navigate = useNavigate();
   const [loggedInUser, setLoggedInUser] = useState("");
   const [currentTab, setCurrentTab] = useState("upcoming");
+  const { isVisible, hideModal, showModal } = useModal(); // Use the hook
+  const [deleteState, setDeleteState] = useState(false); // State for delete action
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (user !== null) {
       setLoggedInUser(user.data.name);
     }
   }, []);
+
   let { id } = useParams();
-  const { setVenueData } = useBookingStore();
+  const { setVenueData } = useBookings();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [lastImage, setLastImage] = useState(false);
@@ -62,6 +68,7 @@ function SingleVenue() {
   useEffect(() => {
     setVenueData(venue);
   }, [venue]);
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1638);
@@ -144,12 +151,12 @@ function SingleVenue() {
     navigate(`../dashboard/edit-venue?id=${venue.id}`);
   };
 
-  const handleDeleteVenueClick = async () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this venue?"
-    );
-    if (!confirmDelete) return;
+  const handleDeleteVenueClick = () => {
+    setDeleteState(true);
+    showModal();
+  };
 
+  const deleteVenue = async () => {
     try {
       setLoading(true);
       const response = await fetch(
@@ -175,6 +182,7 @@ function SingleVenue() {
       setLoading(false);
     }
   };
+
   const userBookingArray = venue.bookings.filter(
     (booking) => booking.customer.name === loggedInUser
   );
@@ -298,7 +306,7 @@ function SingleVenue() {
                 <div className="w-full py-4 pb-0 justify-start">
                   <button
                     onClick={handleEditVenueClick}
-                    className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                    className={`btn-secondary-reverse text-sm poppins-semibold flex items-center justify-between`}
                   >
                     <p>Edit venue</p>
                     <ArrowForwardIcon />
@@ -306,7 +314,7 @@ function SingleVenue() {
 
                   <button
                     onClick={handleDeleteVenueClick}
-                    className={`btn-secondary mt-4 text-sm poppins-semibold flex items-center justify-between`}
+                    className={`btn-logout-reverse mt-4 text-sm poppins-semibold flex items-center justify-between`}
                   >
                     <p className="text-red-600">Delete</p>
                     <ArrowForwardIcon className="text-red-600" />
@@ -420,14 +428,14 @@ function SingleVenue() {
                 <div className="w-full py-4 pb-0 gap-2 flex justify-end">
                   <button
                     onClick={handleEditVenueClick}
-                    className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                    className={`btn-secondary-reverse text-sm poppins-semibold flex items-center justify-between`}
                   >
                     <p>Edit venue</p>
                     <ArrowForwardIcon />
                   </button>
                   <button
                     onClick={handleDeleteVenueClick}
-                    className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                    className={`btn-logout-reverse text-sm poppins-semibold flex items-center justify-between`}
                   >
                     <p className="text-red-600">Delete</p>
                     <ArrowForwardIcon className="text-red-600" />
@@ -545,6 +553,12 @@ function SingleVenue() {
             </div>
           )}
       </div>
+      <DeleteConfirmation
+        text="venue"
+        isOpen={isVisible && deleteState}
+        onClose={hideModal}
+        onDelete={deleteVenue}
+      />
     </div>
   );
 }

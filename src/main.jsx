@@ -19,6 +19,7 @@ import Dashboard from "./pages/Dashboard";
 import CreateVenue from "./pages/CreateVenue";
 import EditVenue from "./pages/EditVenue";
 import SingleBooking from "./pages/SingleBooking.jsx";
+import MyBookings from "./pages/MyBookings";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute access="loggedIn">
             <SingleBooking />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "my-bookings",
+        element: (
+          <ProtectedRoute access="loggedIn">
+            <MyBookings />
           </ProtectedRoute>
         ),
       },

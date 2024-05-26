@@ -14,6 +14,7 @@ import {
 } from "../components/useErrorNavigation";
 import { useGeneral } from "../store";
 import ProfileButton from "./buttons/ProfileButton";
+import NotLoggedInButton from "./buttons/NotLoggedInButton";
 
 function Header() {
   useErrorProfiles();
@@ -214,12 +215,12 @@ function Header() {
             </Link>
             <Link
               className="flex items-center justify-start gap-1 min-w-36"
-              to="contact"
+              to={isLoggedIn ? "my-bookings" : "login"}
               onClick={() => {
                 setToggle(!toggle);
               }}
             >
-              Contact
+              Bookings
             </Link>
             {isLoggedIn ? (
               <>
@@ -319,22 +320,7 @@ function Header() {
           >
             VENUES
           </Link>
-          <Link
-            className={
-              "flex items-center justify-start gap-1 " +
-              (headerColor ? "white-hover-text" : "blue-hover-text")
-            }
-            style={{ color: headerColor ? "#ffffff" : "#103954" }}
-            to="contact"
-            onClick={(e) => {
-              if (location.pathname === "/contact") {
-                e.preventDefault();
-                window.location.reload();
-              }
-            }}
-          >
-            CONTACT
-          </Link>
+          <NotLoggedInButton text="BOOKING" headerColor={headerColor} />
         </nav>
         <div className="flex items-center opposite-logo gap-4 ml-auto">
           <Link

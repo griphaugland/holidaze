@@ -216,6 +216,69 @@ footer {
   background-color: white;
   cursor: pointer;
 }
+.btn-secondary-reverse {
+  position: relative;
+  font-family: "poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid #103954;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: #103954;
+  background-color: white;
+  cursor: pointer;
+}
+.btn-secondary-reverse svg {
+  position: absolute;
+  right: 2rem;
+  color: #103954;
+  transition: 0.3s ease-in-out;
+}
+.btn-secondary-reverse:hover svg,
+.btn-secondary-reverse:focus svg {
+  right: 0.7rem;
+  transition: right 0.3s ease-out;
+}
+.btn-secondary-reverse:hover {
+  background-color: #cbcbcb;
+}
+.btn-logout-reverse {
+  position: relative;
+  font-family: "poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid #df5151;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: #df5151;
+  background-color: white;
+  cursor: pointer;
+}
+.btn-logout-reverse svg {
+  position: absolute;
+  right: 2rem;
+  color: #df5151;
+  transition: 0.3s ease-in-out;
+}
+.btn-logout-reverse:hover svg,
+.btn-logout-reverse:focus svg {
+  right: 0.7rem;
+  transition: right 0.3s ease-out;
+}
+.btn-logout-reverse:hover {
+  background-color: #cbcbcb;
+}
+
 .btn-primary-reverse svg {
   position: absolute;
   left: 2rem;
