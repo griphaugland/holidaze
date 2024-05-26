@@ -12,7 +12,7 @@ import { useBookings, useGeneral } from "../store";
 import { differenceInDays, parseISO, format } from "date-fns";
 import NoImageBookingList from "../components/bookings/NoImageBookingList";
 import useModal from "../components/modal/useModal"; // Import the hook
-import DeleteConfirmation from "../components/modal/DeleteConfirmation"; // Import the DeleteModal component
+import DeleteConfirmation from "../components/modal/modalcontent/DeleteConfirmation"; // Import the DeleteModal component
 
 function SingleVenue() {
   const { user, apiKey, isLoggedIn } = useGeneral();
@@ -173,7 +173,6 @@ function SingleVenue() {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message || "Failed to delete venue.");
       }
-      alert("Venue deleted successfully.");
       navigate("/dashboard");
     } catch (error) {
       setError(true);

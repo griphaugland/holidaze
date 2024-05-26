@@ -152,6 +152,7 @@ function CreateVenue() {
   const handlePreview = (data) => {
     sessionStorage.setItem("previewData", JSON.stringify(data));
     navigate(`?preview=true`);
+    window.scrollTo(0, 0);
   };
   useEffect(() => {
     window.scrollTo(0, 0);
