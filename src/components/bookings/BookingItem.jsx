@@ -32,7 +32,7 @@ function BookingItem({ booking }) {
 
   const bookingClass = `bg-white w-full rounded-md shadow-md booking-card ${
     stayStarted ? "stay-started" : ""
-  } ${stayFinished ? "stay-finished relative" : ""}`;
+  } ${stayFinished ? "stay-finished" : ""}`;
 
   return (
     <Link
@@ -47,6 +47,13 @@ function BookingItem({ booking }) {
           </p>
         </div>
       )}
+      {stayFinished && (
+        <div className="absolute bottom-0 left-2 booking-over flex items-center justify-center">
+          <p className="text-xl tracking-wide bg-white rounded-lg p-1 px-2">
+            Booking finished
+          </p>
+        </div>
+      )}
       <div className={`flex gap-4`}>
         <img
           src={booking.venue.media[0]?.url || ""}
@@ -57,8 +64,8 @@ function BookingItem({ booking }) {
           <div className="flex flex-col gap-4 justify-between">
             <h4 title={booking.venue.name} className="text-md font-semibold">
               {booking.venue.name
-                ? booking.venue.name.length > 20
-                  ? booking.venue.name.substring(0, 20) + "..."
+                ? booking.venue.name.length > 12
+                  ? booking.venue.name.substring(0, 12) + "..."
                   : booking.venue.name
                 : "No name found"}
             </h4>

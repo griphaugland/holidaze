@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import { useGeneral } from "../store";
-import { parseISO, format, differenceInDays, set } from "date-fns";
+import { parseISO, format, differenceInDays } from "date-fns";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
@@ -47,6 +47,8 @@ function SingleBooking() {
     customer: { name: "", avatar: { url: "", alt: "" } },
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [stayFinished, setStayFinished] = useState(false);
+  const [stayStarted, setStayStarted] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -79,6 +81,7 @@ function SingleBooking() {
       setError({ error: { statusCode: e.statusCode, status: e.status } });
     }
   }
+
   const deleteBooking = async () => {
     try {
       const response = await fetch(
@@ -139,6 +142,24 @@ function SingleBooking() {
     const url = `https://v2.api.noroff.dev/holidaze/bookings/${bookingId}?_venue=true&_customer=true`;
     getSingleBooking(url);
   }, [bookingId]);
+
+  useEffect(() => {
+    const today = new Date();
+    const dateFrom = new Date(booking.dateFrom);
+    const dateTo = new Date(booking.dateTo);
+
+    if (today > dateTo && today > dateFrom) {
+      setStayFinished(true);
+    } else {
+      setStayFinished(false);
+    }
+
+    if (today > dateFrom && today < dateTo) {
+      setStayStarted(true);
+    } else {
+      setStayStarted(false);
+    }
+  }, [booking]);
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) =>
@@ -299,17 +320,33 @@ function SingleBooking() {
                   <div className="flex flex-row pr-12">
                     <button
                       onClick={handleEditBookingClick}
-                      className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                      className={`btn-secondary text-sm poppins-semibold flex items-center justify-between ${
+                        stayStarted || stayFinished ? "disabled-button" : ""
+                      }`}
+                      disabled={stayStarted || stayFinished}
                     >
                       <p>Edit</p>
                       <ArrowForwardIcon />
                     </button>
                     <button
                       onClick={handleDeleteBookingClick}
-                      className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                      className={`btn-secondary text-sm poppins-semibold flex items-center text-red-700 justify-between ${
+                        stayStarted || stayFinished ? "disabled-button" : ""
+                      }`}
+                      disabled={stayStarted || stayFinished}
                     >
-                      <p className="text-red-400">Delete</p>
-                      <ArrowForwardIcon className="text-red-400" />
+                      <p
+                        className={`${
+                          stayStarted || stayFinished ? "" : "text-red-700 "
+                        }`}
+                      >
+                        Delete
+                      </p>
+                      <ArrowForwardIcon
+                        className={`${
+                          stayStarted || stayFinished ? "" : "text-red-700 "
+                        }`}
+                      />
                     </button>
                   </div>
                 )}
@@ -335,6 +372,16 @@ function SingleBooking() {
                         {format(parseISO(booking.dateTo), "dd/MM/yyyy")}
                       </p>
                     </div>
+                  </div>
+                )}
+                {stayStarted && (
+                  <div className="text-red-700 mt-4 max-w-72">
+                    This booking has started and cannot be edited or deleted.
+                  </div>
+                )}
+                {stayFinished && (
+                  <div className="text-red-700 mt-4 text-lg max-w-72">
+                    This booking has finished and cannot be edited or deleted.
                   </div>
                 )}
               </div>
