@@ -29,6 +29,7 @@ function CreateVenue() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [lastImage, setLastImage] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -151,6 +152,7 @@ function CreateVenue() {
 
   const handlePreview = (data) => {
     sessionStorage.setItem("previewData", JSON.stringify(data));
+    setErrorMessage("");
     navigate(`?preview=true`);
     window.scrollTo(0, 0);
   };
@@ -160,6 +162,7 @@ function CreateVenue() {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    setErrorMessage("");
     try {
       const response = await fetch(
         "https://v2.api.noroff.dev/holidaze/venues",
@@ -175,13 +178,19 @@ function CreateVenue() {
       );
       if (!response.ok) {
         const errorResponse = await response.json();
+        if (response.status === 400 && errorResponse.errors?.length) {
+          setErrorMessage(errorResponse.errors[0].message);
+        } else if (response.status === 400 && errorResponse.errors.message) {
+          setErrorMessage(errorResponse.errors[0].message);
+        } else {
+          setErrorMessage("Failed to create venue.");
+        }
         throw new Error(errorResponse.message || "Failed to create venue.");
       }
       const responseData = await response.json();
       sessionStorage.removeItem("formDataCreate");
       sessionStorage.removeItem("previewData");
       navigate(`/venues/${responseData.data.id}`);
-      // show success message, redirect to venue page for the venue
       console.log(responseData);
     } catch (error) {
       setError(true);
@@ -318,6 +327,11 @@ function CreateVenue() {
                 <ArrowForwardIcon />
               </button>
             </div>
+            {errorMessage && (
+              <div className="error-message text-red-500 px-8 py-4">
+                {errorMessage}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -628,10 +642,11 @@ function CreateVenue() {
                   max={5}
                   {...register("rating", {
                     valueAsNumber: true,
+                    required: "Rating is required",
                     min: 0,
                     max: 5,
                   })}
-                  placeholder="4.9"
+                  placeholder="4"
                   className="border text-sm rounded md:w-auto w-full p-2"
                 />
               </div>
@@ -657,6 +672,11 @@ function CreateVenue() {
               Create Venue
               <ArrowForwardIcon />
             </button>
+            {errorMessage && (
+              <div className="error-message text-red-500 px-8 py-4">
+                {errorMessage}
+              </div>
+            )}
           </div>
         </div>
       </div>

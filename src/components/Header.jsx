@@ -320,7 +320,7 @@ function Header() {
           >
             VENUES
           </Link>
-          <NotLoggedInButton text="BOOKING" headerColor={headerColor} />
+          <NotLoggedInButton text="BOOKINGS" headerColor={headerColor} />
         </nav>
         <div className="flex items-center opposite-logo gap-4 ml-auto">
           <Link
