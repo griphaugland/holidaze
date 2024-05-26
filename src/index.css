@@ -1126,3 +1126,67 @@ footer {
   color: rgb(255, 255, 255) !important;
   font-weight: 600;
 }
+.carousel-container {
+  position: relative;
+}
+
+.carousel-inner {
+  display: flex;
+  width: 100%;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 5px black;
+  color: white;
+  border: 2px solid white;
+  border-radius: 100%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  box-shadow: 0 0 5px white;
+}
+.carousel-control-prev {
+  left: 20px;
+}
+
+.carousel-control-next {
+  right: 10px;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.btn-delete {
+  position: relative;
+  font-family: "poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid white;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: white;
+  background-color: #df5151;
+  border: 2px solid #df5151 !important;
+  cursor: pointer;
+}
