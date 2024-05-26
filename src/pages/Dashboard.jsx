@@ -151,7 +151,11 @@ function Dashboard() {
         </div>
         {venueBookings.length > 0 ? (
           <div className="rounded-l mx-8 mb-4">
-            <BookingList bookings={venueBookings} tab={currentTab} />
+            <BookingList
+              bookings={venueBookings}
+              tab={currentTab}
+              from="dashboard"
+            />
           </div>
         ) : (
           <div className="flex justify-center items-center h-40 text-gray-500">

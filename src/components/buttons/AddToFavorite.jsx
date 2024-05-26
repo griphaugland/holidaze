@@ -36,7 +36,7 @@ function AddToFavorite({ venue, size }) {
       >
         {isFavorite ? (
           <>
-            <FavoriteIcon className="text-red-400" />
+            <FavoriteIcon className="text-red-700" />
             <p
               title="Already added to favorites"
               className="text-gray-400 pt-sans-regular"
@@ -46,7 +46,7 @@ function AddToFavorite({ venue, size }) {
           </>
         ) : (
           <>
-            <FavoriteBorderIcon className="text-red-400" />
+            <FavoriteBorderIcon className="text-red-700" />
             <p
               title="Add to favorites"
               className="text-gray-400 pt-sans-regular"
@@ -64,9 +64,9 @@ function AddToFavorite({ venue, size }) {
         className="favorite-button"
       >
         {isFavorite ? (
-          <FavoriteIcon className="text-red-400" />
+          <FavoriteIcon className="text-red-700" />
         ) : (
-          <FavoriteBorderIcon className="text-red-400" />
+          <FavoriteBorderIcon className="text-red-700" />
         )}
       </button>
     );

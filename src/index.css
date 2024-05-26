@@ -232,8 +232,9 @@ footer {
 }
 .disabled-button {
   cursor: not-allowed !important;
-  background-color: rgb(144, 144, 144) !important;
+  background-color: rgb(215, 215, 215) !important;
   transition: 0s ease-in-out;
+  color: rgb(147, 147, 147) !important;
 }
 .disabled-button svg {
   right: 2rem !important;
@@ -1085,6 +1086,7 @@ footer {
 .booking-card h2 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
+  white-space: nowrap;
 }
 .arrow-move-booking {
   position: absolute;
@@ -1123,7 +1125,8 @@ footer {
   font-weight: 600;
 }
 .booking-over {
-  color: rgb(255, 255, 255) !important;
+  z-index: 1;
+  color: rgb(223, 78, 78) !important;
   font-weight: 600;
 }
 .carousel-container {
@@ -1160,7 +1163,7 @@ footer {
   box-shadow: 0 0 5px white;
 }
 .carousel-control-prev {
-  left: 20px;
+  left: 10px;
 }
 
 .carousel-control-next {
@@ -1189,4 +1192,21 @@ footer {
   background-color: #df5151;
   border: 2px solid #df5151 !important;
   cursor: pointer;
+}
+.dashboard-link {
+  margin-left: auto;
+}
+@media (max-width: 450px) {
+  .profile-mobile {
+    flex-wrap: wrap;
+  }
+  .dashboard-link {
+    margin-left: 0;
+  }
+  .venue-container {
+    padding-inline: 1rem;
+  }
+  .booking-container {
+    padding-inline: 0rem;
+  }
 }

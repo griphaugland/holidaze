@@ -308,8 +308,8 @@ function SingleVenue() {
                     onClick={handleDeleteVenueClick}
                     className={`btn-secondary mt-4 text-sm poppins-semibold flex items-center justify-between`}
                   >
-                    <p className="text-red-400">Delete</p>
-                    <ArrowForwardIcon className="text-red-400" />
+                    <p className="text-red-700">Delete</p>
+                    <ArrowForwardIcon className="text-red-700" />
                   </button>
                 </div>
               )}
@@ -429,8 +429,8 @@ function SingleVenue() {
                     onClick={handleDeleteVenueClick}
                     className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
                   >
-                    <p className="text-red-400">Delete</p>
-                    <ArrowForwardIcon className="text-red-400" />
+                    <p className="text-red-700">Delete</p>
+                    <ArrowForwardIcon className="text-red-700" />
                   </button>
                 </div>
               )}
