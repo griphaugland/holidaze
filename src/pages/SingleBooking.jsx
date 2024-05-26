@@ -330,21 +330,21 @@ function SingleBooking() {
                     </button>
                     <button
                       onClick={handleDeleteBookingClick}
-                      className={`btn-secondary text-sm poppins-semibold flex items-center text-red-700 justify-between ${
+                      className={`btn-secondary text-sm poppins-semibold flex items-center text-red-600 justify-between ${
                         stayStarted || stayFinished ? "disabled-button" : ""
                       }`}
                       disabled={stayStarted || stayFinished}
                     >
                       <p
                         className={`${
-                          stayStarted || stayFinished ? "" : "text-red-700 "
+                          stayStarted || stayFinished ? "" : "text-red-600 "
                         }`}
                       >
                         Delete
                       </p>
                       <ArrowForwardIcon
                         className={`${
-                          stayStarted || stayFinished ? "" : "text-red-700 "
+                          stayStarted || stayFinished ? "" : "text-red-600 "
                         }`}
                       />
                     </button>
@@ -375,12 +375,12 @@ function SingleBooking() {
                   </div>
                 )}
                 {stayStarted && (
-                  <div className="text-red-700 mt-4 max-w-72">
+                  <div className="text-red-600 mt-4 max-w-72">
                     This booking has started and cannot be edited or deleted.
                   </div>
                 )}
                 {stayFinished && (
-                  <div className="text-red-700 mt-4 text-lg max-w-72">
+                  <div className="text-red-600 mt-4 text-lg max-w-72">
                     This booking has finished and cannot be edited or deleted.
                   </div>
                 )}

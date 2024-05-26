@@ -1,12 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AddToFavorite from "../buttons/AddToFavorite";
 
 function VenueItem({ item }) {
   return (
     <article
       key={item.id}
-      className="flex flex-col items-start justify-between shadow-md rounded-lg venue-card"
+      className="flex flex-col relative items-start justify-between shadow-md rounded-lg venue-card"
     >
+      <AddToFavorite size="small" venue={item} />
       <a className="w-full h-full" href={`../venues/${item.id}`}>
         <img
           src={item.media[0]?.url}
@@ -18,7 +20,7 @@ function VenueItem({ item }) {
         <div className="flex items-start flex-col gap-2 w-full">
           <a
             className="text-xl px-3 venue-title tracking-wide font-bold mt-4"
-            href={`venues/${item.id}`}
+            href={`../venues/${item.id}`}
             title={item.name}
           >
             {item.name

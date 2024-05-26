@@ -17,14 +17,10 @@ function AddToFavorite({ venue, size }) {
 
   function handleRemoveFromFavorites() {
     removeFromFavorites(venue);
-    const updatedFavorites = favorites.filter((item) => item.id !== venue.id);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   }
 
   function handleAddToFavorites() {
     addToFavorites(venue);
-    const updatedFavorites = [...favorites, venue];
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   }
 
   const isFavorite = favorites.find((item) => item.id === venue.id);
@@ -36,7 +32,7 @@ function AddToFavorite({ venue, size }) {
       >
         {isFavorite ? (
           <>
-            <FavoriteIcon className="text-red-700" />
+            <FavoriteIcon className="text-red-600" />
             <p
               title="Already added to favorites"
               className="text-gray-400 pt-sans-regular"
@@ -46,7 +42,7 @@ function AddToFavorite({ venue, size }) {
           </>
         ) : (
           <>
-            <FavoriteBorderIcon className="text-red-700" />
+            <FavoriteBorderIcon className="text-red-600" />
             <p
               title="Add to favorites"
               className="text-gray-400 pt-sans-regular"
@@ -61,12 +57,12 @@ function AddToFavorite({ venue, size }) {
     return (
       <button
         onClick={isFavorite ? handleRemoveFromFavorites : handleAddToFavorites}
-        className="favorite-button"
+        className="favorite-button favorite-button-small backdrop-blur-sm backdrop-brightness-90 rounded-full absolute top-2 right-2 p-2 flex flex-row  gap-4"
       >
         {isFavorite ? (
-          <FavoriteIcon className="text-red-700" />
+          <FavoriteIcon className="text-white text-2xl" />
         ) : (
-          <FavoriteBorderIcon className="text-red-700" />
+          <FavoriteBorderIcon className="text-white " />
         )}
       </button>
     );
