@@ -167,7 +167,7 @@ function SingleVenue() {
         throw new Error(errorResponse.message || "Failed to delete venue.");
       }
       alert("Venue deleted successfully.");
-      navigate("/dashboard"); // Redirect to the dashboard or another appropriate page
+      navigate("/dashboard");
     } catch (error) {
       setError(true);
       console.error("There was a problem with your fetch operation:", error);
@@ -217,7 +217,7 @@ function SingleVenue() {
               <img
                 src={venue.media[0].url}
                 alt={venue.media[0].alt}
-                className={`min-h-96  single-venue-slider-image-single-image w-full object-cover object-position-center`}
+                className={`min-h-96 single-venue-slider-image-single-image w-full object-cover object-position-center`}
               />
             </div>
           )}

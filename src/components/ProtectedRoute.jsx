@@ -2,15 +2,19 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { useGeneral } from "../store";
 
-const ProtectedRoute = ({ children, access }) => {
+const ProtectedRoute = ({ children, access, venueManager }) => {
   const { isLoggedIn, user } = useGeneral((state) => ({
     isLoggedIn: state.isLoggedIn,
   }));
 
   if (access === "loggedIn" && !isLoggedIn) {
-    if (user.data.venueManager) {
-      return;
-    } else {
+    return <Navigate to="/" />;
+  }
+  if (isLoggedIn) {
+    if (venueManager === true && !user.data.venueManager) {
+      return <Navigate to="/" />;
+    }
+    if (venueManager === false && user.data.venueManager) {
       return <Navigate to="/" />;
     }
   }
