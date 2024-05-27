@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useVenues, useGeneral, useProfiles } from "../store";
 
-import useCreateApiKey from "../components/useCreateApiKey";
+import useCreateApiKey from "../components/hooks/useCreateApiKey";
 
 function Login() {
   const {

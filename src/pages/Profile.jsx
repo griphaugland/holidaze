@@ -76,7 +76,7 @@ function Profile() {
           )}
         </div>
         {mobile && isOwnProfile && (
-          <div className="flex items-start mb-5 flex-row flex-wrap ml-1 gap-3">
+          <div className="flex items-start mb-5 flex-row flex-wrap ml-4 gap-3">
             <EditMediaButton />
             <LogoutButton size="profile" />
           </div>

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useVenues, useGeneral, useProfiles, useErrors } from "../store";
+import { useVenues, useGeneral, useProfiles, useErrors } from "../../store";
 
 export const useErrorVenues = () => {
   const navigate = useNavigate();

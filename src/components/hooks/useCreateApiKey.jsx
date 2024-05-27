@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGeneral } from "../store";
+import { useGeneral } from "../../store";
 
 const useCreateApiKey = () => {
   const { setApiKey, setLoading } = useGeneral();

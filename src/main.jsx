@@ -20,6 +20,10 @@ import CreateVenue from "./pages/CreateVenue";
 import EditVenue from "./pages/EditVenue";
 import SingleBooking from "./pages/SingleBooking.jsx";
 import MyBookings from "./pages/MyBookings";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import Help from "./pages/Help";
+import Inquiries from "./pages/Inquiries";
 
 const router = createBrowserRouter([
   {
@@ -48,7 +52,10 @@ const router = createBrowserRouter([
         ),
       },
       { path: "error", element: <ErrorPage /> },
-      { path: "contact", element: <Contact /> },
+      { path: "terms", element: <Terms /> },
+      { path: "privacy", element: <Privacy /> },
+      { path: "inquiries", element: <Inquiries /> },
+      { path: "help", element: <Help /> },
       { path: "favorites", element: <Favorites /> },
       {
         path: "dashboard",

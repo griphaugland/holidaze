@@ -14,45 +14,45 @@ function Footer() {
         <div className="footer-categories-container flex-wrap flex justify-start items-start gap-4 flex-row w-full h-full ">
           <div className="footer-category p-3 flex flex-col gap-5 justify-center">
             <h5 className="poppins-medium text-xl min-w-28">Policies</h5>
-            <a
-              href="https://www.facebook.com"
+            <Link
+              to="terms"
               target="_blank"
               rel="noreferrer"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
               <p>Terms</p>
               <ArrowForwardIcon style={{ width: "60px", height: "23px" }} />
-            </a>
-            <a
-              href="https://www.google.com"
+            </Link>
+            <Link
+              to="privacy"
               target="_blank"
               rel="noreferrer"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
               <p>Privacy</p>
               <ArrowForwardIcon style={{ width: "60px", height: "23px" }} />
-            </a>
+            </Link>
           </div>
           <div className="footer-category p-3  flex flex-col gap-5 justify-center">
             <h5 className="poppins-medium text-xl">Get in touch</h5>
-            <a
-              href="https://www.facebook.com"
+            <Link
+              to="help"
               target="_blank"
               rel="noreferrer"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
               <p>Help</p>
               <ArrowForwardIcon style={{ width: "60px", height: "23px" }} />
-            </a>
-            <a
-              href="https://www.facebook.com"
+            </Link>
+            <Link
+              to="/inquiries"
               target="_blank"
               rel="noreferrer"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
               <p>Inquiries</p>
               <ArrowForwardIcon style={{ width: "60px", height: "23px" }} />
-            </a>
+            </Link>
           </div>
           <div className="footer-category p-3 flex flex-col justify-center">
             <h5 className="poppins-medium  text-xl mb-2">Socials</h5>

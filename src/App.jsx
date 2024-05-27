@@ -80,6 +80,7 @@ const asiaCards = [
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 859);
+  const { isLoggedIn } = useGeneral();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -179,10 +180,13 @@ function App() {
                 standards. This way, we ensure that you as a customer, get
                 exactly what you ask for.
               </p>
-              <button className="btn-secondary mt-2 flex justify-end items-end ml-auto">
+              <Link
+                to="terms"
+                className="btn-secondary mt-2 flex justify-end items-end ml-auto"
+              >
                 Read more
                 <ArrowForwardIcon />
-              </button>
+              </Link>
             </div>
             {!isMobile && (
               <div className="image-container sm:w-1/2">
@@ -221,10 +225,13 @@ function App() {
                 destination, Holidaze offers you free cancellation as long as
                 the cancellation happens 24 hours before check in.
               </p>
-              <button className="btn-secondary mt-2 flex justify-end items-end ml-auto">
+              <Link
+                to="terms"
+                className="btn-secondary mt-2 flex justify-end items-end ml-auto"
+              >
                 Read more
                 <ArrowForwardIcon />
-              </button>
+              </Link>
             </div>
           </div>
           <div className="image-information-section sm:px-8 sm:flex-row flex-row flex">
@@ -242,13 +249,25 @@ function App() {
                 that the guests pay in advance and pay a deposit in case of
                 issues.
               </p>
-              <Link
-                to="register"
-                className="btn-secondary mt-2 flex justify-end items-end ml-auto"
-              >
-                Create account
-                <ArrowForwardIcon />
-              </Link>
+              {isLoggedIn ? (
+                <>
+                  <Link
+                    to="profile"
+                    className="btn-secondary mt-2 flex justify-end items-end ml-auto"
+                  >
+                    Become a venue manager
+                    <ArrowForwardIcon />
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  to="register"
+                  className="btn-secondary mt-2 flex justify-end items-end ml-auto"
+                >
+                  Create account
+                  <ArrowForwardIcon />
+                </Link>
+              )}
             </div>
             {!isMobile && (
               <div className="image-container sm:w-1/2">

@@ -11,8 +11,8 @@ import ModalButton from "../components/buttons/ModalButton";
 import { useBookings, useGeneral } from "../store";
 import { differenceInDays, parseISO, format } from "date-fns";
 import NoImageBookingList from "../components/bookings/NoImageBookingList";
-import useModal from "../components/modal/useModal"; // Import the hook
-import DeleteConfirmation from "../components/modal/modalcontent/DeleteConfirmation"; // Import the DeleteModal component
+import useModal from "../components/modal/useModal";
+import DeleteConfirmation from "../components/modal/modalcontent/DeleteConfirmation";
 
 function SingleVenue() {
   const { user, apiKey, isLoggedIn } = useGeneral();
@@ -20,8 +20,8 @@ function SingleVenue() {
   const navigate = useNavigate();
   const [loggedInUser, setLoggedInUser] = useState("");
   const [currentTab, setCurrentTab] = useState("upcoming");
-  const { isVisible, hideModal, showModal } = useModal(); // Use the hook
-  const [deleteState, setDeleteState] = useState(false); // State for delete action
+  const { isVisible, hideModal, showModal } = useModal();
+  const [deleteState, setDeleteState] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -62,7 +62,7 @@ function SingleVenue() {
       name: "Doja Cat",
       avatar: "https://example.com/avatar.jpg",
     },
-    bookings: [], // Default empty array for bookings
+    bookings: [],
   });
 
   useEffect(() => {
@@ -442,87 +442,12 @@ function SingleVenue() {
                 </div>
               )}
             </div>
-            {user &&
-              loggedInUser === venue.owner.name &&
-              venue.bookings.length > 0 &&
-              venue.bookings.length < 3 && (
-                <div className="bookings-section mt-6 w-full ">
-                  <h2 className="text-lg font-regular tracking-wide">
-                    Bookings({venue.bookings.length}):
-                  </h2>
-                  <ul className="flex gap-4 flex-col sm:flex-row flex-wrap py-4">
-                    {venue.bookings.map((booking) => (
-                      <li
-                        key={booking.id}
-                        className="booking-card w-full shadow-md rounded-lg  p-4 flex flex-col gap-2"
-                      >
-                        <h2 className="text-lg">
-                          Booking information for{" "}
-                          {differenceInDays(
-                            parseISO(booking.dateTo),
-                            parseISO(booking.dateFrom)
-                          )}{" "}
-                          day stay
-                        </h2>
-                        <div className="text-sm flex flex-row flex-wrap justify-between gap-4">
-                          <div className="text-sm">
-                            <p className="poppins-semibold">From:</p>{" "}
-                            <p>{format(booking.dateFrom, "dd/MM/yyyy")}</p>
-                          </div>
-                          <div className="text-sm">
-                            <p className="poppins-semibold">To:</p>{" "}
-                            <p>{format(booking.dateTo, "dd/MM/yyyy")}</p>
-                          </div>{" "}
-                          <div className=" flex flex-col">
-                            <p className="poppins-semibold">Guests:</p>
-                            <p className="">{booking.guests}</p>
-                          </div>
-                          <div className=" flex flex-col">
-                            <p className="poppins-semibold">NOK Earned:</p>
-                            <p className="">
-                              {venue.price *
-                                differenceInDays(
-                                  parseISO(booking.dateTo),
-                                  parseISO(booking.dateFrom)
-                                )}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-sm flex flex-row justify-start gap-4">
-                          <div className="text-sm flex flex-col">
-                            <p className="poppins-semibold ">Booked by:</p>
-                          </div>
-                          <Link
-                            to={`/profile/${booking.customer.name}`}
-                            className="flex justify-start items-center gap-3 hover:underline"
-                          >
-                            <img
-                              src={booking.customer.avatar.url}
-                              alt={booking.customer.avatar.alt}
-                              className="w-7 h-7 rounded-full object-cover"
-                            />
-                            <p className=" text-gray-600 text-sm">
-                              {booking.customer.name === loggedInUser
-                                ? booking.customer.name + " (You)"
-                                : booking.customer.name}
-                            </p>
-                          </Link>
-                        </div>
-                        <div className="text-sm flex flex-col">
-                          <p className="poppins-semibold">Booking ID:</p>{" "}
-                          <p>{booking.id}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
           </div>
         )}
         {user &&
           loggedInUser === venue.owner.name &&
           venue.bookings.length > 0 && (
-            <div className="bookings-section mb-6 px-2 sm:px-8 w-full ">
+            <div className="bookings-section mb-6 px-4 sm:px-8 w-full ">
               <h2 className="text-lg  font-regular tracking-wide">
                 Bookings made to this venue({venue.bookings.length}):
               </h2>
