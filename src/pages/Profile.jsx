@@ -65,7 +65,11 @@ function Profile() {
       <div className="w-full page-max-width p-4 pb-0 bg-white rounded-lg">
         <div className="flex items-center gap-4 mb-6 mx-4">
           <img
-            src={profile.avatar?.url}
+            loading="lazy"
+            src={
+              profile.avatar?.url ||
+              "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+            }
             alt={profile.avatar?.alt || "Avatar"}
             className="rounded-full w-24 h-24 object-cover"
           />
@@ -76,7 +80,17 @@ function Profile() {
             </p>
           </div>
           {!mobile && isOwnProfile && (
-            <div className="flex items-start flex-col ml-auto gap-3">
+            <div className="flex items-start flex-row ml-auto flex-wrap gap-3">
+              {profile.venueManager && (
+                <Link
+                  name="go to dashboard"
+                  to="/dashboard"
+                  className="btn btn-secondary-reverse poppins-semibold tracking-wide flex justify-center items-center gap-2"
+                >
+                  Dashboard
+                  <ArrowForwardIcon />
+                </Link>
+              )}
               <EditMediaButton profile={profile} />
               <LogoutButton size="profile" />
             </div>
@@ -84,6 +98,16 @@ function Profile() {
         </div>
         {mobile && isOwnProfile && (
           <div className="flex items-start mb-5 flex-row flex-wrap ml-4 gap-3">
+            {profile.venueManager && (
+              <Link
+                name="go to dashboard"
+                to="/dashboard"
+                className="btn btn-secondary-reverse poppins-semibold tracking-wide flex justify-center items-center gap-2"
+              >
+                Dashboard
+                <ArrowForwardIcon />
+              </Link>
+            )}
             <EditMediaButton />
             <LogoutButton size="profile" />
           </div>
@@ -95,7 +119,7 @@ function Profile() {
           </div>
         </div>
         {profile.venueManager && isOwnProfile && (
-          <div className="flex gap-4 sm:px-5 px-2 flex-row profile-mobile">
+          <div className="flex gap-4 sm:px-5 px-2 mb-4 flex-row profile-mobile">
             <button
               name="bookings"
               onClick={() => setView("bookings")}
@@ -114,14 +138,6 @@ function Profile() {
             >
               Venues
             </button>
-            <Link
-              name="go to dashboard"
-              to="/dashboard"
-              className="btn select-secondary-link dashboard-link tracking-wide flex justify-center items-center gap-2"
-            >
-              Dashboard
-              <ArrowForwardIcon style={{ width: "0.9rem", height: "0.9rem" }} />
-            </Link>
           </div>
         )}
         {!profile.venueManager && isOwnProfile && (
@@ -165,7 +181,7 @@ function Profile() {
       {view === "bookings" && (
         <div className="page-max-width w-full">
           {profile.bookings && profile.bookings.length > 0 ? (
-            <div className="sm:mx-4 p-4">
+            <div className="sm:mx-4 p-4 pt-0">
               <BookingList bookings={profile.bookings} tab="all" />
             </div>
           ) : (

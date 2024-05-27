@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { format } from "date-fns";
 
-function BookingItem({ booking }) {
+function BookingItem({ booking, onImageLoad }) {
   const [stayFinished, setStayFinished] = useState(false);
   const [stayStarted, setStayStarted] = useState(false);
 
@@ -42,24 +42,31 @@ function BookingItem({ booking }) {
       className={bookingClass}
     >
       {stayStarted && (
-        <div className="absolute bottom-0 left-2 flex items-center justify-center">
-          <h4 className="text-xl booking-started tracking-wide bg-white rounded-lg p-1 px-2">
+        <div className="absolute bottom-2 left-2 flex items-center justify-center">
+          <h4 className="text-sm booking-started tracking-wide bg-white rounded-lg p-1 px-2">
             Booking underway
           </h4>
         </div>
       )}
       {stayFinished && (
-        <div className="absolute bottom-0 left-2 booking-over flex items-center justify-center">
-          <h4 className="text-xl tracking-wide bg-white rounded-lg p-1 px-2">
+        <div className="absolute bottom-2 left-2 booking-over flex items-center justify-center">
+          <h4 className="text-sm tracking-wide bg-white rounded-lg p-1 px-2">
             Booking finished
           </h4>
         </div>
       )}
       <div className={`flex gap-4`}>
         <img
-          src={booking.venue.media[0]?.url || ""}
+          loading="lazy"
+          src={
+            booking.venue.media[0]?.url === "https://source.unsplash.com/random"
+              ? "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+              : booking.venue.media[0]?.url ||
+                "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+          }
           alt={booking.venue.media[0]?.alt || booking.venue.name}
           className="object-cover"
+          onLoad={onImageLoad}
         />
         <div className="flex flex-col justify-start p-4">
           <div className="flex flex-col gap-4 justify-between">

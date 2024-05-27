@@ -102,7 +102,12 @@ function UpdateInfoModal({ hideModal, onFinish }) {
             <>
               <div className="flex items-center gap-4 mb-6">
                 <img
-                  src={avatarUrl || user.data.avatar.url}
+                  loading="lazy"
+                  src={
+                    avatarUrl ||
+                    user.data.avatar.url ||
+                    "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                  }
                   alt={user.data.avatar.alt || "Avatar"}
                   className="rounded-full w-24 h-24 object-cover"
                 />

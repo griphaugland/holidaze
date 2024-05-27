@@ -3,7 +3,7 @@ import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import AddToFavorites from "../components/buttons/AddToFavorite";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import DeleteIcon from "@mui/icons-material/Delete";
+import ArrowBackwardIcon from "@mui/icons-material/ArrowBack";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Facilities from "../components/venues/Facilities";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
@@ -13,64 +13,33 @@ import { differenceInDays, parseISO, format } from "date-fns";
 import NoImageBookingList from "../components/bookings/NoImageBookingList";
 import useModal from "../components/modal/useModal";
 import DeleteConfirmation from "../components/modal/modalcontent/DeleteConfirmation";
+import SingleVenueSkeleton from "../components/skeleton/SingleVenueSkeleton";
 
 function SingleVenue() {
-  useEffect(() => {
-    document.title = `${venue.name} | Holidaze`;
-  }, []);
   const { user, apiKey, isLoggedIn } = useGeneral();
-  const { search } = useLocation();
   const navigate = useNavigate();
   const [loggedInUser, setLoggedInUser] = useState("");
   const [currentTab, setCurrentTab] = useState("upcoming");
   const { isVisible, hideModal, showModal } = useModal();
   const [deleteState, setDeleteState] = useState(false);
+  const [documentTitle, setDocumentTitle] = useState("View Venue | Holidaze");
 
   useEffect(() => {
     window.scrollTo(0, 0);
     if (user !== null) {
       setLoggedInUser(user.data.name);
     }
-  }, []);
+  }, [user]);
 
   let { id } = useParams();
   const { setVenueData } = useBookings();
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [lastImage, setLastImage] = useState(false);
-  const [venue, setVenue] = useState({
-    id: "7d2f1470-5ce0-4240-a1c9-09c792748d5c",
-    _count: { bookings: 0 },
-    created: "2021-08-17T09:00:00.000Z",
-    updated: "2021-08-17T09:00:00.000Z",
-    name: "",
-    description: "",
-    price: 0,
-    rating: 0,
-    location: {
-      city: "Oslo",
-      zip: "0165",
-      country: "Norway",
-      continent: "Europe",
-    },
-    maxGuests: 0,
-    media: [
-      {
-        url: "https://images.unsplash.com/photo-1629140727571-9b5c6f6267b4?crop=entropy&fit=crop&h=900&q=80&w=1600",
-        alt: "",
-      },
-    ],
-    meta: { wifi: false, parking: false, breakfast: false },
-    owner: {
-      name: "Doja Cat",
-      avatar: "https://example.com/avatar.jpg",
-    },
-    bookings: [],
-  });
+  const [loading, setLoading] = useState(true);
+  const [venue, setVenue] = useState(null);
 
   useEffect(() => {
     setVenueData(venue);
-  }, [venue]);
+  }, [venue, setVenueData]);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -85,11 +54,14 @@ function SingleVenue() {
       if (!res.ok) {
         setError({ error: { statusCode: res.statusText, status: res.status } });
       }
-      setLoading(false);
       setVenue(data.data);
-      console.log(data);
+      if (data.data.name) {
+        document.title = `${data.data.name} | Holidaze`;
+      }
+      setLoading(false);
     } catch (e) {
       setError({ error: { statusCode: e.statusCode, status: e.status } });
+      setLoading(false);
     }
   }
 
@@ -113,39 +85,23 @@ function SingleVenue() {
 
   useEffect(() => {
     if (sliderRef.current) {
-      const width = isMobile ? 100 : 75;
+      const width = 100;
       sliderRef.current.style.transform = `translateX(-${
         currentImageIndex * width
       }vw)`;
       sliderRef.current.style.transition = "transform 0.5s ease-in-out";
     }
-
-    if (
-      !isMobile &&
-      !isMaxWidth &&
-      currentImageIndex === venue.media.length - 1
-    ) {
-      setLastImage(true);
-    } else {
-      setLastImage(false);
-    }
-  }, [currentImageIndex, isMobile, isMaxWidth, venue.media.length]);
-
-  function capitalizeFirstLetter(string) {
-    if (string.includes(" ")) {
-      const words = string.split(" ");
-      const capitalizedWords = words.map((word) => {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-      });
-      return capitalizedWords.join(" ");
-    } else {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-  }
+  }, [currentImageIndex]);
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === venue.media.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? venue.media.length - 1 : prevIndex - 1
     );
   };
 
@@ -184,17 +140,30 @@ function SingleVenue() {
       setLoading(false);
     }
   };
+  function capitalizeFirstLetter(string) {
+    if (string.includes(" ")) {
+      const words = string.split(" ");
+      const capitalizedWords = words.map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      });
+      return capitalizedWords.join(" ");
+    } else {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+  }
 
-  const userBookingArray = venue.bookings.filter(
+  const userBookingArray = venue?.bookings.filter(
     (booking) => booking.customer.name === loggedInUser
   );
 
   if (error) {
     return <Error errorResponse={error} />;
   }
+
   if (loading) {
-    return <Loader />;
+    return <SingleVenueSkeleton />;
   }
+
   if (!venue) {
     return <Loader />;
   }
@@ -208,40 +177,79 @@ function SingleVenue() {
               className="flex image-filter"
               ref={sliderRef}
               style={{
-                width: `${venue.media.length * (isMobile ? 100 : 75)}vw`,
+                width: `${venue.media.length * 100}vw`,
               }}
             >
               {venue.media.map((media, index) => (
                 <img
+                  loading="lazy"
                   key={index}
-                  src={media.url}
+                  src={
+                    media.url === "https://source.unsplash.com/random"
+                      ? "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                      : media.url ||
+                        "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                  }
                   alt={media.alt}
                   className={`min-h-96 single-venue-slider-image ${
-                    isMobile ? "w-full" : "md:w-3/4 w-full"
+                    isMobile ? "w-full" : "w-full"
                   } object-cover object-position-center`}
                 />
               ))}
             </div>
           ) : (
-            <div className="flex image-filter" ref={sliderRef}>
-              <img
-                src={venue.media[0].url}
-                alt={venue.media[0].alt}
-                className={`min-h-96 single-venue-slider-image-single-image w-full object-cover object-position-center`}
-              />
-            </div>
+            <>
+              {venue.media.length === 0 ? (
+                <div className="flex image-filter" ref={sliderRef}>
+                  <img
+                    loading="lazy"
+                    src={
+                      "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                    }
+                    alt={"No image found"}
+                    className={`min-h-96 single-venue-slider-image-single-image w-full object-cover object-position-center`}
+                  />
+                </div>
+              ) : (
+                <div className="flex image-filter" ref={sliderRef}>
+                  <img
+                    loading="lazy"
+                    src={
+                      venue.media[0].url ===
+                      "https://source.unsplash.com/random"
+                        ? "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                        : venue.media[0].url ||
+                          "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                    }
+                    alt={venue.media[0].alt}
+                    className={`min-h-96 single-venue-slider-image-single-image w-full object-cover object-position-center`}
+                  />
+                </div>
+              )}
+            </>
           )}
         </div>
         {venue.media.length > 1 && (
-          <button
-            name="next image"
-            onClick={nextImage}
-            className={`single-venue-next-button p-3  ${
-              lastImage ? "final-image" : " "
-            }`}
-          >
-            <ArrowForwardIcon />
-          </button>
+          <>
+            <button
+              name="next image"
+              onClick={nextImage}
+              className={`single-venue-next-button p-3 ${
+                currentImageIndex < venue.media.length - 1 ? "" : "hidden"
+              }`}
+            >
+              <ArrowForwardIcon />
+            </button>
+            <button
+              name="prev image"
+              onClick={prevImage}
+              className={`single-venue-prev-button p-3 ${
+                currentImageIndex > 0 ? "" : "hidden"
+              }`}
+            >
+              <ArrowBackwardIcon />
+            </button>
+          </>
         )}
       </div>
       <div className="info-wrapper w-screen flex-row flex flex-wrap">
@@ -342,13 +350,13 @@ function SingleVenue() {
                   className="p-3 min-w-40 flex flex-row justify-start items-end gap-3"
                 >
                   <StarRateSharpIcon className="text-yellow-400" />
-                  <p className=" font-bold poppins-semibold">{venue.rating}</p>
+                  <p className="font-bold poppins-semibold">{venue.rating}</p>
                 </div>
               )}
               {venue.rating === 0 && (
                 <div
                   title={`This venue is yet to be rated`}
-                  className=" p-3 min-w-40 flex flex-row justify-start items-end gap-3"
+                  className="p-3 min-w-40 flex flex-row justify-start items-end gap-3"
                 >
                   <StarRateSharpIcon className="text-yellow-400" />
                   <p className="text-gray-400 pt-sans-regular">No rating yet</p>
@@ -377,11 +385,15 @@ function SingleVenue() {
                     className="flex justify-start items-center gap-3 hover:underline"
                   >
                     <img
-                      src={venue.owner.avatar.url}
+                      loading="lazy"
+                      src={
+                        venue.owner.avatar.url ||
+                        "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                      }
                       alt={venue.owner.avatar.alt}
                       className="w-7 h-7 rounded-full object-cover"
                     />
-                    <p className=" text-gray-600 text-sm">
+                    <p className="text-gray-600 text-sm">
                       {user && venue.owner.name === loggedInUser
                         ? venue.owner.name + " (You)"
                         : venue.owner.name}
@@ -392,11 +404,15 @@ function SingleVenue() {
                 <div className="py-2 flex justify-between">
                   <div className="flex justify-start items-center gap-3">
                     <img
-                      src={venue.owner.avatar.url}
+                      loading="lazy"
+                      src={
+                        venue.owner.avatar.url ||
+                        "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                      }
                       alt={venue.owner.avatar.alt}
                       className="w-7 h-7 rounded-full object-cover"
                     />
-                    <p className=" text-gray-600 text-sm">
+                    <p className="text-gray-600 text-sm">
                       {user && venue.owner.name === loggedInUser
                         ? venue.owner.name + " (You)"
                         : venue.owner.name}
@@ -411,18 +427,18 @@ function SingleVenue() {
           <div className="md:w-1/2 px-4 sm:px-8 p-0 pb-6">
             <div className="flex flex-row justify-end items-end w-full pt-4 px-8 p-6 pb-0">
               {venue.rating > 0 && (
-                <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
+                <div className="p-3 min-w-40 flex flex-row justify-end items-end gap-3">
                   <StarRateSharpIcon className="text-yellow-400" />
-                  <p className=" font-bold poppins-semibold">{venue.rating}</p>
+                  <p className="font-bold poppins-semibold">{venue.rating}</p>
                 </div>
               )}
               {venue.rating === 0 && (
-                <div className=" p-3 min-w-40 flex flex-row justify-end items-end gap-3">
+                <div className="p-3 min-w-40 flex flex-row justify-end items-end gap-3">
                   <StarRateSharpIcon className="text-yellow-400" />
                   <p className="text-gray-400 pt-sans-regular">No rating yet</p>
                 </div>
               )}
-              <div className=" flex min-w-40 flex-row justify-start gap-3">
+              <div className="flex min-w-40 flex-row justify-start gap-3">
                 <AddToFavorites venue={venue} size="large" />
               </div>
             </div>
@@ -456,9 +472,9 @@ function SingleVenue() {
         {user &&
           loggedInUser === venue.owner.name &&
           venue.bookings.length > 0 && (
-            <div className="bookings-section mb-6 px-4 sm:px-8 w-full ">
-              <h2 className="text-lg  font-regular tracking-wide">
-                Bookings made to this venue({venue.bookings.length}):
+            <div className="bookings-section mb-6 px-4 sm:px-8 w-full">
+              <h2 className="text-lg font-regular tracking-wide">
+                Bookings made to this venue ({venue.bookings.length}):
               </h2>
               <div className="flex gap-4 flex-row justify-start flex-wrap my-4">
                 <button

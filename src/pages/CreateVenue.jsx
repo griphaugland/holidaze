@@ -225,8 +225,12 @@ function CreateVenue() {
               >
                 {previewData.media.map((media, index) => (
                   <img
+                    loading="lazy"
                     key={index}
-                    src={media.url}
+                    src={
+                      media.url ||
+                      "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                    }
                     alt={media.alt}
                     className={`min-h-96 single-venue-slider-image ${
                       isMobile ? "w-full" : "md:w-3/4 w-full"
@@ -237,7 +241,11 @@ function CreateVenue() {
             ) : (
               <div className="flex image-filter" ref={sliderRef}>
                 <img
-                  src={previewData.media[0].url}
+                  loading="lazy"
+                  src={
+                    previewData.media[0].url ||
+                    "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                  }
                   alt={previewData.media[0].alt}
                   className={`min-h-96  single-venue-slider-image-single-image w-full object-cover object-position-center`}
                 />
@@ -362,8 +370,12 @@ function CreateVenue() {
             >
               {media.map((mediaItem, index) => (
                 <img
+                  loading="lazy"
                   key={index + mediaItem.alt}
-                  src={mediaItem.url}
+                  src={
+                    mediaItem.url ||
+                    "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                  }
                   alt={mediaItem.alt}
                   className={`min-h-96 bg-gray-300 single-venue-slider-image ${
                     isMobile ? "w-full" : "md:w-3/4 w-full"
@@ -374,7 +386,11 @@ function CreateVenue() {
           ) : (
             <div className="flex image-filter" ref={sliderRef}>
               <img
-                src={media[0]?.url}
+                loading="lazy"
+                src={
+                  media[0]?.url ||
+                  "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                }
                 alt={media[0]?.alt}
                 className={`min-h-96 bg-gray-400  single-venue-slider-image-single-image w-full object-cover object-position-center`}
               />

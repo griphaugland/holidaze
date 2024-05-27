@@ -55,6 +55,7 @@ function Error({ errorFromProps }) {
       <div className="hero-image-container relative">
         <div className="absolute top-0 left-0 w-full h-full"></div>
         <img
+          loading="lazy"
           src={ErrorBackground}
           alt="Hero"
           className="w-full h-96 object-cover hero-image"

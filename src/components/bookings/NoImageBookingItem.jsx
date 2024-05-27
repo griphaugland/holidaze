@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
-import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
-import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
-import WifiIcon from "@mui/icons-material/Wifi";
-import LocalParkingIcon from "@mui/icons-material/LocalParking";
-import FreeBreakfastIcon from "@mui/icons-material/FreeBreakfast";
-import PetsIcon from "@mui/icons-material/Pets";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 function NoImageBookingItem({ booking }) {
   const [stayFinished, setStayFinished] = useState(false);
   const [stayStarted, setStayStarted] = useState(false);
+
   useEffect(() => {
     const today = new Date();
     const dateFrom = new Date(booking.dateFrom);
@@ -42,15 +37,26 @@ function NoImageBookingItem({ booking }) {
       className={bookingClass}
     >
       {stayStarted && (
-        <div className="absolute bottom-0 left-2 flex items-center justify-center">
-          <h4 className="text-xl booking-started tracking-wide bg-white rounded-lg p-1 px-2">
+        <div className="absolute bottom-2 left-2 flex items-center justify-center">
+          <h4 className="text-sm booking-started tracking-wide bg-white rounded-lg p-1 px-2">
             Booking underway
+          </h4>
+        </div>
+      )}
+      {stayFinished && (
+        <div className="absolute bottom-2 left-2 booking-over flex items-center justify-center">
+          <h4 className="text-sm tracking-wide bg-white rounded-lg p-1 px-2">
+            Booking finished
           </h4>
         </div>
       )}
       <div className={`flex gap-4`}>
         <img
-          src={booking.customer.avatar.url || ""}
+          loading="lazy"
+          src={
+            booking.customer.avatar.url ||
+            "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+          }
           alt={booking.customer.avatar?.alt || "No image found"}
           className="object-cover"
         />

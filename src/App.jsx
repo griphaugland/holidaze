@@ -9,28 +9,28 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const slides = [
   {
-    src: "/desktopimage2.jpg?url",
+    src: "/desktopimage2.webp?url",
     altText: "Image of Tokyo at night",
     title: "Experience Tokyo",
     price: "1400 NOK / night",
     searchWord: "Tokyo",
   },
   {
-    src: "/sydney.jpg?url",
+    src: "/sydney.webp?url",
     altText: "Image of Sydney at night",
     title: "Experience Sydney",
     price: "1800 NOK / night",
     searchWord: "Sydney",
   },
   {
-    src: "/newyork.jpg?url",
+    src: "/newyork.webp?url",
     altText: "Image of New York at night",
     title: "Experience New York",
     price: "1700 NOK / night",
     searchWord: "New York",
   },
   {
-    src: "/dubai.jpg?url",
+    src: "/dubai.webp?url",
     altText: "Image of Dubai at night",
     title: "Experience Dubai",
     price: "2100 NOK / night",
@@ -41,19 +41,19 @@ const europeCards = [
   {
     id: 1,
     searchWord: "England",
-    src: "/england.jpg?url",
+    src: "/england.webp?url",
     altText: "Image of England",
   },
   {
     id: 2,
     searchWord: "Spain",
-    src: "/spain2.jpg?url",
+    src: "/spain2.webp?url",
     altText: "Image of Spain",
   },
   {
     id: 3,
     searchWord: "Italy",
-    src: "/mobileimage3.jpg?url",
+    src: "/mobileimage3.webp?url",
     altText: "Image of Italy",
   },
 ];
@@ -61,19 +61,19 @@ const asiaCards = [
   {
     id: 1,
     searchWord: "Angkor Wat",
-    src: "/cambodia.jpg?url",
+    src: "/cambodia.webp?url",
     altText: "Image of angkor wat",
   },
   {
     id: 2,
     searchWord: "China",
-    src: "/china.jpg?url",
+    src: "/china.webp?url",
     altText: "Image of the great wall of china",
   },
   {
     id: 3,
     searchWord: "Taj Mahal",
-    src: "/india.jpg?url",
+    src: "/india.webp?url",
     altText: "Image of the taj mahal",
   },
 ];
@@ -83,6 +83,7 @@ function App() {
   const { isLoggedIn } = useGeneral();
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Home | Holidaze";
   }, []);
 
   useEffect(() => {
@@ -152,8 +153,9 @@ function App() {
             />
           </div>
           <div className="hero-image-container-smaller relative ">
-            <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
             <img
+              loading="lazy"
               src="/desktopimage4.jpg?url"
               alt="Image of lake como in Italy"
               className="w-full object-cover hero-image-smaller"
@@ -192,7 +194,8 @@ function App() {
             {!isMobile && (
               <div className="image-container sm:w-1/2">
                 <img
-                  src="/desktopimage3.jpg?url"
+                  loading="lazy"
+                  src="/desktopimage3.webp?url"
                   alt="Image of a desert with a person walking in the distance"
                   className="w-full object-cover rounded-r-5xl"
                 />
@@ -203,7 +206,8 @@ function App() {
             {!isMobile && (
               <div className="image-container sm:w-1/2">
                 <img
-                  src="/italy.jpg?url"
+                  loading="lazy"
+                  src="/italy.webp?url"
                   alt="Image of Tuscany, Italy from aeral view"
                   className="w-full object-cover rounded-l-5xl"
                 />
@@ -276,7 +280,8 @@ function App() {
             {!isMobile && (
               <div className="image-container sm:w-1/2">
                 <img
-                  src="/desktopimage3.jpg?url"
+                  loading="lazy"
+                  src="/desktopimage1.webp?url"
                   alt="Image of a desert with a person walking in the distance"
                   className="w-full object-cover rounded-r-5xl"
                 />
