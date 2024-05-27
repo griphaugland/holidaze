@@ -119,7 +119,7 @@ function Profile() {
           </div>
         </div>
         {profile.venueManager && isOwnProfile && (
-          <div className="flex gap-4 sm:px-5 px-2 flex-row profile-mobile">
+          <div className="flex gap-4 sm:px-5 px-2 mb-4 flex-row profile-mobile">
             <button
               name="bookings"
               onClick={() => setView("bookings")}
@@ -181,7 +181,7 @@ function Profile() {
       {view === "bookings" && (
         <div className="page-max-width w-full">
           {profile.bookings && profile.bookings.length > 0 ? (
-            <div className="sm:mx-4 p-4">
+            <div className="sm:mx-4 p-4 pt-0">
               <BookingList bookings={profile.bookings} tab="all" />
             </div>
           ) : (

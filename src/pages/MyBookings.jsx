@@ -51,13 +51,15 @@ function MyBookings() {
   return (
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="flex page-max-width justify-between w-full flex-col">
-        <div className="flex justify-start md:justify-between mx-8 px-0 p-4 flex-wrap items-center">
-          <h2 className="text-2xl poppins-bold mr-auto">My bookings</h2>
+        <div className="flex justify-start md:justify-between mx-4 sm:mx-8 px-0 p-4 flex-wrap items-center">
+          <h2 className="text-2xl poppins-bold mr-auto w-full sm:w-auto">
+            My bookings
+          </h2>
           {isLoggedIn && isVenueManager && (
             <Link
               name="go to dashboard"
               to="/dashboard"
-              className="btn-secondary-reverse ml-auto tracking-wide flex justify-center items-center gap-2"
+              className="btn-secondary-reverse ml-0 mt-4 sm:mt-0 mr-auto sm:mr-0 sm:ml-auto tracking-wide flex justify-center items-center gap-2"
             >
               Dashboard
               <ArrowForwardIcon />
@@ -68,7 +70,7 @@ function MyBookings() {
           <Loader />
         ) : (
           <div className="">
-            <div className="flex gap-4 mx-8 flex-row flex-wrap my-0">
+            <div className="flex gap-4 mx-4 sm:mx-8 flex-row flex-wrap my-0">
               <button
                 name="upcoming"
                 onClick={() => setCurrentTab("upcoming")}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { format } from "date-fns";
 
-function BookingItem({ booking }) {
+function BookingItem({ booking, onImageLoad }) {
   const [stayFinished, setStayFinished] = useState(false);
   const [stayStarted, setStayStarted] = useState(false);
 
@@ -66,6 +66,7 @@ function BookingItem({ booking }) {
           }
           alt={booking.venue.media[0]?.alt || booking.venue.name}
           className="object-cover"
+          onLoad={onImageLoad}
         />
         <div className="flex flex-col justify-start p-4">
           <div className="flex flex-col gap-4 justify-between">

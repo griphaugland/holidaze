@@ -109,22 +109,6 @@ function App() {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
   };
 
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/service-worker.js").then(
-        (registration) => {
-          console.log(
-            "ServiceWorker registration successful with scope: ",
-            registration.scope
-          );
-        },
-        (error) => {
-          console.log("ServiceWorker registration failed: ", error);
-        }
-      );
-    });
-  }
-
   return (
     <div className="flex flex-col flex-grow hero-main overflow-x-hidden">
       <HeroSection
@@ -169,7 +153,7 @@ function App() {
             />
           </div>
           <div className="hero-image-container-smaller relative ">
-            <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-30"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
             <img
               loading="lazy"
               src="/desktopimage4.jpg?url"

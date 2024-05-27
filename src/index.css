@@ -3,6 +3,7 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,6 +11,7 @@
 body {
   overflow-y: hidden;
 }
+
 body,
 main {
   overflow-x: hidden;
@@ -17,6 +19,16 @@ main {
 .hero-main {
   min-height: 90svh !important;
   margin-top: 0svh;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
 }
 main {
   min-height: 100svh;
@@ -924,8 +936,7 @@ footer {
   border-radius: 30px;
 }
 
-.venue-container article:hover .venue-title,
-.venue-container article:hover .venue-price {
+.venue-title:hover {
   color: rgb(75, 75, 75);
 }
 
