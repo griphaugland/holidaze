@@ -12,7 +12,15 @@ function CardItem({ card }) {
         {card.searchWord.toUpperCase()}
       </div>
       <div className="card-image-container">
-        <img src={`${card.src}`} alt={card.altText} className="card-image" />
+        <img
+          loading="lazy"
+          src={
+            `${card.src}` ||
+            "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+          }
+          alt={card.altText}
+          className="card-image"
+        />
       </div>
     </Link>
   );

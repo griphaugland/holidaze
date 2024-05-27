@@ -27,7 +27,11 @@ function HeroSection({ src, altText, title, price, searchWord, nextSlide }) {
       <div className="hero-image-container relative">
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
         <img
-          src={src}
+          loading="lazy"
+          src={
+            src ||
+            "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+          }
           alt={altText}
           className="w-full h-96 object-cover hero-image"
         />

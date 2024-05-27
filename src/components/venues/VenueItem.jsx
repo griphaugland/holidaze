@@ -15,7 +15,13 @@ function VenueItem({ item }) {
         href={`../venues/${item.id}`}
       >
         <img
-          src={item.media[0]?.url}
+          loading="lazy"
+          src={
+            item.media[0]?.url === "https://source.unsplash.com/random"
+              ? "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+              : item.media[0]?.url ||
+                "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+          }
           alt={item.media[0]?.alt}
           className="w-48 h-22 object-cover flex items-center justify-center"
         />

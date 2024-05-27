@@ -26,10 +26,15 @@ function Favorites() {
             name="clear favorites button"
             onClick={handleClearFavorites}
             disabled={favorites.length === 0}
-            className="btn-primary-reverse"
+            className="btn-secondary "
           >
-            Clear
-            <DeleteOutlinedIcon className="clear-icon" />
+            <p>
+              {favorites.length === 0
+                ? "No favorites to clear"
+                : "Clear all favorites"}
+            </p>
+
+            <DeleteOutlinedIcon className="clear-icon text-red-600" />
           </button>
         </div>
         <VenueList venues={favorites} />

@@ -201,7 +201,11 @@ function SingleBooking() {
                         }}
                       >
                         <img
-                          src={media.url}
+                          src={
+                            media.url ||
+                            "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                          }
+                          loading="lazy"
                           alt={media.alt}
                           className="min-h-72 md:max-h-96 w-full object-cover"
                         />
@@ -404,7 +408,11 @@ function SingleBooking() {
                       className="flex justify-start items-center gap-3 hover:underline"
                     >
                       <img
-                        src={booking.customer.avatar.url}
+                        loading="lazy"
+                        src={
+                          booking.customer.avatar.url ||
+                          "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                        }
                         alt={booking.customer.avatar.alt}
                         className="w-7 h-7 rounded-full object-cover"
                       />
@@ -467,7 +475,11 @@ function SingleBooking() {
                         className="flex justify-start items-center gap-3 hover:underline"
                       >
                         <img
-                          src={booking.venue.owner.avatar.url}
+                          loading="lazy"
+                          src={
+                            booking.venue.owner.avatar.url ||
+                            "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                          }
                           alt={booking.venue.owner.avatar.alt}
                           className="w-7 h-7 rounded-full object-cover"
                         />

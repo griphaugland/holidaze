@@ -3,6 +3,7 @@ import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import AddToFavorites from "../components/buttons/AddToFavorite";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackwardIcon from "@mui/icons-material/ArrowBack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Facilities from "../components/venues/Facilities";
@@ -56,14 +57,14 @@ function SingleVenue() {
     maxGuests: 0,
     media: [
       {
-        url: "https://images.unsplash.com/photo-1629140727571-9b5c6f6267b4?crop=entropy&fit=crop&h=900&q=80&w=1600",
-        alt: "",
+        url: "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813",
+        alt: "No image found",
       },
     ],
     meta: { wifi: false, parking: false, breakfast: false },
     owner: {
-      name: "Doja Cat",
-      avatar: "https://example.com/avatar.jpg",
+      name: "",
+      avatar: "",
     },
     bookings: [],
   });
@@ -113,7 +114,7 @@ function SingleVenue() {
 
   useEffect(() => {
     if (sliderRef.current) {
-      const width = isMobile ? 100 : 75;
+      const width = 100;
       sliderRef.current.style.transform = `translateX(-${
         currentImageIndex * width
       }vw)`;
@@ -148,7 +149,11 @@ function SingleVenue() {
       prevIndex === venue.media.length - 1 ? 0 : prevIndex + 1
     );
   };
-
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? venue.media.length - 1 : prevIndex - 1
+    );
+  };
   const handleEditVenueClick = () => {
     sessionStorage.setItem("editVenueData", JSON.stringify(venue));
     navigate(`../dashboard/edit-venue?id=${venue.id}`);
@@ -208,40 +213,83 @@ function SingleVenue() {
               className="flex image-filter"
               ref={sliderRef}
               style={{
-                width: `${venue.media.length * (isMobile ? 100 : 75)}vw`,
+                width: `${venue.media.length * 100}vw`,
               }}
             >
               {venue.media.map((media, index) => (
                 <img
+                  loading="lazy"
                   key={index}
-                  src={media.url}
+                  src={
+                    media.url === "https://source.unsplash.com/random"
+                      ? "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                      : media.url ||
+                        "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                  }
                   alt={media.alt}
                   className={`min-h-96 single-venue-slider-image ${
-                    isMobile ? "w-full" : "md:w-3/4 w-full"
+                    isMobile ? "w-full" : "w-full"
                   } object-cover object-position-center`}
                 />
               ))}
             </div>
           ) : (
-            <div className="flex image-filter" ref={sliderRef}>
-              <img
-                src={venue.media[0].url}
-                alt={venue.media[0].alt}
-                className={`min-h-96 single-venue-slider-image-single-image w-full object-cover object-position-center`}
-              />
-            </div>
+            <>
+              {venue.media.length === 0 ? (
+                <div className="flex image-filter" ref={sliderRef}>
+                  <img
+                    loading="lazy"
+                    src={
+                      "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                    }
+                    alt={"No image found"}
+                    className={`min-h-96 single-venue-slider-image-single-image w-full object-cover object-position-center`}
+                  />
+                </div>
+              ) : (
+                <div className="flex image-filter" ref={sliderRef}>
+                  <img
+                    loading="lazy"
+                    src={
+                      venue.media[0].url ===
+                      "https://source.unsplash.com/random"
+                        ? "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                        : venue.media[0].url ||
+                          "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                    }
+                    alt={venue.media[0].alt}
+                    className={`min-h-96 single-venue-slider-image-single-image w-full object-cover object-position-center`}
+                  />
+                </div>
+              )}
+            </>
           )}
         </div>
         {venue.media.length > 1 && (
-          <button
-            name="next image"
-            onClick={nextImage}
-            className={`single-venue-next-button p-3  ${
-              lastImage ? "final-image" : " "
-            }`}
-          >
-            <ArrowForwardIcon />
-          </button>
+          <>
+            {currentImageIndex < venue.media.length - 1 && (
+              <button
+                name="next image"
+                onClick={nextImage}
+                className={`single-venue-next-button p-3  ${
+                  lastImage ? "" : " "
+                }`}
+              >
+                <ArrowForwardIcon />
+              </button>
+            )}
+            {currentImageIndex > 0 && (
+              <button
+                name="prev image"
+                onClick={prevImage}
+                className={`single-venue-prev-button p-3  ${
+                  lastImage ? "" : ""
+                }`}
+              >
+                <ArrowBackwardIcon />
+              </button>
+            )}
+          </>
         )}
       </div>
       <div className="info-wrapper w-screen flex-row flex flex-wrap">
@@ -377,7 +425,11 @@ function SingleVenue() {
                     className="flex justify-start items-center gap-3 hover:underline"
                   >
                     <img
-                      src={venue.owner.avatar.url}
+                      loading="lazy"
+                      src={
+                        venue.owner.avatar.url ||
+                        "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                      }
                       alt={venue.owner.avatar.alt}
                       className="w-7 h-7 rounded-full object-cover"
                     />
@@ -392,7 +444,11 @@ function SingleVenue() {
                 <div className="py-2 flex justify-between">
                   <div className="flex justify-start items-center gap-3">
                     <img
-                      src={venue.owner.avatar.url}
+                      loading="lazy"
+                      src={
+                        venue.owner.avatar.url ||
+                        "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+                      }
                       alt={venue.owner.avatar.alt}
                       className="w-7 h-7 rounded-full object-cover"
                     />

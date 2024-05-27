@@ -103,13 +103,18 @@ function Footer() {
             name="click to go to home page"
             className="logo-container no-hover-effect w-full flex justify-start"
           >
-            <img className="logo" src={LogoBlue} alt="holidaze logo" />
+            <img
+              className="logo"
+              loading="lazy"
+              src={LogoBlue}
+              alt="holidaze logo"
+            />
           </Link>
           <p className=" text-sm poppins-thin">© 2024 holidaze, Inc.</p>
         </div>
       </div>
       <div className="flex justify-center footer-height items-center w-full h-full p-3 flex-col text-gray-800">
-        <img src={pattern} alt="logo" className="mt-5" />
+        <img src={pattern} loading="lazy" alt="logo" className="mt-5" />
       </div>
     </footer>
   );

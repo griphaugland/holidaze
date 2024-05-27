@@ -120,6 +120,7 @@ function Header() {
           >
             <img
               className="logo"
+              loading="lazy"
               src={
                 toggle
                   ? headerColor
@@ -302,6 +303,7 @@ function Header() {
         >
           <img
             className="logo"
+            loading="lazy"
             src={headerColor ? Logo : LogoBlue}
             alt="holidaze logo"
           />

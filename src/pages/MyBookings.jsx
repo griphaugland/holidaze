@@ -52,9 +52,17 @@ function MyBookings() {
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="flex page-max-width justify-between w-full flex-col">
         <div className="flex justify-start md:justify-between mx-8 px-0 p-4 flex-wrap items-center">
-          <h2 className="text-2xl poppins-bold w-full md:w-auto">
-            My bookings
-          </h2>
+          <h2 className="text-2xl poppins-bold mr-auto">My bookings</h2>
+          {isLoggedIn && isVenueManager && (
+            <Link
+              name="go to dashboard"
+              to="/dashboard"
+              className="btn-secondary-reverse ml-auto tracking-wide flex justify-center items-center gap-2"
+            >
+              Dashboard
+              <ArrowForwardIcon />
+            </Link>
+          )}
         </div>
         {loading && bookings.length === 0 ? (
           <Loader />
@@ -83,18 +91,6 @@ function MyBookings() {
               >
                 Finished
               </button>
-              {isLoggedIn && isVenueManager && (
-                <Link
-                  name="go to dashboard"
-                  to="/dashboard"
-                  className="btn select-secondary-link dashboard-link tracking-wide flex justify-center items-center gap-2"
-                >
-                  Dashboard
-                  <ArrowForwardIcon
-                    style={{ width: "0.9rem", height: "0.9rem" }}
-                  />
-                </Link>
-              )}
             </div>
             <div className="sm:mx-4 p-4">
               <BookingList bookings={bookings} tab={currentTab} />

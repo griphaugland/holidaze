@@ -42,15 +42,26 @@ function NoImageBookingItem({ booking }) {
       className={bookingClass}
     >
       {stayStarted && (
-        <div className="absolute bottom-0 left-2 flex items-center justify-center">
-          <h4 className="text-xl booking-started tracking-wide bg-white rounded-lg p-1 px-2">
+        <div className="absolute bottom-2 left-2 flex items-center justify-center">
+          <h4 className="text-sm booking-started tracking-wide bg-white rounded-lg p-1 px-2">
             Booking underway
+          </h4>
+        </div>
+      )}
+      {stayFinished && (
+        <div className="absolute bottom-2 left-2 booking-over flex items-center justify-center">
+          <h4 className="text-sm tracking-wide bg-white rounded-lg p-1 px-2">
+            Booking finished
           </h4>
         </div>
       )}
       <div className={`flex gap-4`}>
         <img
-          src={booking.customer.avatar.url || ""}
+          loading="lazy"
+          src={
+            booking.customer.avatar.url ||
+            "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
+          }
           alt={booking.customer.avatar?.alt || "No image found"}
           className="object-cover"
         />

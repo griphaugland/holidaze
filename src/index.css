@@ -264,7 +264,8 @@ footer {
 .btn-secondary-reverse {
   position: relative;
   font-family: "poppins", sans-serif;
-  height: 3rem;
+  font-size: 0.9rem;
+  height: 2.7rem;
   padding-inline: 1rem;
   border: 2px solid #103954;
   border-radius: 100px;
@@ -295,7 +296,8 @@ footer {
 .btn-logout-reverse {
   position: relative;
   font-family: "poppins", sans-serif;
-  height: 3rem;
+  font-size: 0.9rem;
+  height: 2.7rem;
   padding-inline: 1rem;
   border: 2px solid #df5151;
   border-radius: 100px;
@@ -974,12 +976,23 @@ footer {
 
 .single-venue-next-button {
   position: absolute;
-  z-index: 5s;
+  z-index: 2;
   color: white;
   border: 2px solid white;
   border-radius: 100%;
   top: 47%;
   left: 90vw;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 5px black;
+}
+.single-venue-prev-button {
+  position: absolute;
+  z-index: 2;
+  color: white;
+  border: 2px solid white;
+  border-radius: 100%;
+  top: 47%;
+  left: 2vw;
   transition: 0.3s ease-in-out;
   box-shadow: 0 0 5px black;
 }
@@ -1234,7 +1247,7 @@ footer {
 }
 .booking-over {
   z-index: 1;
-  color: rgb(223, 78, 78) !important;
+  color: rgb(227, 121, 115) !important;
   font-weight: 600;
 }
 .carousel-container {
