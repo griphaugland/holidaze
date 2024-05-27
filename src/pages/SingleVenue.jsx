@@ -234,6 +234,7 @@ function SingleVenue() {
         </div>
         {venue.media.length > 1 && (
           <button
+            name="next image"
             onClick={nextImage}
             className={`single-venue-next-button p-3  ${
               lastImage ? "final-image" : " "
@@ -307,6 +308,7 @@ function SingleVenue() {
               {loggedInUser === venue.owner.name && (
                 <div className="w-full py-4 pb-0 justify-start">
                   <button
+                    name="edit venue"
                     onClick={handleEditVenueClick}
                     className={`btn-secondary-reverse text-sm poppins-semibold flex items-center justify-between`}
                   >
@@ -315,6 +317,7 @@ function SingleVenue() {
                   </button>
 
                   <button
+                    name="delete venue"
                     onClick={handleDeleteVenueClick}
                     className={`btn-logout-reverse mt-4 text-sm poppins-semibold flex items-center justify-between`}
                   >
@@ -429,6 +432,7 @@ function SingleVenue() {
               {user && loggedInUser === venue.owner.name && (
                 <div className="w-full py-4 pb-0 gap-2 flex justify-end">
                   <button
+                    name="edit venue"
                     onClick={handleEditVenueClick}
                     className={`btn-secondary-reverse text-sm poppins-semibold flex items-center justify-between`}
                   >
@@ -436,6 +440,7 @@ function SingleVenue() {
                     <ArrowForwardIcon />
                   </button>
                   <button
+                    name="delete venue"
                     onClick={handleDeleteVenueClick}
                     className={`btn-logout-reverse text-sm poppins-semibold flex items-center justify-between`}
                   >
@@ -456,6 +461,7 @@ function SingleVenue() {
               </h2>
               <div className="flex gap-4 flex-row justify-start flex-wrap my-4">
                 <button
+                  name="upcoming bookings"
                   onClick={() => setCurrentTab("upcoming")}
                   className={`btn tracking-wide ${
                     currentTab === "upcoming"
@@ -466,6 +472,7 @@ function SingleVenue() {
                   Upcoming
                 </button>
                 <button
+                  name="finished bookings"
                   onClick={() => setCurrentTab("finished")}
                   className={`btn tracking-wide ${
                     currentTab === "finished"

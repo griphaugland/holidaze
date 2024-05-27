@@ -216,6 +216,7 @@ function EditVenue() {
           )}
           {media.length > 1 && (
             <button
+              name="next image"
               type="button"
               onClick={nextImage}
               className={`${
@@ -227,6 +228,7 @@ function EditVenue() {
           )}
           <button
             type="button"
+            name="add image"
             onClick={() => addMediaField({ url: "", alt: "" })}
             className={`${
               media.length > 1
@@ -288,6 +290,7 @@ function EditVenue() {
               </div>
               {media.length > 1 && (
                 <button
+                  name="remove image"
                   type="button"
                   onClick={() => handleRemoveMediaField(index)}
                   className="top-2 right-2 p-2 rounded text-gray-700 hover:text-red-500 absolute"
@@ -480,6 +483,7 @@ function EditVenue() {
             </div>
             <button
               type="submit"
+              name="submit"
               className={`btn-primary text-sm poppins-semibold mt-6 md:mr-8 md:mt-0 max-w-64 flex items-center md:self-end justify-between ${
                 loading ? "bg-gray-400 cursor-not-allowed" : ""
               }`}

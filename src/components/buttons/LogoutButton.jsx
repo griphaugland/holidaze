@@ -14,21 +14,33 @@ const LogoutButton = ({ size }) => {
   };
   if (size === "navigation") {
     return (
-      <button onClick={handleLogout} className="btn-logout-nav">
+      <button
+        onClick={handleLogout}
+        name="logout button"
+        className="btn-logout-nav"
+      >
         Logout
         <LogoutIcon />
       </button>
     );
   } else if (size === "profile") {
     return (
-      <button onClick={handleLogout} className="btn-logout-reverse text-sm">
+      <button
+        onClick={handleLogout}
+        name="logout button"
+        className="btn-logout-reverse text-sm"
+      >
         Logout
         <LogoutIcon />
       </button>
     );
   } else {
     return (
-      <button onClick={handleLogout} className="btn-logout-reverse">
+      <button
+        onClick={handleLogout}
+        name="logout button"
+        className="btn-logout-reverse"
+      >
         Logout
         <LogoutIcon />
       </button>

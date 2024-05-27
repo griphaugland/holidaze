@@ -16,7 +16,11 @@ function HeroSection({ src, altText, title, price, searchWord, nextSlide }) {
           classes="hero-btn-primary text-sm poppins-semibold flex items-center justify-between"
         />
       </div>
-      <button className="hero-btn-next absolute p-3" onClick={nextSlide}>
+      <button
+        className="hero-btn-next absolute p-3"
+        name="next slide button"
+        onClick={nextSlide}
+      >
         <ArrowForwardIcon />
       </button>
       <div className="hero-image-container relative">

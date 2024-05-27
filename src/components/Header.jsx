@@ -153,6 +153,7 @@ function Header() {
               />
             </Link>
             <button
+              name="menu button"
               onClick={() => {
                 setToggle(!toggle);
                 setAnimate(!toggle);

@@ -20,6 +20,7 @@ function ProfileButton({ headerColor }) {
     <>
       {isLoggedIn ? (
         <button
+          name="profile button"
           className={` ${loading ? "bg-gray-400 cursor-not-allowed" : ""}`}
           disabled={loading}
         >
@@ -40,6 +41,7 @@ function ProfileButton({ headerColor }) {
       ) : (
         <>
           <button
+            name="open login modal"
             onClick={handleClick}
             className={` ${loading ? "bg-gray-400 cursor-not-allowed" : ""}`}
             disabled={loading}

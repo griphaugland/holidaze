@@ -12,6 +12,7 @@ function DeleteModal({ text, isOpen, onClose, onDelete }) {
         <p className="mb-4">Are you sure you want to delete this {text}?</p>
         <div className="flex justify-between">
           <button
+            name="cancel button"
             onClick={onClose}
             className={`btn-primary-reverse py-2 px-4 bg-white transition duration-300 `}
           >
@@ -19,6 +20,7 @@ function DeleteModal({ text, isOpen, onClose, onDelete }) {
             <ArrowBackIcon />
           </button>
           <button
+            name="delete button"
             type="submit"
             onClick={onDelete}
             className={` btn-delete btn-logout py-2 px-4 text-white transition duration-300 `}

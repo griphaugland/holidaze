@@ -137,6 +137,7 @@ function Dashboard() {
         </h3>
         <div className="flex gap-4 mx-8 flex-row flex-wrap my-3 mt-6">
           <button
+            name="upcoming"
             onClick={() => setCurrentTab("upcoming")}
             className={`btn tracking-wide ${
               currentTab === "upcoming" ? "select-primary" : "select-secondary"
@@ -145,6 +146,7 @@ function Dashboard() {
             Upcoming
           </button>
           <button
+            name="finished"
             onClick={() => setCurrentTab("finished")}
             className={`btn tracking-wide ${
               currentTab === "finished" ? "select-primary" : "select-secondary"
