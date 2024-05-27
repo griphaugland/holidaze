@@ -13,6 +13,9 @@ function useQuery() {
 }
 
 function Venues() {
+  useEffect(() => {
+    document.title = "Venues | Holidaze";
+  }, []);
   const location = useLocation();
   const navigate = useNavigate();
   const query = useQuery();

@@ -11,6 +11,10 @@ function NotFoundPage() {
   const ErrorNumber1 = 4;
   const ErrorNumber2 = 0;
   const ErrorNumber3 = 4;
+  useEffect(() => {
+    document.title = "404 Page Not Found | Holidaze";
+  }),
+    [];
 
   return (
     <div>

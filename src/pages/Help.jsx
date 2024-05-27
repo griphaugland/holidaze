@@ -7,6 +7,7 @@ function Help() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Help | Holidaze";
   }, []);
 
   return (

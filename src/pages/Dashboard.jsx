@@ -99,6 +99,10 @@ function Dashboard() {
       loadAllBookings();
     }
   }, [fetchProfile, user, navigate]);
+  useEffect(() => {
+    document.title = "Dashboard | Holidaze";
+  }),
+    [];
 
   if (loading) {
     return <Loader />;

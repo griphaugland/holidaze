@@ -23,6 +23,10 @@ function Login() {
       navigate("/");
     }
   }, [isLoggedIn, navigate]);
+  useEffect(() => {
+    document.title = "Login | Holidaze";
+  }),
+    [];
 
   const onSubmit = async (data) => {
     setLoading(true);

@@ -27,6 +27,10 @@ function EditVenue() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const venueId = searchParams.get("id");
+  useEffect(() => {
+    document.title = "Edit Venue | Holidaze";
+  }),
+    [];
 
   const {
     register,
