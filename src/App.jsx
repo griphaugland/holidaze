@@ -203,7 +203,7 @@ function App() {
               <div className="image-container sm:w-1/2">
                 <img
                   src="/italy.jpg?url"
-                  alt=""
+                  alt="Image of Tuscany, Italy from aeral view"
                   className="w-full object-cover rounded-l-5xl"
                 />
               </div>

@@ -412,6 +412,7 @@ function SingleBooking() {
                       </p>
                     </Link>
                     <a
+                      name="email of customer"
                       href={`mailto:${booking.customer.email}`}
                       className="flex flex-row gap-4 justify-end items-center hover:underline"
                     >
@@ -473,6 +474,7 @@ function SingleBooking() {
                         </p>
                       </Link>
                       <a
+                        name="email of venue owner"
                         href={`mailto:${booking.venue.owner.email}`}
                         className="flex flex-row gap-4 justify-end items-center hover:underline"
                       >

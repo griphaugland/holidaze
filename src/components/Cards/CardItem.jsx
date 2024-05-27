@@ -8,7 +8,7 @@ function CardItem({ card }) {
         {card.searchWord.toUpperCase()}
       </div>
       <div className="card-image-container">
-        <img src={`${card.src}`} alt={card.alt} className="card-image" />
+        <img src={`${card.src}`} alt={card.altText} className="card-image" />
       </div>
     </Link>
   );
