@@ -7,9 +7,9 @@ function HeroSection({ src, altText, title, price, searchWord, nextSlide }) {
     <>
       <div className="hero-text container absolute text-white left-0">
         <h1 className="text-4xl poppins-bold text-white">{title}</h1>
-        <p className="hero-text-price text-xl pt-sans-semibold text-white">
+        <h4 className="hero-text-price text-xl pt-sans-semibold text-white">
           {price}
-        </p>
+        </h4>
         <HeroButton
           text="View"
           searchFor={searchWord}
@@ -19,6 +19,7 @@ function HeroSection({ src, altText, title, price, searchWord, nextSlide }) {
       <button
         className="hero-btn-next absolute p-3"
         name="click to view next slide"
+        aria-label="click to view next slide"
         onClick={nextSlide}
       >
         <ArrowForwardIcon />

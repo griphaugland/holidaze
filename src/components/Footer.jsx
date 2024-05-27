@@ -13,12 +13,13 @@ function Footer() {
       <div className="flex gap-4 footer-height w-full h-full p-6 flex-col justify-between text-gray-800">
         <div className="footer-categories-container flex-wrap flex justify-start items-start gap-4 flex-row w-full h-full ">
           <div className="footer-category p-3 flex flex-col gap-5 justify-center">
-            <p className="poppins-medium text-xl min-w-28">Policies</p>
+            <h4 className="poppins-medium text-xl min-w-28">Policies</h4>
             <Link
               name="click to go to terms page"
               to="terms"
               target="_blank"
               rel="noreferrer"
+              aria-label="click to go to terms page"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
               <p>Terms</p>
@@ -28,6 +29,7 @@ function Footer() {
               to="privacy"
               name="click to go to privacy page"
               target="_blank"
+              aria-label="click to go to privacy page"
               rel="noreferrer"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
@@ -36,10 +38,11 @@ function Footer() {
             </Link>
           </div>
           <div className="footer-category p-3  flex flex-col gap-5 justify-center">
-            <p className="poppins-medium text-xl">Get in touch</p>
+            <h4 className="poppins-medium text-xl">Get in touch</h4>
             <Link
               to="help"
               target="_blank"
+              aria-label="click to go to help page"
               rel="noreferrer"
               name="click to go to help page"
               className="category-option arrow-move pt-sans-regular flex justify-between"
@@ -50,6 +53,7 @@ function Footer() {
             <Link
               to="/inquiries"
               target="_blank"
+              aria-label="click to go to inquiries page"
               rel="noreferrer"
               name="click to go to inquiries page"
               className="category-option arrow-move pt-sans-regular flex justify-between"
@@ -59,12 +63,13 @@ function Footer() {
             </Link>
           </div>
           <div className="footer-category p-3 flex flex-col justify-center">
-            <p className="poppins-medium  text-xl mb-2">Socials</p>
+            <h4 className="poppins-medium  text-xl mb-2">Socials</h4>
             <div className="category-option pt-sans-regular max-w-18 flex flex-wrap justify-start mb-2 gap-2">
               <a
                 name="click to go to facebook profile for Holidaze"
                 href="https://www.facebook.com/holidaze"
                 target="_blank"
+                aria-label="click to go to facebook profile for Holidaze"
                 rel="noreferrer"
               >
                 <FacebookIcon style={{ width: "38px", height: "38px" }} />
@@ -73,6 +78,7 @@ function Footer() {
                 name="click to go to instagram profile for Holidaze"
                 href="https://www.instagram.com/holidaze"
                 target="_blank"
+                aria-label="click to go to instagram profile for Holidaze"
                 rel="noreferrer"
               >
                 <InstagramIcon style={{ width: "38px", height: "38px" }} />
@@ -83,6 +89,7 @@ function Footer() {
                 name="click to go to linkedin profile for Holidaze"
                 href="https://www.linkedin.com/holidaze"
                 target="_blank"
+                aria-label="click to go to linkedin profile for Holidaze"
                 rel="noreferrer"
               >
                 <LinkedInIcon style={{ width: "38px", height: "38px" }} />

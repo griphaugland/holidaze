@@ -36,9 +36,9 @@ function VenueItem({ item }) {
           </a>
           <div className="flex px-3 gap-2 w-full justify-between mt-1">
             <div className="flex items-start flex-col-reverse gap-0">
-              <p className="text-xl flex-end venue-price current-price text-black">
+              <h4 className="text-xl flex-end venue-price current-price text-black">
                 {item.price} NOK / night
-              </p>
+              </h4>
             </div>
           </div>
         </div>
