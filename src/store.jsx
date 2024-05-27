@@ -140,7 +140,7 @@ export const useProfiles = create(
       loading: false,
       setLoading: (value) => set({ loading: value }),
       profile: null,
-      isVenueManager: false,
+      isVenueManager: null,
       setProfile: (profile) => set({ profile }),
       fetchProfile: async (username, accessToken, apiKey) => {
         set({ loading: true });

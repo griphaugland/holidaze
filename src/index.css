@@ -1,25 +1,31 @@
+/* Global Reset */
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
+/* Tailwind Base, Components, Utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Body Styles */
 body {
   overflow-y: hidden;
+  overflow-x: hidden; /* Hidden X overflow for both body and main */
+  font-family: "Poppins", sans-serif; /* Global font for body */
+  font-weight: 400;
+  font-style: normal;
 }
 
-body,
-main {
-  overflow-x: hidden;
-}
+/* Hero Section */
 .hero-main {
   min-height: 90svh !important;
   margin-top: 0svh;
 }
+
+/* Headings Styles */
 h1,
 h2,
 h3,
@@ -30,13 +36,18 @@ h6 {
   font-weight: 600;
   font-style: normal;
 }
+
+/* Main Element */
 main {
   min-height: 100svh;
 }
+
+/* Modal */
 .modal {
   z-index: 200;
 }
 
+/* Circle Fill Animation */
 @keyframes circleFill {
   from {
     width: 0;
@@ -46,13 +57,15 @@ main {
     transform: translateX(-100%);
   }
   to {
-    width: 100%; /* You may need to adjust this value */
-    height: 100%; /* You may need to adjust this value */
+    width: 100%;
+    height: 100%;
     border-radius: 0%;
     opacity: 1;
     transform: translateX(0%);
   }
 }
+
+/* Header */
 header {
   position: fixed;
   top: 0;
@@ -61,7 +74,8 @@ header {
   width: 100%;
   z-index: 5;
 }
-/* Updated animateMenu class to center items and improve styling */
+
+/* Animate Menu */
 .animateMenu {
   position: absolute;
   width: 100%;
@@ -98,27 +112,76 @@ header {
   text-align: center;
   font-size: 1rem;
   text-decoration: none;
-  transition: 0.3s ease-in-out;
+  transition: 0.5s ease-in-out;
 }
+
 .animateMenu .logout-div {
   border-radius: 50px;
   width: 150px;
   height: 150px;
 }
 
+/* Nav Item */
+.nav-item svg {
+  transition: 0.5s ease-in-out;
+}
+
 .animateMenu a:hover,
 .animateMenu button:hover,
-.animateMeny a:focus,
-.animateMenu button:focus .animateMenu .logout-div:hover,
-.animateMenu .logout-div:focus {
+.animateMenu a:focus,
+.animateMenu button:focus {
   background-color: #103954;
   color: white;
 }
 
+/* Logout Button in Nav */
+.btn-logout-nav {
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.5s ease-in-out;
+  color: #df5151;
+  cursor: pointer;
+}
+
+.btn-logout-nav:hover {
+  background-color: #df5151 !important;
+  color: white !important;
+}
+
+.btn-logout-nav:hover svg {
+  color: white !important;
+  transition: 0.5s ease-in-out;
+}
+
+.btn-logout-nav svg {
+  color: #df5151;
+  transition: 0.5s ease-in-out;
+}
+
+.btn-logout-nav:hover svg,
+.btn-logout-nav:focus svg {
+  margin-left: 1rem;
+  transition: margin-left 0.5s ease-out;
+}
+
+/* Nav Item Hover and Focus */
+.nav-item:hover svg,
+.nav-item:focus svg {
+  margin-left: 1rem;
+  transition: margin-left 0.5s ease-out;
+}
+
+/* Logo Styles */
 .logo {
   width: 120px;
   height: 55px;
 }
+
 .opposite-logo {
   width: 120px;
   height: 55px;
@@ -138,62 +201,111 @@ header {
     justify-content: flex-end;
   }
 }
-body {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
 
+/* Header Alignment */
 .align-top-header {
   margin-top: 10svh;
 }
-.loader-icon {
-  animation: rotate 0.5s ease-in-out infinite;
+
+/* Loader */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
 }
+
+.loader-small {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+}
+
+.loader__icon {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  animation: spin 1s linear infinite;
+  border-radius: 100%;
+}
+
+.loader__icon__item {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.loader__icon__item:nth-child(1) {
+  top: 0;
+  left: 0;
+  background-color: #103954;
+}
+
+.loader__icon__item:nth-child(2) {
+  bottom: 0;
+  right: 0;
+  background-color: #ffd9eb;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Footer */
 footer {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   background-color: #ffd9eb;
 }
+
 .footer-height {
   min-height: 300px;
 }
+
 @media (max-width: 768px) {
   footer {
-    display: flex;
     flex-direction: column;
   }
   .footer-height {
     min-height: 200px !important;
   }
 }
+
+/* Hero Image */
 .hero-image {
   height: 100svh;
 }
+
 .hero-image-smaller {
   height: 60svh;
 }
+
 .hero-image-container {
   position: relative;
   height: 100svh;
   width: 100%;
 }
+
 .hero-image-container-smaller {
   position: relative;
   height: 60svh;
   width: 100%;
 }
+
+/* Hero Text */
 .hero-text {
   top: 23%;
   padding-inline: 10%;
@@ -202,25 +314,26 @@ footer {
   flex-direction: column;
   gap: 1rem;
 }
+
 .hero-text h1 {
-  font-size: clamp(3rem, 10vw, 6rem);
+  font-size: clamp(2.5rem, 10vw, 6rem);
   color: white;
   max-width: 600px;
   letter-spacing: 20%;
   line-height: clamp(4rem, 10vw, 8rem);
 }
+
 .hero-text-price {
   font-family: "PT Sans", sans-serif;
   font-weight: 400;
   font-size: clamp(1rem, 10vw, 3rem);
   color: white;
 }
-.hero-section-image-smaller {
-  height: 60svh;
-}
+
+/* Hero Buttons */
 .hero-btn-primary {
   margin-top: 2rem;
-  font-family: "poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
   max-width: 100px;
   height: 3rem;
   padding-inline: 1rem;
@@ -234,14 +347,871 @@ footer {
   transition: 0.3s ease-in-out;
   color: white;
 }
+
 .hero-btn-primary svg {
   margin-left: 1rem;
   color: white;
   transition: 0.3s ease-in-out;
 }
+
+.hero-btn-primary:hover svg,
+.hero-btn-primary:focus svg {
+  margin-left: 6.5rem;
+  transition: margin-left 0.3s ease-out;
+}
+
+.hero-btn-primary:hover,
+.hero-btn-primary:focus {
+  box-shadow: 0 0 5px white;
+}
+
+.hero-btn-next {
+  z-index: 3;
+  color: white;
+  border: 2px solid white;
+  border-radius: 100%;
+  right: 2rem;
+  top: 47%;
+  transition: 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .hero-btn-next {
+    right: 1rem;
+    top: 90%;
+  }
+}
+
+.hero-btn-next:hover {
+  box-shadow: 0 0 5px white;
+}
+
+/* Hover Effects */
+.white-hover,
+.blue-hover {
+  transition: 0.3s ease-in-out;
+}
+
+.white-hover:hover {
+  text-shadow: 2px 2px 1px white;
+}
+
+.blue-hover:hover {
+  text-shadow: 2px 2px 1px #103954;
+}
+
+.blue-box-hover:hover,
+.blue-box-hover:focus {
+  box-shadow: 0px 0px 5px #103954;
+}
+
+.white-box-hover:hover,
+.white-box-hover:focus {
+  box-shadow: 0 0 5px white;
+}
+
+.white-hover-text {
+  display: inline-block;
+  padding: 0;
+  white-space: nowrap;
+  transition: 0.3s ease-in-out;
+}
+
+.white-hover-text:hover {
+  text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 12px #ffffff, 0 0 16px #ffffff,
+    0 0 20px #ffffff, 0 0 24px #ffffff, 0 0 28px #ffffff;
+}
+
+.blue-hover-text {
+  display: inline-block;
+  padding: 0;
+  white-space: nowrap;
+  transition: 0.3s ease-in-out;
+}
+
+.blue-hover-text:hover {
+  color: #adbec9 !important;
+}
+
+/* Slider */
+.slider-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.slider-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  justify-content: flex-start;
+}
+
+@media (min-width: 768px) {
+  .slider {
+    justify-content: center;
+  }
+}
+
+/* Category Buttons */
+.category-button {
+  padding: 1rem;
+  width: 56px;
+  height: 56px;
+  color: rgb(69, 69, 69);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-button.selected {
+  color: #d5679b;
+}
+
+@media (min-width: 768px) {
+  .category-button {
+    padding: 0.5rem;
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* Select Styles */
+.select-primary {
+  cursor: pointer;
+  padding: 0.5rem;
+  padding-inline: 1rem;
+  color: rgb(0, 0, 0);
+  transition: 0.1s ease-in-out;
+  font-weight: 600;
+  min-width: 105px;
+  border-bottom: 2px solid #d5679b;
+}
+
+.select-secondary,
+.select-secondary-link {
+  cursor: pointer;
+  padding: 0.5rem;
+  color: rgb(129, 129, 129);
+  transition: 0.1s ease-in-out;
+  font-family: 0.9rem;
+  font-weight: 400;
+  border-bottom: 2px solid #8b8b8b;
+  min-width: 105px;
+}
+
+.select-secondary:hover,
+.select-secondary-link:hover {
+  border-bottom: 2px solid #d5679b;
+}
+
+.select-secondary-link:hover {
+  color: #d5679b;
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  padding-inline: 2rem;
+}
+
+@media (max-width: 768px) {
+  .button-container {
+    padding-inline: 0rem;
+  }
+}
+
+/* Font Styles */
+.pt-sans-regular {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pt-sans-bold {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.pt-sans-regular-italic {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.pt-sans-bold-italic {
+  font-family: "PT Sans", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.poppins-thin {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.poppins-extralight {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.poppins-light {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.poppins-extrabold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.poppins-black {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.poppins-thin-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.poppins-extralight-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.poppins-light-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.poppins-regular-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.poppins-medium-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.poppins-semibold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.poppins-bold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.poppins-extrabold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.poppins-black-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* Venue Page */
+.venue-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(303px, 1fr));
+  gap: 1.5rem;
+  place-items: center stretch;
+  min-height: 50vh;
+  padding: 2rem;
+  padding-top: 1rem;
+}
+
+.venue-container article {
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.venue-container article:hover {
+  transform: translateY(-2px);
+}
+
+.booking-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(303px, 1fr));
+  gap: 1.5rem;
+  place-items: center stretch;
+}
+
+.booking-container .booking-card {
+  max-width: 628px;
+  overflow: hidden;
+  margin: 0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .booking-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .booking-container .booking-card {
+    width: 100%;
+    max-width: 800px;
+  }
+}
+
+.searchbar {
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 30px;
+}
+
+.venue-title:hover {
+  color: rgb(75, 75, 75);
+}
+
+.venue-container article img {
+  width: 100%;
+  height: auto;
+  height: 300px;
+}
+
+@media (max-width: 662px) {
+  .venue-container {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 450px) {
+  .venue-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Single Venue Page */
+.slider-image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-image-container .image-filter {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.single-venue-slider-image,
+.single-venue-slider-image-single-image {
+  width: 100vw;
+  height: auto;
+  max-height: 75svh;
+  object-fit: cover;
+}
+
+.single-venue-next-button {
+  position: absolute;
+  z-index: 2;
+  color: white;
+  border: 2px solid white;
+  border-radius: 100%;
+  top: 47%;
+  left: 90vw;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 5px black;
+}
+
+.single-venue-prev-button {
+  position: absolute;
+  z-index: 2;
+  color: white;
+  border: 2px solid white;
+  border-radius: 100%;
+  top: 47%;
+  left: 2vw;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 5px black;
+}
+
+.single-venue-next-button:hover {
+  box-shadow: 0 0 5px white;
+}
+
+.final-image {
+  border: 2px solid black !important;
+}
+
+.final-image svg {
+  color: black !important;
+}
+
+.create-venue-next-button {
+  position: absolute;
+  color: white;
+  border: 2px solid white;
+  border-radius: 100%;
+  top: 30%;
+  left: 90vw;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 5px black;
+}
+
+@media (max-width: 768px) {
+  .single-venue-next-button {
+    left: 85vw;
+    top: 47%;
+  }
+  .create-venue-next-button {
+    left: 85vw;
+    top: 30%;
+  }
+  .single-venue-slider-image {
+    width: 100%;
+  }
+}
+
+@media (max-width: 608px) {
+  .single-venue-next-button,
+  .create-venue-next-button {
+    left: 85vw;
+  }
+}
+
+@media (max-width: 508px) {
+  .single-venue-next-button,
+  .create-venue-next-button {
+    left: 78vw;
+  }
+}
+
+@media (max-width: 408px) {
+  .single-venue-next-button,
+  .create-venue-next-button {
+    left: 75vw;
+  }
+}
+
+@media (min-width: 1280px) {
+  .single-venue-next-button,
+  .create-venue-next-button {
+    left: 1200px;
+  }
+}
+
+.single-venue-next-button:hover,
+.create-venue-next-button:hover {
+  box-shadow: 0 0 5px white;
+}
+
+.image-filter {
+  width: 100%;
+  height: 100%;
+  filter: brightness(0.75);
+}
+
+.page-max-width {
+  max-width: 1280px;
+  overflow: hidden;
+}
+
+/* Error Text */
+.error-text {
+  top: 30svh;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.error-text-container {
+  background-color: white;
+  min-height: 30svh;
+  display: flex;
+  border-radius: 20px;
+  align-items: center;
+}
+
+@media (min-width: 608px) {
+  .error-text-container {
+    width: 100%;
+    padding-inline: 4rem;
+    max-width: 600px;
+  }
+}
+
+.status-numbers {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  width: 1/3;
+  gap: 2rem;
+  font-weight: 700;
+}
+
+.status-numbers span {
+  font-size: clamp(2rem, 10vw, 2.5rem);
+  letter-spacing: 20%;
+  line-height: clamp(4rem, 1vw, 3rem);
+  font-weight: 700;
+}
+
+.error-text h1 {
+  font-size: clamp(2rem, 10vw, 2.5rem);
+  letter-spacing: 20%;
+  line-height: clamp(4rem, 1vw, 3rem);
+}
+
+.error-text-price {
+  font-size: clamp(3rem, 10vw, 6rem);
+  max-width: 600px;
+  letter-spacing: 20%;
+  line-height: clamp(4rem, 10vw, 8rem);
+}
+
+/* Custom Checkbox */
+.hidden-checkbox {
+  display: none;
+}
+
+.icon-container {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.custom-checkbox input:checked + .icon-container {
+  border-color: #007bff;
+}
+
+/* Booking Container */
+.booking-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  margin: 0 auto;
+  padding-block: 1rem;
+  padding-inline: 0rem;
+  box-sizing: border-box;
+}
+
+/* Booking Card */
+.booking-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+
+.booking-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.booking-card img {
+  width: 100%;
+  height: 200px;
+  object-position: center;
+  max-width: 55%;
+  object-fit: cover;
+}
+
+.booking-card-content {
+  padding: 1rem;
+}
+
+.booking-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+
+.arrow-move-booking {
+  position: absolute;
+  right: 2rem;
+  transition: 0.3s ease-in-out;
+  bottom: 1rem;
+}
+
+.booking-card:hover .arrow-move-booking {
+  right: 0.7rem;
+}
+
+.booking-card p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.booking-card .price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .booking-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stay-finished img {
+  filter: grayscale(95%);
+}
+
+.booking-started {
+  color: #d5679b !important;
+  font-weight: 600;
+}
+
+.booking-over {
+  z-index: 1;
+  color: rgb(227, 121, 115) !important;
+  font-weight: 600;
+}
+
+.carousel-container {
+  position: relative;
+}
+
+.carousel-inner {
+  display: flex;
+  width: 100%;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 5px black;
+  color: white;
+  border: 2px solid white;
+  border-radius: 100%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  box-shadow: 0 0 5px white;
+}
+
+.carousel-control-prev {
+  left: 10px;
+}
+
+.carousel-control-next {
+  right: 10px;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.btn-delete {
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid white;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: white;
+  background-color: rgb(220 38 38 / var(--tw-text-opacity));
+  border: 2px solid rgb(220 38 38 / var(--tw-text-opacity)) !important;
+  cursor: pointer;
+}
+
+.dashboard-link {
+  margin-left: auto;
+}
+
+@media (max-width: 450px) {
+  .profile-mobile {
+    flex-wrap: wrap;
+  }
+  .dashboard-link {
+    margin-left: 0;
+  }
+  .venue-container {
+    padding-inline: 1rem;
+  }
+  .booking-container {
+    padding-inline: 0rem;
+  }
+}
+
+.favorite-button-small svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Card Container */
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 2rem;
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .card-image {
+    width: 100%;
+    object-fit: cover;
+  }
+  .card-item {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .card-container {
+    gap: 1rem;
+  }
+  .card-item {
+    max-width: 300px;
+  }
+}
+
+.card-item {
+  flex: 1;
+  background-color: white;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.card-item:hover {
+  transform: translateY(-2px);
+}
+
+.hero-page-max-width {
+  max-width: 1100px;
+  padding-inline: 2rem;
+}
+
+.card-text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.268);
+  color: white;
+}
+
+.card-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.font-blue-custom {
+  color: #103954;
+}
+
+.rounded-l-5xl {
+  border-top-left-radius: 3rem;
+  border-bottom-left-radius: 3rem;
+}
+
+.rounded-r-5xl {
+  border-top-right-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+}
+
+/* Specific Button Styles */
 .btn-primary {
   position: relative;
-  font-family: "poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
   height: 3rem;
   padding-inline: 1rem;
   border: 2px solid #103954;
@@ -256,26 +1226,27 @@ footer {
   background-color: #103954;
   cursor: pointer;
 }
-.btn-primary-reverse {
-  position: relative;
-  font-family: "poppins", sans-serif;
-  height: 3rem;
-  padding-inline: 1rem;
-  border: 2px solid #103954;
-  border-radius: 100px;
-  padding-left: 4rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
+
+.btn-primary svg {
+  position: absolute;
+  right: 2rem;
+  color: white;
   transition: 0.3s ease-in-out;
-  color: #103954;
-  background-color: white;
-  cursor: pointer;
 }
-.btn-secondary-reverse {
+
+.btn-primary:hover svg,
+.btn-primary:focus svg {
+  right: 0.7rem;
+  transition: right 0.3s ease-out;
+}
+
+.btn-primary:hover {
+  background-color: #1e6ea4;
+}
+
+.btn-secondary {
   position: relative;
-  font-family: "poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 0.9rem;
   height: 2.7rem;
   padding-inline: 1rem;
@@ -291,23 +1262,94 @@ footer {
   background-color: white;
   cursor: pointer;
 }
+.btn-secondary svg {
+  position: absolute;
+  right: 2rem;
+  color: #103954;
+  transition: 0.3s ease-in-out;
+}
+.btn-secondary:hover svg,
+.btn-secondary:focus svg {
+  right: 0.7rem;
+  transition: right 0.3s ease-out;
+}
+.btn-secondary:hover {
+  box-shadow: 0 0 5px #103954;
+}
+.btn-primary-reverse {
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid #103954;
+  border-radius: 100px;
+  padding-left: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: #103954;
+  background-color: white;
+  cursor: pointer;
+}
+
+.btn-primary-reverse svg {
+  position: absolute;
+  left: 2rem;
+  color: #103954;
+  transition: 0.3s ease-in-out;
+}
+
+.btn-primary-reverse:hover svg,
+.btn-primary-reverse:focus svg {
+  left: 0.7rem;
+  transition: left 0.3s ease-out;
+}
+
+.btn-primary-reverse:hover {
+  background-color: #f6f5f5;
+}
+
+.btn-secondary-reverse {
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  height: 2.7rem;
+  padding-inline: 1rem;
+  border: 2px solid #103954;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: #103954;
+  background-color: white;
+  cursor: pointer;
+}
+
 .btn-secondary-reverse svg {
   position: absolute;
   right: 2rem;
   color: #103954;
   transition: 0.3s ease-in-out;
 }
+
 .btn-secondary-reverse:hover svg,
 .btn-secondary-reverse:focus svg {
   right: 0.7rem;
   transition: right 0.3s ease-out;
 }
+
 .btn-secondary-reverse:hover {
-  background-color: #cbcbcb;
+  background-color: #f6f5f5;
 }
+
 .btn-logout-reverse {
   position: relative;
-  font-family: "poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 0.9rem;
   height: 2.7rem;
   padding-inline: 1rem;
@@ -323,117 +1365,27 @@ footer {
   background-color: white;
   cursor: pointer;
 }
+
 .btn-logout-reverse svg {
   position: absolute;
   right: 2rem;
   color: #df5151;
   transition: 0.3s ease-in-out;
 }
+
 .btn-logout-reverse:hover svg,
 .btn-logout-reverse:focus svg {
   right: 0.7rem;
   transition: right 0.3s ease-out;
 }
+
 .btn-logout-reverse:hover {
-  background-color: #cbcbcb;
-}
-
-.btn-primary-reverse svg {
-  position: absolute;
-  left: 2rem;
-  color: #103954;
-  transition: 0.3s ease-in-out;
-}
-.btn-primary-reverse:hover svg,
-.btn-primary-reverse:focus svg {
-  left: 0.7rem;
-  transition: left 0.3s ease-out;
-}
-.btn-primary-reverse:hover {
-  background-color: #cbcbcb;
-}
-.disabled-button {
-  cursor: not-allowed !important;
-  background-color: rgb(215, 215, 215) !important;
-  transition: 0s ease-in-out;
-  color: rgb(147, 147, 147) !important;
-}
-.disabled-button svg {
-  right: 2rem !important;
-}
-.disabled-button:hover svg {
-  right: 2rem !important;
-}
-
-.btn-primary svg {
-  position: absolute;
-  right: 2rem;
-  color: white;
-  transition: 0.3s ease-in-out;
-}
-.btn-primary:hover svg,
-.btn-primary:focus svg {
-  right: 0.7rem;
-  transition: right 0.3s ease-out;
-}
-.btn-primary:hover {
-  background-color: #1e6ea4;
-}
-.btn-secondary {
-  position: relative;
-  font-family: "poppins", sans-serif;
-  height: 3rem;
-  padding-inline: 1rem;
-  border: 2px solid #103954 inset;
-  border-radius: 100px;
-  padding-right: 4rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  transition: 0.3s ease-in-out;
-  color: #103954;
-  cursor: pointer;
-}
-.btn-secondary svg {
-  position: absolute;
-  right: 2rem;
-  transition: 0.3s ease-in-out;
-}
-.btn-secondary:hover svg,
-.btn-secondary:focus svg {
-  right: 0.7rem;
-  transition: right 0.3s ease-out;
-}
-.btn-secondary:hover {
-  background-color: #cbcbcb;
-}
-.view-venue-button {
-  color: #103954;
-  position: relative;
-  transition: right 0.3s ease-out;
-  border: 2px solid #103954;
-  border-radius: 100px;
-  padding: 0.5rem;
-}
-.view-venue-button svg {
-  position: absolute;
-  margin-left: 6.5rem;
-  color: #103954;
-  transition: 0.3s ease-in-out;
-  height: 1.5rem;
-  width: 1.5rem;
-}
-
-.view-venue-button:hover svg,
-.view-venue-button:focus svg {
-  margin-left: 7.5rem;
-  transition: margin-left 0.3s ease-out;
+  background-color: #f6f5f5;
 }
 
 .btn-logout {
   position: relative;
-  font-family: "poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
   height: 3rem;
   padding-inline: 1rem;
   border: 2px solid white;
@@ -448,36 +1400,10 @@ footer {
   background-color: #df5151;
   cursor: pointer;
 }
-.btn-logout-nav {
-  position: relative;
-  font-family: "poppins", sans-serif;
-  height: 3rem;
-  padding-inline: 1rem;
-  padding-left: 0rem;
-  border-radius: 100px;
-  padding-right: 4rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  transition: 0.3s ease-in-out;
-  color: #df5151;
-  cursor: pointer;
-}
-.btn-logout-nav svg {
-  position: absolute;
-  right: 2rem;
-  color: #df5151;
-  transition: 0.3s ease-in-out;
-}
-.btn-logout-nav:hover svg,
-.btn-logout-nav:focus svg {
-  right: 0.7rem;
-  transition: right 0.3s ease-out;
-}
+
 .btn-logout-profile {
   position: relative;
-  font-family: "poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
   height: 3rem;
   padding-inline: 1rem;
   border: 2px solid #103954 inset;
@@ -491,17 +1417,20 @@ footer {
   color: #df5151;
   cursor: pointer;
 }
+
 .btn-logout-profile svg {
   position: absolute;
   right: 2rem;
   color: #df5151;
   transition: 0.3s ease-in-out;
 }
+
 .btn-logout-profile:hover svg,
 .btn-logout-profile:focus svg {
   right: 0.7rem;
   transition: right 0.3s ease-out;
 }
+
 .btn-logout-profile:hover {
   background-color: #cbcbcb;
 }
@@ -512,41 +1441,51 @@ footer {
   color: white;
   transition: 0.3s ease-in-out;
 }
+
 .btn-logout:hover svg,
 .btn-logout:focus svg {
   right: 0.7rem;
   transition: right 0.3s ease-out;
 }
+
 .btn-logout:hover {
   background-color: #f18a8a;
 }
+
 .arrow-move svg {
   position: absolute;
   margin-left: 3.5rem;
   transition: 0.3s ease-in-out;
 }
+
 .arrow-move:hover svg {
   margin-left: 4rem;
   transition: margin-left 0.3s ease-out;
 }
+
 .arrow-move-search {
   transition: 0.3s ease-in-out;
   padding: 0.3rem;
   border-radius: 50%;
 }
+
 .arrow-move-search:hover {
   background-color: #103954;
   color: white;
 }
+
+/* Specific Hero Button Styles */
 .hero-btn-primary:hover svg,
 .hero-btn-primary:focus svg {
   margin-left: 6.5rem;
   transition: margin-left 0.3s ease-out;
 }
+
 .hero-btn-primary:hover,
 .hero-btn-primary:focus {
   box-shadow: 0 0 5px white;
 }
+
 .hero-btn-next {
   z-index: 3;
   color: white;
@@ -556,6 +1495,7 @@ footer {
   top: 47%;
   transition: 0.3s ease-in-out;
 }
+
 .white-hover,
 .blue-hover {
   transition: 0.3s ease-in-out;
@@ -564,17 +1504,21 @@ footer {
 .white-hover:hover {
   text-shadow: 2px 2px 1px white;
 }
+
 .blue-hover:hover {
   text-shadow: 2px 2px 1px #103954;
 }
+
 .blue-box-hover:hover,
 .blue-box-hover:focus {
   box-shadow: 0px 0px 5px #103954;
 }
+
 .white-box-hover:hover,
 .white-box-hover:focus {
   box-shadow: 0 0 5px white;
 }
+
 .white-hover-text {
   display: inline-block;
   padding: 0;
@@ -586,12 +1530,14 @@ footer {
   text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 12px #ffffff, 0 0 16px #ffffff,
     0 0 20px #ffffff, 0 0 24px #ffffff, 0 0 28px #ffffff;
 }
+
 .blue-hover-text {
   display: inline-block;
   padding: 0;
   white-space: nowrap;
   transition: 0.3s ease-in-out;
 }
+
 .blue-hover-text:hover {
   color: #adbec9 !important;
 }
@@ -602,9 +1548,11 @@ footer {
     top: 90%;
   }
 }
+
 .hero-btn-next:hover {
   box-shadow: 0 0 5px white;
 }
+
 .slider-container {
   overflow-x: auto;
   white-space: nowrap;
@@ -633,6 +1581,7 @@ footer {
 .category-button.selected {
   color: #d5679b;
 }
+
 .select-primary {
   cursor: pointer;
   padding: 0.5rem;
@@ -643,6 +1592,7 @@ footer {
   min-width: 105px;
   border-bottom: 2px solid #d5679b;
 }
+
 .select-secondary {
   cursor: pointer;
   padding: 0.5rem;
@@ -652,9 +1602,11 @@ footer {
   border-bottom: 2px solid #8b8b8b;
   min-width: 105px;
 }
+
 .select-secondary:hover {
   border-bottom: 2px solid #d5679b;
 }
+
 .select-secondary-link {
   cursor: pointer;
   padding: 0.5rem;
@@ -664,6 +1616,7 @@ footer {
   border-bottom: 2px solid #8b8b8b;
   min-width: 105px;
 }
+
 .select-secondary-link:hover {
   border-bottom: 2px solid #d5679b;
   color: #d5679b;
@@ -675,6 +1628,7 @@ footer {
   gap: 0.2rem;
   justify-content: flex-start;
 }
+
 @media (min-width: 768px) {
   .slider {
     justify-content: center;
@@ -685,11 +1639,13 @@ footer {
     height: 70px;
   }
 }
+
 .button-container {
   display: flex;
   justify-content: flex-end;
   padding-inline: 2rem;
 }
+
 @media (max-width: 768px) {
   .button-container {
     padding-inline: 0rem;

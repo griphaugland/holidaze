@@ -63,7 +63,7 @@ function Profile() {
   return (
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="w-full page-max-width p-4 pb-0 bg-white rounded-lg">
-        <div className="flex items-center gap-4 mb-6 mx-4">
+        <div className="flex items-start sm:items-center gap-4 sm:flex-row flex-col mb-6 mx-4">
           <img
             loading="lazy"
             src={
@@ -119,11 +119,11 @@ function Profile() {
           </div>
         </div>
         {profile.venueManager && isOwnProfile && (
-          <div className="flex gap-4 sm:px-5 px-2 mb-4 flex-row profile-mobile">
+          <div className="flex gap-4 px-4 mb-4 flex-row profile-mobile">
             <button
               name="bookings"
               onClick={() => setView("bookings")}
-              className={`btn ml-1 tracking-wide ${
+              className={`btn tracking-wide ${
                 view === "bookings" ? "select-primary" : "select-secondary"
               }`}
             >
@@ -132,7 +132,7 @@ function Profile() {
             <button
               name="venues"
               onClick={() => setView("venues")}
-              className={`btn ml-1 tracking-wide ${
+              className={`btn tracking-wide ${
                 view === "venues" ? "select-primary" : "select-secondary"
               }`}
             >

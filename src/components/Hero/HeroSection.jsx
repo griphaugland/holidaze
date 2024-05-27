@@ -5,8 +5,10 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 function HeroSection({ src, altText, title, price, searchWord, nextSlide }) {
   return (
     <>
-      <div className="hero-text container absolute text-white left-0">
-        <h1 className="text-4xl poppins-bold text-white">{title}</h1>
+      <div className="hero-text container absolute overflow-hidden text-white left-0">
+        <h1 className="text-4xl poppins-bold ensure-width text-white">
+          {title}
+        </h1>
         <h4 className="hero-text-price text-xl pt-sans-semibold text-white">
           {price}
         </h4>
