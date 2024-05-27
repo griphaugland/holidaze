@@ -246,6 +246,7 @@ function CreateVenue() {
           </div>
           {previewData.media.length > 1 && (
             <button
+              name="next image"
               onClick={nextImage}
               className={`single-venue-next-button p-3  ${
                 lastImage ? "final-image" : " "
@@ -314,6 +315,7 @@ function CreateVenue() {
           <div className="md:w-1/2 px-8 sm:p-6 p-0 pb-6">
             <div className="button-container md:flex-row md:gap-2 flex flex-col justify-start w-full">
               <button
+                name="back"
                 onClick={() => navigate(-1)}
                 className={`btn-primary-reverse min-w-40 text-end text-sm poppins-semibold mt-6 max-w-64 flex items-center md:self-end `}
               >
@@ -321,6 +323,7 @@ function CreateVenue() {
                 Back
               </button>
               <button
+                name="create venue"
                 onClick={handleSubmit(onSubmit)}
                 className={`btn-primary text-sm poppins-semibold mt-6 max-w-64 flex items-center md:self-end justify-between ${
                   loading ? "bg-gray-400 cursor-not-allowed" : ""
@@ -380,6 +383,7 @@ function CreateVenue() {
           {media.length > 1 && (
             <button
               type="button"
+              name="next image"
               onClick={nextImage}
               className={`${
                 lastImage ? "dark-button" : ""
@@ -390,6 +394,7 @@ function CreateVenue() {
           )}
           <button
             type="button"
+            name="add image"
             onClick={() => addMediaField({ url: "", alt: "" })}
             className={`${
               media.length > 1
@@ -452,6 +457,7 @@ function CreateVenue() {
               {media.length > 1 && (
                 <button
                   type="button"
+                  name="remove image"
                   onClick={() => handleRemoveMediaField(index)}
                   className="top-2 right-2 p-2 rounded text-gray-700 hover:text-red-500 absolute"
                 >
@@ -657,6 +663,7 @@ function CreateVenue() {
             </div>
             <button
               type="submit"
+              name="preview"
               className={`btn-primary text-sm poppins-semibold mt-6 md:mr-8 md:mt-0 max-w-64 flex items-center md:self-end justify-between ${
                 loading ? "bg-gray-400 cursor-not-allowed" : ""
               }`}
@@ -666,6 +673,7 @@ function CreateVenue() {
               <ArrowForwardIcon />
             </button>
             <button
+              name="create venue"
               type="button"
               onClick={handleSubmit(onSubmit)}
               className={`btn-primary text-sm poppins-semibold mt-2 md:mr-8  max-w-64 flex items-center md:self-end justify-between ${

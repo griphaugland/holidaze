@@ -23,6 +23,7 @@ function Favorites() {
             Favorites ({favorites.length})
           </h1>
           <button
+            name="clear favorites button"
             onClick={handleClearFavorites}
             disabled={favorites.length === 0}
             className="btn-primary-reverse"

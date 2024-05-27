@@ -18,6 +18,7 @@ function EditMediaButton({ text, venue }) {
   return (
     <>
       <button
+        name="edit profile button"
         onClick={handleClick}
         className={`btn-secondary-reverse text-sm poppins-semibold flex items-center justify-between ${
           loading ? "bg-gray-400 cursor-not-allowed" : ""

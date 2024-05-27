@@ -15,10 +15,9 @@ function HeroButton({ text, searchFor, classes }) {
 
   return (
     <button
+      name="hero button to start search"
       onClick={sendToSearch}
-      className={`${classes} ${
-        loading ? " cursor-not-allowed" : ""
-      }`}
+      className={`${classes} ${loading ? " cursor-not-allowed" : ""}`}
       disabled={loading}
     >
       <p>{text}</p>

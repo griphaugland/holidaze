@@ -77,6 +77,7 @@ function CategorySlider() {
       <div className="slider p-4">
         {categories.map((category) => (
           <button
+            name={`${category.name} category`}
             key={category.id}
             className={`category-button ${
               selectedCategory === category.id ? "selected" : ""

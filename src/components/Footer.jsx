@@ -13,7 +13,7 @@ function Footer() {
       <div className="flex gap-4 footer-height w-full h-full p-6 flex-col justify-between text-gray-800">
         <div className="footer-categories-container flex-wrap flex justify-start items-start gap-4 flex-row w-full h-full ">
           <div className="footer-category p-3 flex flex-col gap-5 justify-center">
-            <h5 className="poppins-medium text-xl min-w-28">Policies</h5>
+            <p className="poppins-medium text-xl min-w-28">Policies</p>
             <Link
               to="terms"
               target="_blank"
@@ -34,7 +34,7 @@ function Footer() {
             </Link>
           </div>
           <div className="footer-category p-3  flex flex-col gap-5 justify-center">
-            <h5 className="poppins-medium text-xl">Get in touch</h5>
+            <p className="poppins-medium text-xl">Get in touch</p>
             <Link
               to="help"
               target="_blank"
@@ -55,9 +55,10 @@ function Footer() {
             </Link>
           </div>
           <div className="footer-category p-3 flex flex-col justify-center">
-            <h5 className="poppins-medium  text-xl mb-2">Socials</h5>
+            <p className="poppins-medium  text-xl mb-2">Socials</p>
             <div className="category-option pt-sans-regular max-w-18 flex flex-wrap justify-start mb-2 gap-2">
               <a
+                name="facebook link"
                 href="https://www.facebook.com/holidaze"
                 target="_blank"
                 rel="noreferrer"
@@ -65,6 +66,7 @@ function Footer() {
                 <FacebookIcon style={{ width: "38px", height: "38px" }} />
               </a>
               <a
+                name="instagram link"
                 href="https://www.instagram.com/holidaze"
                 target="_blank"
                 rel="noreferrer"
@@ -74,6 +76,7 @@ function Footer() {
             </div>
             <div className="category-option pt-sans-regular flex justify-between">
               <a
+                name="linkedin link"
                 href="https://www.linkedin.com/holidaze"
                 target="_blank"
                 rel="noreferrer"

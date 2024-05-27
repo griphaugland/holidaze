@@ -211,12 +211,14 @@ function SingleBooking() {
                   {booking.venue.media.length > 1 && (
                     <>
                       <button
+                        name="previous image"
                         onClick={prevImage}
                         className="carousel-control-prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-2 text-white rounded-full"
                       >
                         <ArrowBackIcon />
                       </button>
                       <button
+                        name="next image"
                         onClick={nextImage}
                         className="carousel-control-next absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-2 text-white rounded-full"
                       >
@@ -319,6 +321,7 @@ function SingleBooking() {
                 {loggedInUser === booking.customer.name && (
                   <div className="flex flex-row gap-2 pr-12">
                     <button
+                      name="edit booking"
                       onClick={handleEditBookingClick}
                       className={`btn-secondary-reverse text-sm poppins-semibold flex items-center justify-between ${
                         stayStarted || stayFinished ? "disabled-button" : ""
@@ -329,6 +332,7 @@ function SingleBooking() {
                       <ArrowForwardIcon />
                     </button>
                     <button
+                      name="delete booking"
                       onClick={handleDeleteBookingClick}
                       className={`btn-logout-reverse text-sm poppins-semibold flex items-center text-red-600 justify-between ${
                         stayStarted || stayFinished ? "disabled-button" : ""
@@ -408,6 +412,7 @@ function SingleBooking() {
                       </p>
                     </Link>
                     <a
+                      name="email of customer"
                       href={`mailto:${booking.customer.email}`}
                       className="flex flex-row gap-4 justify-end items-center hover:underline"
                     >
@@ -469,6 +474,7 @@ function SingleBooking() {
                         </p>
                       </Link>
                       <a
+                        name="email of venue owner"
                         href={`mailto:${booking.venue.owner.email}`}
                         className="flex flex-row gap-4 justify-end items-center hover:underline"
                       >

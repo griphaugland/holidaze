@@ -20,6 +20,7 @@ function NotLoggedInButton({ headerColor, text }) {
     <>
       {isLoggedIn ? (
         <button
+          name="go to my bookings"
           className={` ${loading ? "bg-gray-400 cursor-not-allowed" : ""}`}
           disabled={loading}
         >
@@ -37,6 +38,7 @@ function NotLoggedInButton({ headerColor, text }) {
       ) : (
         <>
           <button
+            name="go to log in"
             onClick={handleClick}
             className={` ${loading ? "bg-gray-400 cursor-not-allowed" : ""}`}
             disabled={loading}

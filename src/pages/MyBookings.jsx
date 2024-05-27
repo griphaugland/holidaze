@@ -62,6 +62,7 @@ function MyBookings() {
           <div className="">
             <div className="flex gap-4 mx-8 flex-row flex-wrap my-0">
               <button
+                name="upcoming"
                 onClick={() => setCurrentTab("upcoming")}
                 className={`btn tracking-wide ${
                   currentTab === "upcoming"
@@ -72,6 +73,7 @@ function MyBookings() {
                 Upcoming
               </button>
               <button
+                name="finished"
                 onClick={() => setCurrentTab("finished")}
                 className={`btn tracking-wide ${
                   currentTab === "finished"

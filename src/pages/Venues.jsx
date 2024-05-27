@@ -90,7 +90,11 @@ function Venues() {
           type="text"
           value={search || ""}
         />
-        <button className="arrow-move-search text-end" type="submit">
+        <button
+          className="arrow-move-search text-end"
+          name="search button"
+          type="submit"
+        >
           <ArrowForwardIcon className="" />
         </button>
       </form>

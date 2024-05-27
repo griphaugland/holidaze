@@ -15,7 +15,7 @@ const Modal = ({ isVisible, hideModal, children }) =>
         onClick={(e) => e.stopPropagation()}
       >
         {children}
-        <button className="close-modal" onClick={hideModal}>
+        <button className="close-modal" name="close modal" onClick={hideModal}>
           <CloseIcon className="text-gray-500 red-on-hover" />
         </button>
       </motion.div>

@@ -97,6 +97,7 @@ function Profile() {
         {profile.venueManager && isOwnProfile && (
           <div className="flex gap-4 sm:px-5 px-2 flex-row profile-mobile">
             <button
+              name="bookings"
               onClick={() => setView("bookings")}
               className={`btn ml-1 tracking-wide ${
                 view === "bookings" ? "select-primary" : "select-secondary"
@@ -105,6 +106,7 @@ function Profile() {
               Bookings
             </button>
             <button
+              name="venues"
               onClick={() => setView("venues")}
               className={`btn ml-1 tracking-wide ${
                 view === "venues" ? "select-primary" : "select-secondary"
@@ -124,6 +126,7 @@ function Profile() {
         {!profile.venueManager && isOwnProfile && (
           <div className="flex gap-4">
             <button
+              name="bookings"
               onClick={() => setView("bookings")}
               className={`btn ml-1 ${
                 view === "bookings" ? "select-primary" : "select-secondary"
@@ -136,6 +139,7 @@ function Profile() {
         {!isOwnProfile && (
           <div className="mx-4 flex gap-4">
             <button
+              name="venues"
               onClick={() => setView("venues")}
               className={`btn ml-1 ${
                 view === "venues" ? "select-primary" : "select-secondary"

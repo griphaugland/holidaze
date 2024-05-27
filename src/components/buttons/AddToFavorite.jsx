@@ -27,6 +27,7 @@ function AddToFavorite({ venue, size }) {
   if (size === "large") {
     return (
       <button
+        name="favorite button"
         onClick={isFavorite ? handleRemoveFromFavorites : handleAddToFavorites}
         className="favorite-button   p-3 min-w-40 flex flex-row justify-start items-end gap-4"
       >
@@ -56,6 +57,7 @@ function AddToFavorite({ venue, size }) {
   } else {
     return (
       <button
+        name="favorite button"
         onClick={isFavorite ? handleRemoveFromFavorites : handleAddToFavorites}
         className="favorite-button favorite-button-small backdrop-blur-sm backdrop-brightness-90 rounded-full absolute top-2 right-2 p-2 flex flex-row  gap-4"
       >

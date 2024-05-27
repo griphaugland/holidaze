@@ -114,6 +114,7 @@ function Login() {
           )}
           <button
             type="submit"
+            name="login"
             className={`w-full btn-primary py-2 button-custom px-4 text-white transition duration-300 ${
               loading ? "bg-gray-400 cursor-not-allowed" : "button-color"
             }`}

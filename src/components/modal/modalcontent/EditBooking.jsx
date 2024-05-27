@@ -116,6 +116,7 @@ function BookingEditModal({ booking, isOpen, onClose }) {
           <p className="text-gray-600">Number of guests:</p>
           <div className="flex items-center">
             <button
+              name="decrement guest count"
               onClick={() => handleGuestCountChange(-1)}
               disabled={guestCount <= 1}
               className="px-2"
@@ -123,7 +124,11 @@ function BookingEditModal({ booking, isOpen, onClose }) {
               -
             </button>
             <span className="px-4">{guestCount}</span>
-            <button onClick={() => handleGuestCountChange(1)} className="px-2">
+            <button
+              name="increment guest count"
+              onClick={() => handleGuestCountChange(1)}
+              className="px-2"
+            >
               +
             </button>
           </div>
@@ -134,6 +139,7 @@ function BookingEditModal({ booking, isOpen, onClose }) {
         )}
         <div className="mt-6 flex justify-between">
           <button
+            name="cancel edit booking"
             onClick={onClose}
             className={`btn-primary-reverse py-2 px-4 bg-white transition duration-300 ${
               loading ? "bg-gray-400 cursor-not-allowed" : ""
@@ -145,6 +151,7 @@ function BookingEditModal({ booking, isOpen, onClose }) {
           </button>
           <button
             type="submit"
+            name="edit booking"
             onClick={handleSave}
             className={` btn-primary py-2 px-4 text-white transition duration-300 ${
               loading ? "bg-gray-400 cursor-not-allowed" : "button-color"

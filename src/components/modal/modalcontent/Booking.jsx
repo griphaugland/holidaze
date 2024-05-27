@@ -198,6 +198,7 @@ function Booking() {
             </p>
             <div className="guest-input-container">
               <button
+                name="decrease-guests"
                 onClick={() => handleGuestCountChange(-1)}
                 disabled={guestCount <= 1}
               >
@@ -212,6 +213,7 @@ function Booking() {
                 max={venueData.maxGuests}
               />
               <button
+                name="increase-guests"
                 onClick={() => handleGuestCountChange(1)}
                 disabled={guestCount >= venueData.maxGuests}
               >
@@ -222,6 +224,7 @@ function Booking() {
           <div className="my-3 mx-3">
             {user.data.name === venueData.owner.name ? (
               <button
+                name="book-now"
                 className="btn-primary disabled-button min-w-56 text-sm poppins-semibold flex items-center justify-between"
                 disabled={true}
               >
@@ -231,6 +234,7 @@ function Booking() {
             ) : (
               <button
                 onClick={handleBooking}
+                name="book-now"
                 className={`btn-primary min-w-56 text-sm poppins-semibold flex items-center justify-between ${
                   loading ? "bg-gray-400 cursor-not-allowed" : ""
                 }`}
