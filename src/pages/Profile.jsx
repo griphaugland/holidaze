@@ -17,6 +17,13 @@ function Profile() {
   const { username } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  useEffect(() => {
+    if (profile.name) {
+      document.title = `${profile.name} | Holidaze`;
+    } else {
+      document.title = "Profile | Holidaze";
+    }
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);

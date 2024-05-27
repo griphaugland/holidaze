@@ -15,6 +15,9 @@ import useModal from "../components/modal/useModal";
 import DeleteConfirmation from "../components/modal/modalcontent/DeleteConfirmation";
 
 function SingleVenue() {
+  useEffect(() => {
+    document.title = `${venue.name} | Holidaze`;
+  }, []);
   const { user, apiKey, isLoggedIn } = useGeneral();
   const { search } = useLocation();
   const navigate = useNavigate();

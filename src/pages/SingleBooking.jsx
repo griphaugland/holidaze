@@ -49,8 +49,8 @@ function SingleBooking() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [stayFinished, setStayFinished] = useState(false);
   const [stayStarted, setStayStarted] = useState(false);
-
   useEffect(() => {
+    document.title = `Booking at ${bookingId} | Holidaze`;
     window.scrollTo(0, 0);
   }, []);
 

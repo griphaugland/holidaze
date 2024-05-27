@@ -7,6 +7,7 @@ function Inquiries() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Inquiries | Holidaze";
   }, []);
 
   return (

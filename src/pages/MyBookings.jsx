@@ -21,6 +21,7 @@ function MyBookings() {
   const { isVenueManager, fetchProfile } = useProfiles();
 
   useEffect(() => {
+    document.title = "My Bookings | Holidaze";
     window.scrollTo(0, 0);
   }, []);
 

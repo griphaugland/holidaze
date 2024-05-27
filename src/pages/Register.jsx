@@ -9,6 +9,10 @@ import SucessfullyRegistered from "../components/modal/modalcontent/RegisterSucc
 import useModal from "../components/modal/useModal";
 
 function Register() {
+  useEffect(() => {
+    document.title = `Register | Holidaze`;
+  }, []);
+
   const navigate = useNavigate();
   const {
     register,

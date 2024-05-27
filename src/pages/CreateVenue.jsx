@@ -159,6 +159,10 @@ function CreateVenue() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [navigate, window.location.key]);
+  useEffect(() => {
+    document.title = "Create a venue | Holidaze";
+  }),
+    [];
 
   const onSubmit = async (data) => {
     setLoading(true);

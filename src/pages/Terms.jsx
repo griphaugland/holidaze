@@ -4,6 +4,9 @@ import VenueList from "../components/venues/VenueList";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 function Terms() {
+  useEffect(() => {
+    document.title = "Terms and Conditions | Holidaze";
+  }, []);
   const { favorites, addToFavorites, removeFromFavorites, clearFavorites } =
     useGeneral();
 

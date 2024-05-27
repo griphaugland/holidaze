@@ -10,6 +10,11 @@ function Error({ errorFromProps }) {
   const location = useLocation();
 
   useEffect(() => {
+    document.title = "Error | Holidaze";
+  }),
+    [];
+
+  useEffect(() => {
     console.log("Error state:", error);
   }, [error, location.key]);
   if (errorFromProps) setError(errorFromProps);
