@@ -43,16 +43,16 @@ function BookingItem({ booking }) {
     >
       {stayStarted && (
         <div className="absolute bottom-0 left-2 flex items-center justify-center">
-          <p className="text-xl booking-started tracking-wide bg-white rounded-lg p-1 px-2">
+          <h4 className="text-xl booking-started tracking-wide bg-white rounded-lg p-1 px-2">
             Booking underway
-          </p>
+          </h4>
         </div>
       )}
       {stayFinished && (
         <div className="absolute bottom-0 left-2 booking-over flex items-center justify-center">
-          <p className="text-xl tracking-wide bg-white rounded-lg p-1 px-2">
+          <h4 className="text-xl tracking-wide bg-white rounded-lg p-1 px-2">
             Booking finished
-          </p>
+          </h4>
         </div>
       )}
       <div className={`flex gap-4`}>

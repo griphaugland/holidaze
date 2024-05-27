@@ -141,10 +141,10 @@ function App() {
         </div>
         <div className="flex flex-col hero-section-image relative w-full min-w-screen min-h-2">
           <div className="hero-text container absolute text-white left-0">
-            <h1 className="text-4xl poppins-bold text-white">Lake Como</h1>
-            <p className="hero-text-price text-xl pt-sans-semibold text-white">
+            <h2 className="text-4xl poppins-bold text-white">Lake Como</h2>
+            <h3 className="hero-text-price text-xl pt-sans-semibold text-white">
               1200 NOK /night
-            </p>
+            </h3>
             <HeroButton
               text="View"
               searchFor="Lake Como"
