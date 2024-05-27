@@ -19,7 +19,7 @@ function EditMediaButton({ text, venue }) {
     <>
       <button
         onClick={handleClick}
-        className={`btn-secondary text-sm poppins-semibold flex items-center justify-between ${
+        className={`btn-secondary-reverse text-sm poppins-semibold flex items-center justify-between ${
           loading ? "bg-gray-400 cursor-not-allowed" : ""
         }`}
         disabled={loading}

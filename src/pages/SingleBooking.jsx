@@ -317,10 +317,10 @@ function SingleBooking() {
                   Booking Information
                 </h1>
                 {loggedInUser === booking.customer.name && (
-                  <div className="flex flex-row pr-12">
+                  <div className="flex flex-row gap-2 pr-12">
                     <button
                       onClick={handleEditBookingClick}
-                      className={`btn-secondary text-sm poppins-semibold flex items-center justify-between ${
+                      className={`btn-secondary-reverse text-sm poppins-semibold flex items-center justify-between ${
                         stayStarted || stayFinished ? "disabled-button" : ""
                       }`}
                       disabled={stayStarted || stayFinished}
@@ -330,7 +330,7 @@ function SingleBooking() {
                     </button>
                     <button
                       onClick={handleDeleteBookingClick}
-                      className={`btn-secondary text-sm poppins-semibold flex items-center text-red-600 justify-between ${
+                      className={`btn-logout-reverse text-sm poppins-semibold flex items-center text-red-600 justify-between ${
                         stayStarted || stayFinished ? "disabled-button" : ""
                       }`}
                       disabled={stayStarted || stayFinished}

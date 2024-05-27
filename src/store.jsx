@@ -140,6 +140,7 @@ export const useProfiles = create(
       loading: false,
       setLoading: (value) => set({ loading: value }),
       profile: null,
+      isVenueManager: false,
       setProfile: (profile) => set({ profile }),
       fetchProfile: async (username, accessToken, apiKey) => {
         set({ loading: true });
@@ -157,6 +158,11 @@ export const useProfiles = create(
           );
           const data = await res.json();
           console.log("Profile data:", data);
+          if (data.data.venueManager === true) {
+            set({ isVenueManager: true });
+          } else {
+            set({ isVenueManager: false });
+          }
           if (!res.ok) {
             set({
               error: {
@@ -208,21 +214,73 @@ export const useErrors = create(
   )
 );
 
-export const useBookingStore = create((set) => ({
-  error: null,
-  setError: (error) => set({ error }),
-  boookingErorr: null,
-  setBookingError: (error) => set({ bookingError: error }),
-  venueData: null,
-  setVenueData: (value) => set({ venueData: value }),
-  selectedDates: [],
-  pricePerNight: null,
-  setPricePerNight: (value) => set({ pricePerNight: value }),
-  addDate: (date) =>
-    set((state) => ({ selectedDates: [...state.selectedDates, date] })),
-  removeDate: (date) =>
-    set((state) => ({
-      selectedDates: state.selectedDates.filter((d) => d !== date),
-    })),
-  clearDates: () => set({ selectedDates: [] }),
-}));
+export const useBookings = create(
+  persist(
+    (set, get) => ({
+      error: null,
+      setError: (error) => set({ error }),
+      bookingError: null,
+      setBookingError: (error) => set({ bookingError: error }),
+      venueData: null,
+      setVenueData: (value) => set({ venueData: value }),
+      selectedDates: [],
+      pricePerNight: null,
+      setPricePerNight: (value) => set({ pricePerNight: value }),
+      addDate: (date) =>
+        set((state) => ({ selectedDates: [...state.selectedDates, date] })),
+      removeDate: (date) =>
+        set((state) => ({
+          selectedDates: state.selectedDates.filter((d) => d !== date),
+        })),
+      clearDates: () => set({ selectedDates: [] }),
+      bookings: [],
+      setBookings: (value) => set({ bookings: value }),
+      getBookings: async (url, accessToken, apiKey) => {
+        try {
+          set({ loading: true });
+          const res = await fetch(url, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+              "X-Noroff-API-Key": apiKey,
+            },
+          });
+          const data = await res.json();
+          console.log("Bookings data:", data);
+          set({ bookings: data.data, loading: false, error: null });
+          if (!res.ok) {
+            set({
+              error: {
+                statusCode: res.statusText,
+                status: res.status,
+                message: data.errors ? data.errors[0].message : "Unknown error",
+              },
+            });
+            console.log(get().error);
+            set({ loading: false });
+            return;
+          }
+        } catch (e) {
+          set({
+            error: {
+              statusCode: e.message,
+              status: e.status,
+              message: e.message,
+            },
+            loading: false,
+          });
+          console.error("Error fetching bookings:", e);
+        }
+      },
+    }),
+    {
+      name: "booking-storage",
+      partialize: (state) => ({
+        bookings: state.bookings,
+        error: state.error,
+        loading: state.loading,
+      }),
+    }
+  )
+);

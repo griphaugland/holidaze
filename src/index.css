@@ -49,6 +49,7 @@ header {
   width: 100%;
   z-index: 5;
 }
+/* Updated animateMenu class to center items and improve styling */
 .animateMenu {
   position: absolute;
   width: 100%;
@@ -57,16 +58,49 @@ header {
   top: 0;
   left: 0;
   margin-top: 10svh;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(0, 1fr);
+  place-items: center;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   justify-content: center;
-  gap: 6rem;
   color: #103954;
   font-size: 1.5rem;
   z-index: 5;
   padding-inline: 2rem;
   padding-bottom: 2rem;
+}
+
+.animateMenu a,
+.animateMenu button {
+  margin: 5px;
+  padding: 1.5rem;
+  width: 150px;
+  height: 150px;
+  border-radius: 50px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex-direction: column;
+  text-align: center;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: 0.3s ease-in-out;
+}
+.animateMenu .logout-div {
+  border-radius: 50px;
+  width: 150px;
+  height: 150px;
+}
+
+.animateMenu a:hover,
+.animateMenu button:hover,
+.animateMeny a:focus,
+.animateMenu button:focus .animateMenu .logout-div:hover,
+.animateMenu .logout-div:focus {
+  background-color: #103954;
+  color: white;
 }
 
 .logo {
@@ -135,9 +169,17 @@ footer {
 .hero-image {
   height: 100svh;
 }
+.hero-image-smaller {
+  height: 60svh;
+}
 .hero-image-container {
   position: relative;
   height: 100svh;
+  width: 100%;
+}
+.hero-image-container-smaller {
+  position: relative;
+  height: 60svh;
   width: 100%;
 }
 .hero-text {
@@ -160,6 +202,9 @@ footer {
   font-weight: 400;
   font-size: clamp(1rem, 10vw, 3rem);
   color: white;
+}
+.hero-section-image-smaller {
+  height: 60svh;
 }
 .hero-btn-primary {
   margin-top: 2rem;
@@ -216,6 +261,69 @@ footer {
   background-color: white;
   cursor: pointer;
 }
+.btn-secondary-reverse {
+  position: relative;
+  font-family: "poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid #103954;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: #103954;
+  background-color: white;
+  cursor: pointer;
+}
+.btn-secondary-reverse svg {
+  position: absolute;
+  right: 2rem;
+  color: #103954;
+  transition: 0.3s ease-in-out;
+}
+.btn-secondary-reverse:hover svg,
+.btn-secondary-reverse:focus svg {
+  right: 0.7rem;
+  transition: right 0.3s ease-out;
+}
+.btn-secondary-reverse:hover {
+  background-color: #cbcbcb;
+}
+.btn-logout-reverse {
+  position: relative;
+  font-family: "poppins", sans-serif;
+  height: 3rem;
+  padding-inline: 1rem;
+  border: 2px solid #df5151;
+  border-radius: 100px;
+  padding-right: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+  color: #df5151;
+  background-color: white;
+  cursor: pointer;
+}
+.btn-logout-reverse svg {
+  position: absolute;
+  right: 2rem;
+  color: #df5151;
+  transition: 0.3s ease-in-out;
+}
+.btn-logout-reverse:hover svg,
+.btn-logout-reverse:focus svg {
+  right: 0.7rem;
+  transition: right 0.3s ease-out;
+}
+.btn-logout-reverse:hover {
+  background-color: #cbcbcb;
+}
+
 .btn-primary-reverse svg {
   position: absolute;
   left: 2rem;
@@ -1214,4 +1322,81 @@ footer {
 .favorite-button-small svg {
   width: 2rem;
   height: 2rem;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 2rem;
+}
+@media (max-width: 768px) {
+  .card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .card-image {
+    width: 100%;
+    object-fit: cover;
+  }
+  .card-item {
+    width: 100%;
+    max-width: none;
+  }
+}
+@media (min-width: 769px) {
+  .card-container {
+    gap: 1rem;
+  }
+  .card-item {
+    max-width: 300px;
+  }
+}
+
+.card-item {
+  flex: 1;
+  background-color: white;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.card-item:hover {
+  transform: translateY(-2px);
+}
+.hero-page-max-width {
+  max-width: 1100px;
+  padding-inline: 2rem;
+}
+
+.card-text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.268);
+  color: white;
+}
+
+.card-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.font-blue-custom {
+  color: #103954;
+}
+.rounded-l-5xl {
+  border-top-left-radius: 3rem;
+  border-bottom-left-radius: 3rem;
+}
+.rounded-r-5xl {
+  border-top-right-radius: 3rem;
+  border-bottom-right-radius: 3rem;
 }

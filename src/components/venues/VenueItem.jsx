@@ -12,7 +12,7 @@ function VenueItem({ item }) {
       <a className="w-full h-full" href={`../venues/${item.id}`}>
         <img
           src={item.media[0]?.url}
-          alt="venue"
+          alt={item.media[0]?.alt}
           className="w-48 h-22 object-cover flex items-center justify-center"
         />
       </a>

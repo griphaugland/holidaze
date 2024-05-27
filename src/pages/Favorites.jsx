@@ -17,7 +17,7 @@ function Favorites() {
   return (
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="flex page-max-width justify-between w-full flex-col p-4">
-        <div className="flex justify-start flex-wrap gap-2 md:justify-between mx-4 md:mx-8 px-0 p-4  items-center">
+        <div className="flex justify-between  flex-wrap gap-2 md:justify-between mx-4 md:mx-8 px-0 p-4  items-center">
           <h1 className="text-2xl poppins-bold sm:w-auto">
             Favorites ({favorites.length})
           </h1>

@@ -10,7 +10,7 @@ import {
   isAfter,
   isBefore,
 } from "date-fns";
-import { useBookingStore, useVenues, useGeneral } from "../../../store";
+import { useBookings, useVenues, useGeneral } from "../../../store";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -20,7 +20,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 function Booking() {
   const [selectedDates, setSelectedDates] = useState([]);
   const [guestCount, setGuestCount] = useState(1);
-  const { venueData, error, setError } = useBookingStore();
+  const { venueData, error, setError } = useBookings();
   const { user, apiKey } = useGeneral();
   const { loading, setLoading } = useVenues();
   const [disabledDates, setDisabledDates] = useState([]);

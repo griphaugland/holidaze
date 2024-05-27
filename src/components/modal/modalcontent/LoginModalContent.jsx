@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useVenues, useGeneral } from "../../../store";
-import useCreateApiKey from "../../../components/useCreateApiKey";
+import useCreateApiKey from "../../hooks/useCreateApiKey";
 import useModal from "../useModal";
 
 function Login() {

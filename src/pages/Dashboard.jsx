@@ -110,7 +110,7 @@ function Dashboard() {
   return (
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="w-full page-max-width pb-0 bg-white rounded-lg">
-        <div className="flex justify-start md:justify-between mb-3 mx-8 px-0 p-4 flex-wrap items-center">
+        <div className="flex justify-start md:justify-between mb-3 mx-8 px-0 flex-wrap items-center">
           <h2 className="text-2xl poppins-bold w-full md:w-auto">Dashboard</h2>
           <Link
             to="./create-venue"

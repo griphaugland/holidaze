@@ -8,9 +8,11 @@ import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Facilities from "../components/venues/Facilities";
 import StarRateSharpIcon from "@mui/icons-material/StarRateSharp";
 import ModalButton from "../components/buttons/ModalButton";
-import { useBookingStore, useGeneral } from "../store";
-import { differenceInDays, parseISO, format, set } from "date-fns";
+import { useBookings, useGeneral } from "../store";
+import { differenceInDays, parseISO, format } from "date-fns";
 import NoImageBookingList from "../components/bookings/NoImageBookingList";
+import useModal from "../components/modal/useModal";
+import DeleteConfirmation from "../components/modal/modalcontent/DeleteConfirmation";
 
 function SingleVenue() {
   const { user, apiKey, isLoggedIn } = useGeneral();
@@ -18,14 +20,18 @@ function SingleVenue() {
   const navigate = useNavigate();
   const [loggedInUser, setLoggedInUser] = useState("");
   const [currentTab, setCurrentTab] = useState("upcoming");
+  const { isVisible, hideModal, showModal } = useModal();
+  const [deleteState, setDeleteState] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (user !== null) {
       setLoggedInUser(user.data.name);
     }
   }, []);
+
   let { id } = useParams();
-  const { setVenueData } = useBookingStore();
+  const { setVenueData } = useBookings();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [lastImage, setLastImage] = useState(false);
@@ -56,12 +62,13 @@ function SingleVenue() {
       name: "Doja Cat",
       avatar: "https://example.com/avatar.jpg",
     },
-    bookings: [], // Default empty array for bookings
+    bookings: [],
   });
 
   useEffect(() => {
     setVenueData(venue);
   }, [venue]);
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1638);
@@ -144,12 +151,12 @@ function SingleVenue() {
     navigate(`../dashboard/edit-venue?id=${venue.id}`);
   };
 
-  const handleDeleteVenueClick = async () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this venue?"
-    );
-    if (!confirmDelete) return;
+  const handleDeleteVenueClick = () => {
+    setDeleteState(true);
+    showModal();
+  };
 
+  const deleteVenue = async () => {
     try {
       setLoading(true);
       const response = await fetch(
@@ -166,7 +173,6 @@ function SingleVenue() {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message || "Failed to delete venue.");
       }
-      alert("Venue deleted successfully.");
       navigate("/dashboard");
     } catch (error) {
       setError(true);
@@ -175,6 +181,7 @@ function SingleVenue() {
       setLoading(false);
     }
   };
+
   const userBookingArray = venue.bookings.filter(
     (booking) => booking.customer.name === loggedInUser
   );
@@ -298,7 +305,7 @@ function SingleVenue() {
                 <div className="w-full py-4 pb-0 justify-start">
                   <button
                     onClick={handleEditVenueClick}
-                    className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                    className={`btn-secondary-reverse text-sm poppins-semibold flex items-center justify-between`}
                   >
                     <p>Edit venue</p>
                     <ArrowForwardIcon />
@@ -306,7 +313,7 @@ function SingleVenue() {
 
                   <button
                     onClick={handleDeleteVenueClick}
-                    className={`btn-secondary mt-4 text-sm poppins-semibold flex items-center justify-between`}
+                    className={`btn-logout-reverse mt-4 text-sm poppins-semibold flex items-center justify-between`}
                   >
                     <p className="text-red-600">Delete</p>
                     <ArrowForwardIcon className="text-red-600" />
@@ -420,14 +427,14 @@ function SingleVenue() {
                 <div className="w-full py-4 pb-0 gap-2 flex justify-end">
                   <button
                     onClick={handleEditVenueClick}
-                    className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                    className={`btn-secondary-reverse text-sm poppins-semibold flex items-center justify-between`}
                   >
                     <p>Edit venue</p>
                     <ArrowForwardIcon />
                   </button>
                   <button
                     onClick={handleDeleteVenueClick}
-                    className={`btn-secondary text-sm poppins-semibold flex items-center justify-between`}
+                    className={`btn-logout-reverse text-sm poppins-semibold flex items-center justify-between`}
                   >
                     <p className="text-red-600">Delete</p>
                     <ArrowForwardIcon className="text-red-600" />
@@ -435,87 +442,12 @@ function SingleVenue() {
                 </div>
               )}
             </div>
-            {user &&
-              loggedInUser === venue.owner.name &&
-              venue.bookings.length > 0 &&
-              venue.bookings.length < 3 && (
-                <div className="bookings-section mt-6 w-full ">
-                  <h2 className="text-lg font-regular tracking-wide">
-                    Bookings({venue.bookings.length}):
-                  </h2>
-                  <ul className="flex gap-4 flex-col sm:flex-row flex-wrap py-4">
-                    {venue.bookings.map((booking) => (
-                      <li
-                        key={booking.id}
-                        className="booking-card w-full shadow-md rounded-lg  p-4 flex flex-col gap-2"
-                      >
-                        <h2 className="text-lg">
-                          Booking information for{" "}
-                          {differenceInDays(
-                            parseISO(booking.dateTo),
-                            parseISO(booking.dateFrom)
-                          )}{" "}
-                          day stay
-                        </h2>
-                        <div className="text-sm flex flex-row flex-wrap justify-between gap-4">
-                          <div className="text-sm">
-                            <p className="poppins-semibold">From:</p>{" "}
-                            <p>{format(booking.dateFrom, "dd/MM/yyyy")}</p>
-                          </div>
-                          <div className="text-sm">
-                            <p className="poppins-semibold">To:</p>{" "}
-                            <p>{format(booking.dateTo, "dd/MM/yyyy")}</p>
-                          </div>{" "}
-                          <div className=" flex flex-col">
-                            <p className="poppins-semibold">Guests:</p>
-                            <p className="">{booking.guests}</p>
-                          </div>
-                          <div className=" flex flex-col">
-                            <p className="poppins-semibold">NOK Earned:</p>
-                            <p className="">
-                              {venue.price *
-                                differenceInDays(
-                                  parseISO(booking.dateTo),
-                                  parseISO(booking.dateFrom)
-                                )}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-sm flex flex-row justify-start gap-4">
-                          <div className="text-sm flex flex-col">
-                            <p className="poppins-semibold ">Booked by:</p>
-                          </div>
-                          <Link
-                            to={`/profile/${booking.customer.name}`}
-                            className="flex justify-start items-center gap-3 hover:underline"
-                          >
-                            <img
-                              src={booking.customer.avatar.url}
-                              alt={booking.customer.avatar.alt}
-                              className="w-7 h-7 rounded-full object-cover"
-                            />
-                            <p className=" text-gray-600 text-sm">
-                              {booking.customer.name === loggedInUser
-                                ? booking.customer.name + " (You)"
-                                : booking.customer.name}
-                            </p>
-                          </Link>
-                        </div>
-                        <div className="text-sm flex flex-col">
-                          <p className="poppins-semibold">Booking ID:</p>{" "}
-                          <p>{booking.id}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
           </div>
         )}
         {user &&
           loggedInUser === venue.owner.name &&
           venue.bookings.length > 0 && (
-            <div className="bookings-section mb-6 px-2 sm:px-8 w-full ">
+            <div className="bookings-section mb-6 px-4 sm:px-8 w-full ">
               <h2 className="text-lg  font-regular tracking-wide">
                 Bookings made to this venue({venue.bookings.length}):
               </h2>
@@ -545,6 +477,12 @@ function SingleVenue() {
             </div>
           )}
       </div>
+      <DeleteConfirmation
+        text="venue"
+        isOpen={isVisible && deleteState}
+        onClose={hideModal}
+        onDelete={deleteVenue}
+      />
     </div>
   );
 }

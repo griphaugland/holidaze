@@ -21,14 +21,14 @@ const LogoutButton = ({ size }) => {
     );
   } else if (size === "profile") {
     return (
-      <button onClick={handleLogout} className="btn-logout-profile text-sm">
+      <button onClick={handleLogout} className="btn-logout-reverse text-sm">
         Logout
         <LogoutIcon />
       </button>
     );
   } else {
     return (
-      <button onClick={handleLogout} className="btn-logout">
+      <button onClick={handleLogout} className="btn-logout-reverse">
         Logout
         <LogoutIcon />
       </button>

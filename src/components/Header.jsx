@@ -4,6 +4,11 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import HomeIcon from "@mui/icons-material/Home";
+import BusinessIcon from "@mui/icons-material/Business";
+import AppRegistrationOutlinedIcon from "@mui/icons-material/AppRegistrationOutlined";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import LogoutIcon from "@mui/icons-material/Logout";
 import Logo from "/logo.svg?url";
 import LogoBlue from "/logoBlue.svg?url";
 import LogoutButton from "./buttons/LogoutButton";
@@ -11,9 +16,10 @@ import {
   useErrorGeneral,
   useErrorVenues,
   useErrorProfiles,
-} from "../components/useErrorNavigation";
+} from "./hooks/useErrorNavigation";
 import { useGeneral } from "../store";
 import ProfileButton from "./buttons/ProfileButton";
+import NotLoggedInButton from "./buttons/NotLoggedInButton";
 
 function Header() {
   useErrorProfiles();
@@ -28,7 +34,6 @@ function Header() {
   const location = useLocation();
 
   useEffect(() => {
-    // Set header color based on the scroll position and path
     const checkScrollAndPath = () => {
       if (window.scrollY > 40 || location.pathname !== "/") {
         setHeaderColor(false);
@@ -37,22 +42,19 @@ function Header() {
       }
     };
 
-    // Attach the scroll listener only on the home page
     if (location.pathname === "/") {
       window.addEventListener("scroll", checkScrollAndPath);
     }
 
-    // Run on mount and when the path changes
     checkScrollAndPath();
 
-    // Cleanup function to remove the scroll listener and reset the header color
     return () => {
       window.removeEventListener("scroll", checkScrollAndPath);
       if (location.pathname !== "/") {
         setHeaderColor(false);
       }
     };
-  }, [location]); // Depend on location
+  }, [location]);
 
   useEffect(() => {
     handleFreezeScroll(toggle);
@@ -195,65 +197,74 @@ function Header() {
             }
           >
             <Link
-              className="flex items-center justify-start gap-1 min-w-36"
+              className="flex items-center justify-center shadow-lg gap-2 min-w-36"
               to=""
               onClick={() => {
                 setToggle(!toggle);
               }}
             >
+              <HomeIcon />
               Home
             </Link>
             <Link
-              className="flex items-center justify-start gap-1 min-w-36"
+              className="flex items-center justify-cente shadow-lg gap-2 min-w-36"
               to="venues"
               onClick={() => {
                 setToggle(!toggle);
               }}
             >
+              <BusinessIcon />
               Venues
             </Link>
             <Link
-              className="flex items-center justify-start gap-1 min-w-36"
-              to="contact"
+              className="flex items-center justify-center shadow-lg gap-2 min-w-36"
+              to={isLoggedIn ? "my-bookings" : "login"}
               onClick={() => {
                 setToggle(!toggle);
               }}
             >
-              Contact
+              <BookmarksIcon />
+              Bookings
             </Link>
             {isLoggedIn ? (
               <>
                 <Link
-                  className="flex items-center justify-start gap-1 min-w-36"
+                  className="flex items-center justify-center shadow-lg gap-2 min-w-36"
                   to="profile"
                   onClick={() => {
                     setToggle(!toggle);
                   }}
                 >
+                  <AccountCircleOutlinedIcon />
                   Profile
                 </Link>
-                <div className=" flex items-center justify-center gap-1 min-w-screen">
-                  <LogoutButton size="navigation" />
+                <div className="logout-div shadow-lg ">
+                  <LogoutButton
+                    size="navigation"
+                    className="logout shadow-lg"
+                  />
                 </div>
               </>
             ) : (
               <>
                 <Link
-                  className="flex items-center justify-start gap-1 min-w-36"
+                  className="flex items-center justify-center gap-2 shadow-lg min-w-36"
                   to="login"
                   onClick={() => {
                     setToggle(!toggle);
                   }}
                 >
+                  <AccountCircleOutlinedIcon />
                   Log in
                 </Link>
                 <Link
-                  className="flex items-center justify-start gap-1 min-w-36"
+                  className="flex items-center justify-center shadow-lg gap-2 min-w-36"
                   to="register"
                   onClick={() => {
                     setToggle(!toggle);
                   }}
                 >
+                  <AppRegistrationOutlinedIcon />
                   Register
                 </Link>
               </>
@@ -319,22 +330,7 @@ function Header() {
           >
             VENUES
           </Link>
-          <Link
-            className={
-              "flex items-center justify-start gap-1 " +
-              (headerColor ? "white-hover-text" : "blue-hover-text")
-            }
-            style={{ color: headerColor ? "#ffffff" : "#103954" }}
-            to="contact"
-            onClick={(e) => {
-              if (location.pathname === "/contact") {
-                e.preventDefault();
-                window.location.reload();
-              }
-            }}
-          >
-            CONTACT
-          </Link>
+          <NotLoggedInButton text="BOOKINGS" headerColor={headerColor} />
         </nav>
         <div className="flex items-center opposite-logo gap-4 ml-auto">
           <Link

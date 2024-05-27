@@ -3,7 +3,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
 import { useVenues } from "../../store";
 
-function HeroButton({ text, searchFor }) {
+function HeroButton({ text, searchFor, classes }) {
   const navigate = useNavigate();
   const { loading, setLoading } = useVenues();
 
@@ -16,7 +16,7 @@ function HeroButton({ text, searchFor }) {
   return (
     <button
       onClick={sendToSearch}
-      className={`hero-btn-primary text-sm poppins-semibold flex items-center justify-between ${
+      className={`${classes} ${
         loading ? " cursor-not-allowed" : ""
       }`}
       disabled={loading}
