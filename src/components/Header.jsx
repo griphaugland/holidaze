@@ -134,6 +134,7 @@ function Header() {
           </Link>
           <div className="flex items-center gap-6">
             <Link
+              name="click to view favorites"
               className="carticon-container"
               onClick={() => {
                 setToggle(false);
@@ -153,7 +154,7 @@ function Header() {
               />
             </Link>
             <button
-              name="menu button"
+              name="click to activate mobile menu"
               onClick={() => {
                 setToggle(!toggle);
                 setAnimate(!toggle);
@@ -200,6 +201,7 @@ function Header() {
             <Link
               className="flex items-center justify-center shadow-lg gap-2 min-w-36"
               to=""
+              name="click to go to home page"
               onClick={() => {
                 setToggle(!toggle);
               }}
@@ -208,6 +210,7 @@ function Header() {
               Home
             </Link>
             <Link
+              name="click to go to venues page"
               className="flex items-center justify-cente shadow-lg gap-2 min-w-36"
               to="venues"
               onClick={() => {
@@ -218,6 +221,7 @@ function Header() {
               Venues
             </Link>
             <Link
+              name="click to go to bookings page"
               className="flex items-center justify-center shadow-lg gap-2 min-w-36"
               to={isLoggedIn ? "my-bookings" : "login"}
               onClick={() => {
@@ -230,6 +234,7 @@ function Header() {
             {isLoggedIn ? (
               <>
                 <Link
+                  name="click to go to profile page"
                   className="flex items-center justify-center shadow-lg gap-2 min-w-36"
                   to="profile"
                   onClick={() => {
@@ -249,6 +254,7 @@ function Header() {
             ) : (
               <>
                 <Link
+                  name="click to go to login page"
                   className="flex items-center justify-center gap-2 shadow-lg min-w-36"
                   to="login"
                   onClick={() => {
@@ -259,6 +265,7 @@ function Header() {
                   Log in
                 </Link>
                 <Link
+                  name="click to go to register page"
                   className="flex items-center justify-center shadow-lg gap-2 min-w-36"
                   to="register"
                   onClick={() => {
@@ -284,6 +291,7 @@ function Header() {
       >
         <Link
           to=""
+          name="click to go to home page"
           className="logo-container mr-auto"
           onClick={(e) => {
             if (location.pathname === "/") {
@@ -300,6 +308,7 @@ function Header() {
         </Link>
         <nav className="text-l flex poppins-regular text-sm tracking-widest flex-row gap-8">
           <Link
+            name="click to go to home page"
             className={
               "flex items-center justify-start gap-1 " +
               (headerColor ? "white-hover-text" : "blue-hover-text")
@@ -316,6 +325,7 @@ function Header() {
             HOME
           </Link>
           <Link
+            name="click to go to venues page"
             className={
               "flex items-center justify-start gap-1 " +
               (headerColor ? "white-hover-text" : "blue-hover-text")
@@ -335,6 +345,7 @@ function Header() {
         </nav>
         <div className="flex items-center opposite-logo gap-4 ml-auto">
           <Link
+            name="click to go to favorites page"
             className="flex items-center justify-start gap-1"
             to="favorites"
           >

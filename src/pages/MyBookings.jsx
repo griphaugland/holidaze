@@ -85,6 +85,7 @@ function MyBookings() {
               </button>
               {isLoggedIn && isVenueManager && (
                 <Link
+                  name="go to dashboard"
                   to="/dashboard"
                   className="btn select-secondary-link dashboard-link tracking-wide flex justify-center items-center gap-2"
                 >

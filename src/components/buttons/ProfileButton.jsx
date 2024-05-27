@@ -24,7 +24,11 @@ function ProfileButton({ headerColor }) {
           className={` ${loading ? "bg-gray-400 cursor-not-allowed" : ""}`}
           disabled={loading}
         >
-          <Link className="flex items-center justify-start gap-1" to="profile">
+          <Link
+            className="flex items-center justify-start gap-1"
+            to="profile"
+            name="Go to profile page"
+          >
             <div className="carticon-container">
               <AccountCircleOutlinedIcon
                 style={{

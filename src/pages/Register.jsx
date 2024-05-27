@@ -164,6 +164,7 @@ function Register() {
             <ArrowForwardIcon />
           </button>
           <Link
+            name="go to Login"
             to="/login"
             className="mt-4 hover:underline text-gray-400 text-sm text-start"
           >

@@ -399,6 +399,7 @@ function SingleBooking() {
                 <div className="date-wrapper flex  gap-20">
                   <div className="flex flex-col gap-2 justify-start items-start">
                     <Link
+                      name={`profile of ${booking.customer.name}`}
                       to={`/profile/${booking.customer.name}`}
                       className="flex justify-start items-center gap-3 hover:underline"
                     >
@@ -461,6 +462,7 @@ function SingleBooking() {
                   <div className="date-wrapper flex">
                     <div className="flex flex-col gap-2 justify-start items-start">
                       <Link
+                        name={`profile of ${booking.venue.owner.name}`}
                         to={`/profile/${booking.venue.owner.name}`}
                         className="flex justify-start items-center gap-3 hover:underline"
                       >

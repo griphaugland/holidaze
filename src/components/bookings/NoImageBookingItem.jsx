@@ -37,6 +37,7 @@ function NoImageBookingItem({ booking }) {
   return (
     <Link
       key={booking.id}
+      name={`click to go to booking ${booking.id}`}
       to={`/bookings/${booking.id}`}
       className={bookingClass}
     >
