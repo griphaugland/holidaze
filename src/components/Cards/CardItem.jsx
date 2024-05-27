@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 
 function CardItem({ card }) {
   return (
-    <Link to={`./venues/?q=${card.searchWord}`} className="card-item relative">
+    <Link
+      to={`./venues/?q=${card.searchWord}`}
+      name="click to search for this word"
+      className="card-item relative"
+    >
       <div className="card-text poppins-black text-2xl tracking-widest">
         {card.searchWord.toUpperCase()}
       </div>

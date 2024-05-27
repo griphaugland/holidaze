@@ -18,7 +18,7 @@ function HeroSection({ src, altText, title, price, searchWord, nextSlide }) {
       </div>
       <button
         className="hero-btn-next absolute p-3"
-        name="next slide button"
+        name="click to view next slide"
         onClick={nextSlide}
       >
         <ArrowForwardIcon />

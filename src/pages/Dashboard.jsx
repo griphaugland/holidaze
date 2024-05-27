@@ -117,6 +117,7 @@ function Dashboard() {
         <div className="flex justify-start md:justify-between mb-3 mx-8 px-0 flex-wrap items-center">
           <h2 className="text-2xl poppins-bold w-full md:w-auto">Dashboard</h2>
           <Link
+            name="create venue"
             to="./create-venue"
             className="flex py-2 mt-4 items-center sm:max-w-52 gap-2 btn-primary"
           >

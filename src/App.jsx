@@ -181,6 +181,7 @@ function App() {
                 exactly what you ask for.
               </p>
               <Link
+                name="click to go to terms page"
                 to="terms"
                 className="btn-secondary mt-2 flex justify-end items-end ml-auto"
               >
@@ -226,6 +227,7 @@ function App() {
                 the cancellation happens 24 hours before check in.
               </p>
               <Link
+                name="click to go to terms page"
                 to="terms"
                 className="btn-secondary mt-2 flex justify-end items-end ml-auto"
               >
@@ -252,6 +254,7 @@ function App() {
               {isLoggedIn ? (
                 <>
                   <Link
+                    name="click to go to profile page"
                     to="profile"
                     className="btn-secondary mt-2 flex justify-end items-end ml-auto"
                   >
@@ -261,6 +264,7 @@ function App() {
                 </>
               ) : (
                 <Link
+                  name="click to go to register page"
                   to="register"
                   className="btn-secondary mt-2 flex justify-end items-end ml-auto"
                 >

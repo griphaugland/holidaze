@@ -15,6 +15,7 @@ function Footer() {
           <div className="footer-category p-3 flex flex-col gap-5 justify-center">
             <p className="poppins-medium text-xl min-w-28">Policies</p>
             <Link
+              name="click to go to terms page"
               to="terms"
               target="_blank"
               rel="noreferrer"
@@ -25,6 +26,7 @@ function Footer() {
             </Link>
             <Link
               to="privacy"
+              name="click to go to privacy page"
               target="_blank"
               rel="noreferrer"
               className="category-option arrow-move pt-sans-regular flex justify-between"
@@ -39,6 +41,7 @@ function Footer() {
               to="help"
               target="_blank"
               rel="noreferrer"
+              name="click to go to help page"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
               <p>Help</p>
@@ -48,6 +51,7 @@ function Footer() {
               to="/inquiries"
               target="_blank"
               rel="noreferrer"
+              name="click to go to inquiries page"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
               <p>Inquiries</p>
@@ -58,7 +62,7 @@ function Footer() {
             <p className="poppins-medium  text-xl mb-2">Socials</p>
             <div className="category-option pt-sans-regular max-w-18 flex flex-wrap justify-start mb-2 gap-2">
               <a
-                name="facebook link"
+                name="click to go to facebook profile for Holidaze"
                 href="https://www.facebook.com/holidaze"
                 target="_blank"
                 rel="noreferrer"
@@ -66,7 +70,7 @@ function Footer() {
                 <FacebookIcon style={{ width: "38px", height: "38px" }} />
               </a>
               <a
-                name="instagram link"
+                name="click to go to instagram profile for Holidaze"
                 href="https://www.instagram.com/holidaze"
                 target="_blank"
                 rel="noreferrer"
@@ -76,7 +80,7 @@ function Footer() {
             </div>
             <div className="category-option pt-sans-regular flex justify-between">
               <a
-                name="linkedin link"
+                name="click to go to linkedin profile for Holidaze"
                 href="https://www.linkedin.com/holidaze"
                 target="_blank"
                 rel="noreferrer"
@@ -89,6 +93,7 @@ function Footer() {
         <div className="footer-logo-container w-full">
           <Link
             to=""
+            name="click to go to home page"
             className="logo-container no-hover-effect w-full flex justify-start"
           >
             <img className="logo" src={LogoBlue} alt="holidaze logo" />

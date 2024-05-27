@@ -372,6 +372,7 @@ function SingleVenue() {
               {isLoggedIn ? (
                 <div className="py-2 flex justify-between">
                   <Link
+                    name={`click to go to ${venue.owner.name}'s profile`}
                     to={`/profile/${venue.owner.name}`}
                     className="flex justify-start items-center gap-3 hover:underline"
                   >

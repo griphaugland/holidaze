@@ -11,7 +11,7 @@ function VenueItem({ item }) {
       <AddToFavorite size="small" venue={item} />
       <a
         className="w-full h-full"
-        name="link to item"
+        name={`Go to ${item.name} venue card`}
         href={`../venues/${item.id}`}
       >
         <img
@@ -23,7 +23,7 @@ function VenueItem({ item }) {
       <div className="flex items-start gap-2 w-full flex-col justify-between min-h-36">
         <div className="flex items-start flex-col gap-2 w-full">
           <a
-            name="link to item"
+            name={`Go to ${item.name} venue card`}
             className="text-xl px-3 venue-title tracking-wide font-bold mt-4"
             href={`../venues/${item.id}`}
             title={item.name}

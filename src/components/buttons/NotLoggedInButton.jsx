@@ -25,6 +25,7 @@ function NotLoggedInButton({ headerColor, text }) {
           disabled={loading}
         >
           <Link
+            name="go to my bookings"
             className={
               "flex items-center justify-start gap-1 " +
               (headerColor ? "white-hover-text" : "blue-hover-text")

@@ -124,6 +124,7 @@ function Login() {
             <ArrowForwardIcon />
           </button>
           <Link
+            name="Click to register"
             to="/register"
             className="text-gray-400 hover:underline text-sm text-start"
           >
