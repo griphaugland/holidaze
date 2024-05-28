@@ -161,7 +161,7 @@ function SingleVenue() {
   }
 
   if (loading) {
-    return <SingleVenueSkeleton />;
+    return <SingleVenueSkeleton venue={venue} />;
   }
 
   if (!venue) {
