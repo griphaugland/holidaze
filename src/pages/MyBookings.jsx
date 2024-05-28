@@ -18,11 +18,10 @@ function MyBookings() {
 
   const { error, loading, bookings, getBookings } = useBookings();
   const { user, apiKey, isLoggedIn } = useGeneral();
-  const { isVenueManager, fetchProfile } = useProfiles();
+  const { fetchProfile } = useProfiles();
 
   useEffect(() => {
     document.title = "My Bookings | Holidaze";
-    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -55,7 +54,7 @@ function MyBookings() {
           <h2 className="text-2xl poppins-bold mr-auto w-full sm:w-auto">
             My bookings
           </h2>
-          {isLoggedIn && isVenueManager && (
+          {isLoggedIn && user.data.venueManager && (
             <Link
               name="go to dashboard"
               to="/dashboard"
@@ -94,7 +93,7 @@ function MyBookings() {
                 Finished
               </button>
             </div>
-            <div className="sm:mx-4 p-4">
+            <div className="sm:mx-4 p-4 relative">
               <BookingList bookings={bookings} tab={currentTab} />
             </div>
           </div>

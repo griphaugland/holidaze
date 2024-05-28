@@ -140,7 +140,6 @@ export const useProfiles = create(
       loading: false,
       setLoading: (value) => set({ loading: value }),
       profile: null,
-      isVenueManager: false,
       setProfile: (profile) => set({ profile }),
       fetchProfile: async (username, accessToken, apiKey) => {
         set({ loading: true });
@@ -157,12 +156,6 @@ export const useProfiles = create(
             }
           );
           const data = await res.json();
-          console.log("Profile data:", data);
-          if (data.data.venueManager === true) {
-            set({ isVenueManager: true });
-          } else {
-            set({ isVenueManager: false });
-          }
           if (!res.ok) {
             set({
               error: {

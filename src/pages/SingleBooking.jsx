@@ -51,7 +51,6 @@ function SingleBooking() {
   const [stayStarted, setStayStarted] = useState(false);
   useEffect(() => {
     document.title = `Booking at ${bookingId} | Holidaze`;
-    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 
 function Privacy() {
   useEffect(() => {
-    window.scrollTo(0, 0);
     document.title = "Privacy policy | Holidaze";
   }, []);
 

@@ -8,7 +8,6 @@ function Favorites() {
     useGeneral();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     document.title = "Favorites | Holidaze";
   }, []);
   const handleClearFavorites = () => {

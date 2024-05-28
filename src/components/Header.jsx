@@ -7,6 +7,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import HomeIcon from "@mui/icons-material/Home";
 import BusinessIcon from "@mui/icons-material/Business";
 import AppRegistrationOutlinedIcon from "@mui/icons-material/AppRegistrationOutlined";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Logo from "/logo.svg?url";
@@ -30,7 +31,7 @@ function Header() {
   const [mobile, setMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [animate, setAnimate] = useState(false);
-  const { isLoggedIn } = useGeneral();
+  const { isLoggedIn, user } = useGeneral();
   const location = useLocation();
 
   useEffect(() => {
@@ -200,7 +201,7 @@ function Header() {
             }
           >
             <Link
-              className="flex items-center justify-center shadow-lg gap-2 min-w-36"
+              className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
               to=""
               name="click to go to home page"
               onClick={() => {
@@ -212,7 +213,7 @@ function Header() {
             </Link>
             <Link
               name="click to go to venues page"
-              className="flex items-center justify-cente shadow-lg gap-2 min-w-36"
+              className="flex nav-item items-center justify-cente shadow-lg gap-2 min-w-36"
               to="venues"
               onClick={() => {
                 setToggle(!toggle);
@@ -223,7 +224,7 @@ function Header() {
             </Link>
             <Link
               name="click to go to bookings page"
-              className="flex items-center justify-center shadow-lg gap-2 min-w-36"
+              className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
               to={isLoggedIn ? "my-bookings" : "login"}
               onClick={() => {
                 setToggle(!toggle);
@@ -234,9 +235,22 @@ function Header() {
             </Link>
             {isLoggedIn ? (
               <>
+                {user && user.data.venueManager && (
+                  <Link
+                    name="click to go to your dashboard to manage venues and bookings"
+                    className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
+                    to="dashboard"
+                    onClick={() => {
+                      setToggle(!toggle);
+                    }}
+                  >
+                    <DashboardIcon />
+                    Dashboard
+                  </Link>
+                )}
                 <Link
                   name="click to go to profile page"
-                  className="flex items-center justify-center shadow-lg gap-2 min-w-36"
+                  className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
                   to="profile"
                   onClick={() => {
                     setToggle(!toggle);
@@ -245,18 +259,14 @@ function Header() {
                   <AccountCircleOutlinedIcon />
                   Profile
                 </Link>
-                <div className="logout-div shadow-lg ">
-                  <LogoutButton
-                    size="navigation"
-                    className="logout shadow-lg"
-                  />
-                </div>
+
+                <LogoutButton size="navigation" className="logout shadow-lg" />
               </>
             ) : (
               <>
                 <Link
                   name="click to go to login page"
-                  className="flex items-center justify-center gap-2 shadow-lg min-w-36"
+                  className="flex nav-item items-center justify-center gap-2 shadow-lg min-w-36"
                   to="login"
                   onClick={() => {
                     setToggle(!toggle);
@@ -267,7 +277,7 @@ function Header() {
                 </Link>
                 <Link
                   name="click to go to register page"
-                  className="flex items-center justify-center shadow-lg gap-2 min-w-36"
+                  className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
                   to="register"
                   onClick={() => {
                     setToggle(!toggle);

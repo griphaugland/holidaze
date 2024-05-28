@@ -31,13 +31,16 @@ function Login() {
     setError(null);
 
     try {
-      const response = await fetch("https://v2.api.noroff.dev/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://v2.api.noroff.dev/auth/login?_holidaze=true",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to login. Please check your credentials.");

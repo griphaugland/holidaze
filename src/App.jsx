@@ -82,7 +82,6 @@ function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 859);
   const { isLoggedIn } = useGeneral();
   useEffect(() => {
-    window.scrollTo(0, 0);
     document.title = "Home | Holidaze";
   }, []);
 
@@ -164,13 +163,13 @@ function App() {
         </div>
         <div
           className={`flex flex-col information-section w-full hero-page-max-width p-8 mb-12 mt-12 bg-white ${
-            isMobile ? "gap-4" : ""
+            isMobile ? "" : ""
           }`}
         >
           <div className="image-information-section sm:px-8 sm:flex-row flex-row flex">
             <div
               className={`text-content px-4 flex flex-col justify-center ${
-                isMobile ? "w-full" : "w-1/2"
+                isMobile ? "w-full my-12" : "w-1/2"
               } `}
             >
               <h2 className="text-2xl font-blue-custom poppins-bold tracking-widest">
@@ -185,7 +184,7 @@ function App() {
               <Link
                 name="click to go to terms page"
                 to="terms"
-                className="btn-secondary mt-2 flex justify-end items-end ml-auto"
+                className="btn-secondary mt-4 flex justify-end items-end ml-auto"
               >
                 Read more
                 <ArrowForwardIcon />
@@ -215,7 +214,7 @@ function App() {
             )}
             <div
               className={`text-content px-4 flex flex-col justify-center ${
-                isMobile ? "w-full" : "w-1/2"
+                isMobile ? "w-full my-12" : "w-1/2"
               } `}
             >
               <h2
@@ -233,7 +232,7 @@ function App() {
               <Link
                 name="click to go to terms page"
                 to="terms"
-                className="btn-secondary mt-2 flex justify-end items-end ml-auto"
+                className="btn-secondary mt-4 flex justify-end items-end ml-auto"
               >
                 Read more
                 <ArrowForwardIcon />
@@ -243,7 +242,7 @@ function App() {
           <div className="image-information-section sm:px-8 sm:flex-row flex-row flex">
             <div
               className={`text-content px-4 flex flex-col justify-center ${
-                isMobile ? "w-full" : "w-1/2"
+                isMobile ? "w-full my-12" : "w-1/2"
               } `}
             >
               <h2 className="text-2xl font-blue-custom poppins-bold tracking-widest">
@@ -270,7 +269,7 @@ function App() {
                 <Link
                   name="click to go to register page"
                   to="register"
-                  className="btn-secondary mt-2 flex justify-end items-end ml-auto"
+                  className="btn-secondary mt-4 flex justify-end items-end ml-auto"
                 >
                   Create account
                   <ArrowForwardIcon />

@@ -17,10 +17,10 @@ const LogoutButton = ({ size }) => {
       <button
         onClick={handleLogout}
         name="logout button"
-        className="btn-logout-nav"
+        className="btn-logout-nav shadow-lg"
       >
-        Logout
         <LogoutIcon />
+        Logout
       </button>
     );
   } else if (size === "profile") {
