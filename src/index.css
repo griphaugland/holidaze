@@ -2287,6 +2287,7 @@ footer {
 .carousel-inner {
   display: flex;
   width: 100%;
+  max-height: 75svh;
 }
 
 .carousel-item {

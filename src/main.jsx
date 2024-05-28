@@ -57,7 +57,7 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <ProtectedRoute access="loggedIn" venueManager="true">
+          <ProtectedRoute access="loggedIn" venueManager={true}>
             <Dashboard />
           </ProtectedRoute>
         ),
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
       {
         path: "dashboard/create-venue",
         element: (
-          <ProtectedRoute access="loggedIn" venueManager="true">
+          <ProtectedRoute access="loggedIn" venueManager={true}>
             <CreateVenue />
           </ProtectedRoute>
         ),
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
       {
         path: "dashboard/edit-venue",
         element: (
-          <ProtectedRoute access="loggedIn" venueManager="true">
+          <ProtectedRoute access="loggedIn" venueManager={true}>
             <EditVenue />
           </ProtectedRoute>
         ),
@@ -81,7 +81,7 @@ const router = createBrowserRouter([
       {
         path: "profile/:username?",
         element: (
-          <ProtectedRoute access="loggedIn">
+          <ProtectedRoute access="loggedIn" venueManager={false}>
             <Profile />
           </ProtectedRoute>
         ),
@@ -89,7 +89,7 @@ const router = createBrowserRouter([
       {
         path: "bookings/:bookingId?",
         element: (
-          <ProtectedRoute access="loggedIn">
+          <ProtectedRoute access="loggedIn" venueManager={false}>
             <SingleBooking />
           </ProtectedRoute>
         ),
