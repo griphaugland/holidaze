@@ -25,7 +25,6 @@ function SingleVenue() {
   const [documentTitle, setDocumentTitle] = useState("View Venue | Holidaze");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (user !== null) {
       setLoggedInUser(user.data.name);
     }

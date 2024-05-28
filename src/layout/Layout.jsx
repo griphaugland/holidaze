@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import { Outlet } from "react-router-dom";
 import { TransitionGroup } from "react-transition-group";
 import { ModalProvider } from "react-modal-hook";
+import ScrollToTop from "../components/ScrollToTop";
 import ReactModal from "react-modal";
 ReactModal.setAppElement("#root");
 
@@ -11,6 +12,7 @@ function Layout({ children }) {
   return (
     <ModalProvider rootComponent={TransitionGroup}>
       <div id="outer-container" className="min-h-svh flex flex-col ">
+        <ScrollToTop />
         <Header />
         <main className="flex flex-col flex-grow">
           <Outlet />

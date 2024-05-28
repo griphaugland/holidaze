@@ -17,7 +17,7 @@ const LogoutButton = ({ size }) => {
       <button
         onClick={handleLogout}
         name="logout button"
-        className="btn-logout-nav shadow-2xl"
+        className="btn-logout-nav shadow-lg"
       >
         <LogoutIcon />
         Logout

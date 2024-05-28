@@ -35,13 +35,13 @@ function BookingList({ bookings, error, tab, from }) {
   }
 
   return (
-    <div className="flex flex-col booking-container my-6 gap-4">
+    <div className="flex flex-col booking-container relative my-6 gap-4">
       {loading ? (
         Array.from({ length: filteredBookings.length }).map((_, index) => (
           <BookingSkeletonLoader key={index} />
         ))
       ) : filteredBookings.length === 0 ? (
-        <h2 className="text-center text-sm my-12 text-gray-500 w-full">
+        <h2 className="text-center absolute text-sm my-12 text-gray-500 w-full">
           No bookings found
         </h2>
       ) : (

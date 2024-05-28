@@ -26,7 +26,6 @@ function Profile() {
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setMobile(true);
@@ -52,6 +51,9 @@ function Profile() {
     }
 
     fetchProfile(currentUsername, user?.data.accessToken, apiKey);
+    if (!profile.venueManager && isOwnProfile) {
+      setView("bookings");
+    }
   }, [username, fetchProfile, user, isLoggedIn, navigate]);
 
   if (loading) {
@@ -141,11 +143,11 @@ function Profile() {
           </div>
         )}
         {!profile.venueManager && isOwnProfile && (
-          <div className="flex gap-4">
+          <div className="flex gap-4 mx-4">
             <button
               name="bookings"
               onClick={() => setView("bookings")}
-              className={`btn ml-1 ${
+              className={`btn ${
                 view === "bookings" ? "select-primary" : "select-secondary"
               }`}
             >

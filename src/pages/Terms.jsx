@@ -10,13 +10,6 @@ function Terms() {
   const { favorites, addToFavorites, removeFromFavorites, clearFavorites } =
     useGeneral();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  const handleClearFavorites = () => {
-    clearFavorites();
-  };
-
   return (
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="flex page-max-width justify-between w-full flex-col p-4">

@@ -82,7 +82,6 @@ function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 859);
   const { isLoggedIn } = useGeneral();
   useEffect(() => {
-    window.scrollTo(0, 0);
     document.title = "Home | Holidaze";
   }, []);
 

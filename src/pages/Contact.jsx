@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 
 function Contact() {
   useEffect(() => {
-    window.scrollTo(0, 0);
     document.title = "Contact | Holidaze";
   }, []);
   return (

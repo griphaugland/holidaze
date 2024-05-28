@@ -18,7 +18,7 @@ import {
   useErrorVenues,
   useErrorProfiles,
 } from "./hooks/useErrorNavigation";
-import { useGeneral, useProfiles } from "../store";
+import { useGeneral } from "../store";
 import ProfileButton from "./buttons/ProfileButton";
 import NotLoggedInButton from "./buttons/NotLoggedInButton";
 
@@ -31,18 +31,8 @@ function Header() {
   const [mobile, setMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [animate, setAnimate] = useState(false);
-  const [venueManagerVerified, setVenueManagerVerified] = useState(false);
-  const { isLoggedIn } = useGeneral();
-  const { isVenueManager } = useProfiles();
+  const { isLoggedIn, user } = useGeneral();
   const location = useLocation();
-
-  useEffect(() => {
-    if (isVenueManager === null) {
-      setVenueManagerVerified(false);
-    } else if (isVenueManager === true) {
-      setVenueManagerVerified(true);
-    }
-  }, [isVenueManager]);
 
   useEffect(() => {
     const checkScrollAndPath = () => {
@@ -245,7 +235,7 @@ function Header() {
             </Link>
             {isLoggedIn ? (
               <>
-                {venueManagerVerified && isVenueManager && (
+                {user && user.data.venueManager && (
                   <Link
                     name="click to go to your dashboard to manage venues and bookings"
                     className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"

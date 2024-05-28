@@ -25,7 +25,6 @@ function Register() {
   const { isVisible, showModal, hideModal } = useModal();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     setLoading(false);
   }, []);
 

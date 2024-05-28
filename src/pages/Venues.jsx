@@ -32,10 +32,6 @@ function Venues() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     const fetchVenues = async () => {
       resetVenues();
       const searchQuery = query.get("q");
