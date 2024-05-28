@@ -39,7 +39,7 @@ function CategorySlider() {
     { id: 10, icon: <TerrainIcon />, name: "Mountain" },
     { id: 11, icon: <HouseIcon />, name: "House" },
     { id: 12, icon: <GolfCourseIcon />, name: "Golf" },
-    { id: 13, icon: <LiquorIcon />, name: "Drinking" },
+    { id: 13, icon: <LiquorIcon />, name: "Drink" },
     { id: 14, icon: <DirectionsBoatIcon />, name: "Boat" },
     { id: 15, icon: <DinnerDiningIcon />, name: "Italy" },
     { id: 16, icon: <MovieIcon />, name: "Hollywood" },

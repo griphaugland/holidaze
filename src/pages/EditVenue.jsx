@@ -11,6 +11,7 @@ import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import StickyNote2OutlinedIcon from "@mui/icons-material/StickyNote2Outlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import NotesOutlinedIcon from "@mui/icons-material/NotesOutlined";
+import ArrowBackwardIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function EditVenue() {
@@ -100,7 +101,7 @@ function EditVenue() {
     handleResize();
 
     if (sliderRef.current) {
-      const width = isMobile ? 100 : 75;
+      const width = 100;
       sliderRef.current.style.transform = `translateX(-${
         currentImageIndex * width
       }vw)`;
@@ -191,7 +192,7 @@ function EditVenue() {
               className="flex image-filter"
               ref={sliderRef}
               style={{
-                width: `${media.length * (isMobile ? 100 : 75)}vw`,
+                width: `${media.length * 100}vw`,
               }}
             >
               {media.map((mediaItem, index) => (
@@ -204,7 +205,7 @@ function EditVenue() {
                   }
                   alt={mediaItem.alt}
                   className={`min-h-96 bg-gray-300 single-venue-slider-image ${
-                    isMobile ? "w-full" : "md:w-3/4 w-full"
+                    isMobile ? "w-full" : " w-full"
                   } object-cover object-position-center`}
                 />
               ))}
@@ -223,36 +224,41 @@ function EditVenue() {
             </div>
           )}
           {media.length > 1 && (
-            <button
-              name="next image"
-              type="button"
-              onClick={nextImage}
-              className={`${
-                lastImage ? "dark-button" : ""
-              } create-venue-next-button p-3`}
-            >
-              <ArrowForwardIcon />
-            </button>
+            <>
+              {" "}
+              <button
+                name="next image"
+                type="button"
+                onClick={nextImage}
+                className={`${
+                  lastImage ? "hidden" : ""
+                } create-venue-next-button p-3`}
+              >
+                <ArrowForwardIcon />
+              </button>
+              <button
+                name="prev image"
+                type="button"
+                onClick={prevImage}
+                className={`single-venue-prev-button p-3 ${
+                  currentImageIndex > 0 ? "" : "hidden"
+                }`}
+              >
+                <ArrowBackwardIcon />
+              </button>
+            </>
           )}
           <button
             type="button"
             name="add image"
             onClick={() => addMediaField({ url: "", alt: "" })}
-            className={`${
-              media.length > 1
-                ? lastImage
-                  ? "dark-button "
-                  : ""
-                : lastImage
-                ? ""
-                : ""
-            } single-venue-next-button p-3`}
+            className={` single-venue-next-button p-3`}
           >
             <AddIcon />
           </button>
         </div>
       </div>
-      <div className="info-wrapper w-full flex-col flex">
+      <div className="info-wrapper max-page-width w-full flex-col flex">
         <div className="flex flex-row mx-8 mt-6 gap-2">
           <ImageOutlinedIcon />
           <h2 className="poppins-semibold text-black text-md">Add Images</h2>
@@ -309,7 +315,7 @@ function EditVenue() {
             </div>
           ))}
         </div>
-        <div className="info-wrapper w-screen flex-row flex flex-wrap">
+        <div className="info-wrapper w-screen xl:w-full flex-row flex flex-wrap">
           <div className="md:w-1/2 px-8 p-6">
             <div className="location flex gap-3 items-start flex-col pt-sans-regular text-gray-700 font-light">
               <div className="flex flex-row gap-2">
