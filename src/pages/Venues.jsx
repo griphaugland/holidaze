@@ -19,16 +19,17 @@ function Venues() {
   const location = useLocation();
   const navigate = useNavigate();
   const query = useQuery();
-  const { error, loading, venues, url, resetVenues, getVenues, getMoreVenues } =
-    useVenues((state) => ({
-      error: state.error,
-      loading: state.loading,
-      venues: state.venues || [], // Default to empty array
-      url: state.url,
-      resetVenues: state.resetVenues,
-      getVenues: state.getVenues,
-      getMoreVenues: state.getMoreVenues,
-    }));
+  const {
+    error,
+    loading,
+    isFetchingMore,
+    venues,
+    url,
+    resetVenues,
+    getVenues,
+    getMoreVenues,
+  } = useVenues();
+
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -41,7 +42,7 @@ function Venues() {
         await getVenues(searchUrl);
       } else {
         await getVenues(
-          "https://v2.api.noroff.dev/holidaze/venues/?limit=15&page=1&_owner=true"
+          "https://v2.api.noroff.dev/holidaze/venues/?limit=20&page=1&_owner=true"
         );
       }
     };

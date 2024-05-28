@@ -4,9 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
 import Layout from "./layout/Layout";
-import Contact from "./pages/Contact";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-import About from "./pages/About";
 import Venues from "./pages/Venues";
 import Favorites from "./pages/Favorites";
 import Profile from "./pages/Profile";
@@ -34,7 +32,6 @@ const router = createBrowserRouter([
       { path: "", element: <App /> },
       { path: "venues", element: <Venues /> },
       { path: "venues/:id", element: <SingleVenue /> },
-      { path: "about", element: <About /> },
       {
         path: "register",
         element: (
