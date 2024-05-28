@@ -168,8 +168,6 @@ function EditVenue() {
       setTimeout(() => {
         navigate(`/venues/${responseData.data.id}`);
       }, 200);
-
-      console.log(responseData);
     } catch (error) {
       setError(true);
       console.error("There was a problem with your fetch operation:", error);

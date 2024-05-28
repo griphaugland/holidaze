@@ -75,7 +75,6 @@ function SingleBooking() {
       }
       setLoading(false);
       setBooking(data.data);
-      console.log(data);
     } catch (e) {
       setError({ error: { statusCode: e.statusCode, status: e.status } });
     }

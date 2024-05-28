@@ -67,10 +67,8 @@ function UpdateInfoModal({ hideModal, onFinish }) {
       }
 
       const result = await response.json();
-      console.log("Profile update successful:", result);
       setMessage("Profile update successful");
 
-      // Update the user information in Zustand and localStorage
       const updatedUser = {
         ...user,
         data: {

@@ -133,7 +133,6 @@ function Booking() {
         throw new Error(errorMessage);
       }
       const result = await response.json();
-      console.log("Booking successful:", result);
       setBookingMessage("Booking successful!");
       window.location.reload();
     } catch (error) {
@@ -247,12 +246,16 @@ function Booking() {
           </div>
         </>
       )}
-      <div className="flex justify-center w-full">
+      <div className="flex justify-start items-start w-full">
         {bookingMessage && (
-          <p className="text-green-500 p-4 max-width-450px">{bookingMessage}</p>
+          <p className="text-green-500 p-4 max-width-450px w-full text-start">
+            {bookingMessage}
+          </p>
         )}
         {bookingError && (
-          <p className="text-red-500 p-4 max-width-450px">{bookingError}</p>
+          <p className="text-red-500 p-4 max-width-450px  w-full text-start">
+            {bookingError}
+          </p>
         )}
       </div>
     </div>

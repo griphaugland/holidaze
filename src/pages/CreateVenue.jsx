@@ -196,7 +196,6 @@ function CreateVenue() {
       sessionStorage.removeItem("formDataCreate");
       sessionStorage.removeItem("previewData");
       navigate(`/venues/${responseData.data.id}`);
-      console.log(responseData);
     } catch (error) {
       setError(true);
       console.error("There was a problem with your operation:", error);

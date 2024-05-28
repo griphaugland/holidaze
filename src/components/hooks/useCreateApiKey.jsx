@@ -29,7 +29,6 @@ const useCreateApiKey = () => {
       }
 
       const result = await response.json();
-      console.log("API Key creation result:", result);
       setApiKey(result);
       const storage = JSON.parse(localStorage.getItem("storage")) || {};
       storage.apiKey = result;
