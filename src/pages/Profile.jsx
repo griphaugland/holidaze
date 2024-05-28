@@ -17,15 +17,15 @@ function Profile() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isOwnProfile = !username || profile.name === user?.data.name;
+  const isOwnProfile = !username || profile?.name === user?.data.name;
 
   useEffect(() => {
-    if (profile.name) {
+    if (profile?.name) {
       document.title = `${profile.name} | Holidaze`;
     } else {
       document.title = "Profile | Holidaze";
     }
-  }, [profile.name]);
+  }, [profile?.name]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,7 +50,7 @@ function Profile() {
     fetchProfile(currentUsername, user?.data.accessToken, apiKey);
 
     if (isOwnProfile) {
-      if (profile.venueManager) {
+      if (profile?.venueManager) {
         setView("bookings");
       } else {
         setView("bookings");
@@ -65,12 +65,16 @@ function Profile() {
     isLoggedIn,
     navigate,
     location.key,
-    profile.venueManager,
+    profile?.venueManager,
     isOwnProfile,
   ]);
 
   if (loading) {
     return <Loader />;
+  }
+
+  if (!profile) {
+    return <div>Loading profile...</div>;
   }
 
   return (
@@ -93,20 +97,23 @@ function Profile() {
             </p>
           </div>
           {!mobile && isOwnProfile && (
-            <div className="flex items-start flex-row ml-auto flex-wrap gap-3">
-              {profile.venueManager && (
-                <Link
-                  name="go to dashboard"
-                  to="/dashboard"
-                  className="btn btn-secondary-reverse poppins-semibold tracking-wide flex justify-center items-center gap-2"
-                >
-                  Dashboard
-                  <ArrowForwardIcon />
-                </Link>
-              )}
-              <EditMediaButton profile={profile} />
-              <LogoutButton size="profile" />
-            </div>
+            <>
+              {" "}
+              <div className="flex items-start flex-row ml-auto relative flex-wrap gap-3">
+                {profile.venueManager && (
+                  <Link
+                    name="go to dashboard"
+                    to="/dashboard"
+                    className="btn btn-secondary-reverse poppins-semibold tracking-wide flex justify-center items-center gap-2"
+                  >
+                    Dashboard
+                    <ArrowForwardIcon />
+                  </Link>
+                )}
+                <EditMediaButton profile={profile} />
+                <LogoutButton size="profile" />
+              </div>
+            </>
           )}
         </div>
         {mobile && isOwnProfile && (
@@ -125,6 +132,7 @@ function Profile() {
             <LogoutButton size="profile" />
           </div>
         )}
+
         <div className="mb-6 px-5">
           <h3 className="text-lgs font-semibold">About {profile.name}</h3>
           <div className="text-sm mt-2">
