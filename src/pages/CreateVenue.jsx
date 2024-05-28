@@ -339,7 +339,6 @@ function CreateVenue() {
                 onClick={() => navigate(-1)}
                 className={`btn-primary-reverse min-w-40 text-end text-sm poppins-semibold mt-6 max-w-64 flex items-center md:self-end `}
               >
-                <ArrowBackwardsIcon />
                 Back
               </button>
               <button

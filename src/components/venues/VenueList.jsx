@@ -12,11 +12,11 @@ function VenueList({ venues }) {
     if (!isFetchingMore) {
       setLoading(true);
     }
-    // Simulate a delay for loading data
+    // Set a delay for loading data
+    setFilteredVenues(venues);
     setTimeout(() => {
-      setFilteredVenues(venues);
       setLoading(false);
-    }, 600);
+    }, 1000);
   }, [venues]);
 
   return (

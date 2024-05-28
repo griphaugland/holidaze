@@ -96,17 +96,13 @@ function Venues() {
         </button>
       </form>
       <CategorySlider />
-      {loading && venues.length === 0 ? (
-        <Loader />
-      ) : (
-        <InfiniteScroll
-          dataLength={venues.length}
-          next={getMoreVenues}
-          hasMore={!!url}
-        >
-          <VenueList venues={venues} />
-        </InfiniteScroll>
-      )}
+      <InfiniteScroll
+        dataLength={venues.length}
+        next={getMoreVenues}
+        hasMore={!!url}
+      >
+        <VenueList venues={venues} />
+      </InfiniteScroll>
     </div>
   );
 }

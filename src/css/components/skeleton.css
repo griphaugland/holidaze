@@ -123,26 +123,15 @@
   width: 100vw;
   max-width: 1280px;
 }
+.single-venue-skeleton-image-container {
+  background-color: #cccccc63;
+}
 
 .single-venue-skeleton-image {
   width: 100%;
   min-height: 75svh;
-  background-color: #bebebe47;
   animation: loading 1.5s infinite;
-}
-.single-venue-skeleton-image-flicker {
-  width: 100%;
-  background-color: #e0e0e0;
-}
-.single-venue-skeleton-text-flicker {
-  height: 20px;
-  width: 100%;
-  background-color: #bebebe47;
-  border-radius: 4px;
-  animation: loading 1.5s infinite;
-}
-.single-venue-skeleton-text-parent {
-  background-color: #00000033;
+  background-color: #e0e0e045;
 }
 
 @media (max-width: 768px) {
@@ -151,21 +140,7 @@
   }
   .single-venue-skeleton-image {
     width: 100vw;
-    height: 300px;
+    height: 384px;
     min-height: 0svh;
-  }
-  .single-venue-skeleton-text-parent {
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px;
-  }
-  .single-venue-skeleton-text-flicker {
-    height: 20px;
-    width: 100%;
-    background-color: #bebebe47;
-    border-radius: 4px;
-    animation: loading 1.5s infinite;
   }
 }

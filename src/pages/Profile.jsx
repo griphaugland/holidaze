@@ -6,7 +6,6 @@ import { useGeneral, useProfiles } from "../store";
 import VenueList from "../components/venues/VenueList";
 import EditMediaButton from "../components/buttons/EditMediaButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { format } from "date-fns";
 import BookingList from "../components/bookings/BookingList";
 
 function Profile() {
@@ -24,7 +23,7 @@ function Profile() {
       document.title = "Profile | Holidaze";
     }
   }, []);
-
+  const isOwnProfile = profile.name === user?.data.name;
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -54,13 +53,17 @@ function Profile() {
     if (!profile.venueManager && isOwnProfile) {
       setView("bookings");
     }
+    if (profile.venueManager && isOwnProfile) {
+      setView("bookings");
+    }
+    if (profile.name !== user.data.name) {
+      setView("venues");
+    }
   }, [username, fetchProfile, user, isLoggedIn, navigate]);
 
   if (loading) {
     return <Loader />;
   }
-
-  const isOwnProfile = profile.name === user?.data.name;
 
   return (
     <div className="align-top-header flex flex-col justify-center items-center">

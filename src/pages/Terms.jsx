@@ -14,7 +14,7 @@ function Terms() {
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="flex page-max-width justify-between w-full flex-col p-4">
         <div className="container mx-auto">
-          <h1 className="text-2xl poppins-semibold text-black">
+          <h1 className="text-2xl poppins-bold text-black">
             Terms and Conditions
           </h1>
           <p className="text-base poppins-regular text-gray-600 my-4">

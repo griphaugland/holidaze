@@ -17,8 +17,6 @@ function Footer() {
             <Link
               name="click to go to terms page"
               to="terms"
-              target="_blank"
-              rel="noreferrer"
               aria-label="click to go to terms page"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
@@ -28,9 +26,7 @@ function Footer() {
             <Link
               to="privacy"
               name="click to go to privacy page"
-              target="_blank"
               aria-label="click to go to privacy page"
-              rel="noreferrer"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
               <p>Privacy</p>
@@ -41,9 +37,7 @@ function Footer() {
             <h4 className="poppins-medium text-xl">Get in touch</h4>
             <Link
               to="help"
-              target="_blank"
               aria-label="click to go to help page"
-              rel="noreferrer"
               name="click to go to help page"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
@@ -52,9 +46,7 @@ function Footer() {
             </Link>
             <Link
               to="/inquiries"
-              target="_blank"
               aria-label="click to go to inquiries page"
-              rel="noreferrer"
               name="click to go to inquiries page"
               className="category-option arrow-move pt-sans-regular flex justify-between"
             >
@@ -68,18 +60,14 @@ function Footer() {
               <a
                 name="click to go to facebook profile for Holidaze"
                 href="https://www.facebook.com/holidaze"
-                target="_blank"
                 aria-label="click to go to facebook profile for Holidaze"
-                rel="noreferrer"
               >
                 <FacebookIcon style={{ width: "38px", height: "38px" }} />
               </a>
               <a
                 name="click to go to instagram profile for Holidaze"
                 href="https://www.instagram.com/holidaze"
-                target="_blank"
                 aria-label="click to go to instagram profile for Holidaze"
-                rel="noreferrer"
               >
                 <InstagramIcon style={{ width: "38px", height: "38px" }} />
               </a>
@@ -88,9 +76,7 @@ function Footer() {
               <a
                 name="click to go to linkedin profile for Holidaze"
                 href="https://www.linkedin.com/holidaze"
-                target="_blank"
                 aria-label="click to go to linkedin profile for Holidaze"
-                rel="noreferrer"
               >
                 <LinkedInIcon style={{ width: "38px", height: "38px" }} />
               </a>

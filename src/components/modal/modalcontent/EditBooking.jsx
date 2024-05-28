@@ -114,7 +114,7 @@ function BookingEditModal({ booking, isOpen, onClose }) {
         </div>
         <div className="mt-4 flex justify-between items-center">
           <p className="text-gray-600">Number of guests:</p>
-          <div className="flex items-center">
+          <div className="flex items-center guest-input-container">
             <button
               name="decrement guest count"
               onClick={() => handleGuestCountChange(-1)}
@@ -147,7 +147,6 @@ function BookingEditModal({ booking, isOpen, onClose }) {
             disabled={loading}
           >
             {loading ? "Canceling..." : "Cancel"}
-            <ArrowBackIcon />
           </button>
           <button
             type="submit"

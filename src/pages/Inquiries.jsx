@@ -12,8 +12,8 @@ function Inquiries() {
   return (
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="flex page-max-width justify-between w-full flex-col p-4">
-        <div className="flex justify-between flex-wrap gap-2 md:justify-between mx-4 px-0 p-4 items-center">
-          <h1 className="text-2xl poppins-bold sm:w-auto">Inquiries</h1>
+        <div className="flex justify-between flex-wrap gap-2 md:justify-between px-0 p-4 items-center">
+          <h1 className="text-2xl poppins-bold text-black">Inquiries</h1>
         </div>
         <div className="container mx-auto">
           <p className="text-base poppins-regular text-gray-600 my-4">

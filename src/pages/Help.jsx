@@ -13,7 +13,7 @@ function Help() {
     <div className="align-top-header flex flex-col justify-center items-center">
       <div className="flex page-max-width justify-between w-full flex-col p-4">
         <div className="container mx-auto">
-          <h1 className="text-2xl poppins-semibold text-black">Help</h1>
+          <h1 className="text-2xl poppins-bold text-black">Help</h1>
           <p className="text-base poppins-regular text-gray-600 my-4">
             Welcome to our Help page. Here you can find answers to common
             questions and issues you may encounter. If you need further
