@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import VenueItem from "./VenueItem";
 import SkeletonLoader from "../skeleton/VenueSkeleton";
+import { useVenues } from "../../store";
 
 function VenueList({ venues }) {
   const [filteredVenues, setFilteredVenues] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { isFetchingMore } = useVenues();
 
   useEffect(() => {
-    setLoading(true);
-    // Simulate a delay for loading data
+    if (!isFetchingMore) {
+      setLoading(true);
+    }
+    // Set a delay for loading data
+    setFilteredVenues(venues);
     setTimeout(() => {
-      setFilteredVenues(venues);
       setLoading(false);
-    }, 600); // Adjust the delay as needed
+    }, 1000);
   }, [venues]);
 
   return (

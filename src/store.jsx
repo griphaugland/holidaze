@@ -1,3 +1,4 @@
+import { is } from "date-fns/locale";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -57,24 +58,30 @@ export const useVenues = create(
       error: null,
       setError: (error) => set({ error }),
       loading: false,
+      isFetchingMore: false,
       setLoading: (value) => set({ loading: value }),
+      setIsFetchingMore: (value) => set({ isFetchingMore: value }), // Setter for incremental loading
       data: [],
       setData: (value) => set({ data: value }),
-      url: "https://v2.api.noroff.dev/holidaze/venues/?limit=15&page=1&_owner=true",
+      url: "https://v2.api.noroff.dev/holidaze/venues/?limit=20&page=1&_owner=true",
       setUrl: (value) => set({ url: value }),
       venues: [],
       resetVenues: () => {
         set({
           venues: [],
-          url: "https://v2.api.noroff.dev/holidaze/venues/?limit=15&page=1&_owner=true",
+          url: "https://v2.api.noroff.dev/holidaze/venues/?limit=20&page=1&_owner=true",
+          isFetchingMore: false,
         });
       },
       getVenues: async (url) => {
+        const { isFetchingMore } = get();
         try {
-          set({ loading: true });
+          if (isFetchingMore) {
+          } else {
+            set({ loading: true });
+          }
           const res = await fetch(url);
           const data = await res.json();
-          console.log(data);
           if (!res.ok) {
             set({
               error: {
@@ -117,6 +124,7 @@ export const useVenues = create(
       getMoreVenues: async () => {
         const { url } = get();
         if (url) {
+          set({ isFetchingMore: true });
           await get().getVenues(url);
         }
       },
@@ -127,6 +135,7 @@ export const useVenues = create(
         venues: state.venues,
         error: state.error,
         loading: state.loading,
+        isFetchingMore: state.isFetchingMore,
       }),
     }
   )

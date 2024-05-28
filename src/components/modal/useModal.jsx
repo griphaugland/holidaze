@@ -21,7 +21,6 @@ const useModal = () => {
       if (fromLogin) {
         hideModal();
         location.search = "";
-      } else {
       }
     }
   }, [location.pathname, isVisible]);

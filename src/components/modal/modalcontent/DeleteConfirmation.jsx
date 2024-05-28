@@ -17,7 +17,6 @@ function DeleteModal({ text, isOpen, onClose, onDelete }) {
             className={`btn-primary-reverse py-2 px-4 bg-white transition duration-300 `}
           >
             Cancel
-            <ArrowBackIcon />
           </button>
           <button
             name="delete button"

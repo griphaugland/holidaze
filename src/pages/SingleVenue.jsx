@@ -43,6 +43,7 @@ function SingleVenue() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1638);
+  const [maxPageWidth, setMaxPageWidth] = useState(window.innerWidth >= 1280);
 
   const sliderRef = useRef(null);
 
@@ -74,6 +75,7 @@ function SingleVenue() {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
       setMaxWidth(window.innerWidth >= 1638);
+      setMaxPageWidth(window.innerWidth >= 1280);
     };
 
     window.addEventListener("resize", handleResize);
@@ -84,10 +86,9 @@ function SingleVenue() {
 
   useEffect(() => {
     if (sliderRef.current) {
-      const width = 100;
       sliderRef.current.style.transform = `translateX(-${
-        currentImageIndex * width
-      }vw)`;
+        currentImageIndex * (maxPageWidth ? 1280 : 100)
+      }${maxPageWidth ? "px" : "vw"})`;
       sliderRef.current.style.transition = "transform 0.5s ease-in-out";
     }
   }, [currentImageIndex]);
@@ -160,7 +161,7 @@ function SingleVenue() {
   }
 
   if (loading) {
-    return <SingleVenueSkeleton />;
+    return <SingleVenueSkeleton venue={venue} />;
   }
 
   if (!venue) {
@@ -177,11 +178,12 @@ function SingleVenue() {
               ref={sliderRef}
               style={{
                 width: `${venue.media.length * 100}vw`,
+                maxWidth: `${venue.media.length * 1280}px`,
               }}
             >
               {venue.media.map((media, index) => (
                 <img
-                  loading="lazy"
+                  loading="eager"
                   key={index}
                   src={
                     media.url === "https://source.unsplash.com/random"
@@ -201,7 +203,7 @@ function SingleVenue() {
               {venue.media.length === 0 ? (
                 <div className="flex image-filter" ref={sliderRef}>
                   <img
-                    loading="lazy"
+                    loading="eager"
                     src={
                       "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
                     }
@@ -212,7 +214,7 @@ function SingleVenue() {
               ) : (
                 <div className="flex image-filter" ref={sliderRef}>
                   <img
-                    loading="lazy"
+                    loading="eager"
                     src={
                       venue.media[0].url ===
                       "https://source.unsplash.com/random"
@@ -384,7 +386,7 @@ function SingleVenue() {
                     className="flex justify-start items-center gap-3 hover:underline"
                   >
                     <img
-                      loading="lazy"
+                      loading="eager"
                       src={
                         venue.owner.avatar.url ||
                         "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
@@ -403,7 +405,7 @@ function SingleVenue() {
                 <div className="py-2 flex justify-between">
                   <div className="flex justify-start items-center gap-3">
                     <img
-                      loading="lazy"
+                      loading="eager"
                       src={
                         venue.owner.avatar.url ||
                         "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"

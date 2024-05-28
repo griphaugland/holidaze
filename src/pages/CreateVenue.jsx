@@ -32,6 +32,7 @@ function CreateVenue() {
   const [errorMessage, setErrorMessage] = useState("");
   const [lastImage, setLastImage] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [maxPageWidth, setMaxPageWidth] = useState(window.innerWidth >= 1280);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1638);
   const sliderRef = useRef(null);
@@ -98,20 +99,20 @@ function CreateVenue() {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
       setMaxWidth(window.innerWidth >= 1638);
+      setMaxPageWidth(window.innerWidth >= 1280);
     };
 
     window.addEventListener("resize", handleResize);
     handleResize();
 
     if (sliderRef.current) {
-      const width = isMobile ? 100 : 75;
       sliderRef.current.style.transform = `translateX(-${
-        currentImageIndex * width
-      }vw)`;
+        currentImageIndex * (maxPageWidth ? 1280 : 100)
+      }${maxPageWidth ? "px" : "vw"})`;
       sliderRef.current.style.transition = "transform 0.5s ease-in-out";
     }
 
-    if (!isMobile && !isMaxWidth && currentImageIndex === media.length - 1) {
+    if (currentImageIndex === media.length - 1) {
       setLastImage(true);
     } else {
       setLastImage(false);
@@ -218,14 +219,12 @@ function CreateVenue() {
                 className="flex image-filter"
                 ref={sliderRef}
                 style={{
-                  width: `${
-                    previewData.media.length * (isMobile ? 100 : 75)
-                  }vw`,
+                  width: `${previewData.media.length * 100}vw`,
                 }}
               >
                 {previewData.media.map((media, index) => (
                   <img
-                    loading="lazy"
+                    loading="eager"
                     key={index}
                     src={
                       media.url ||
@@ -233,7 +232,7 @@ function CreateVenue() {
                     }
                     alt={media.alt}
                     className={`min-h-96 single-venue-slider-image ${
-                      isMobile ? "w-full" : "md:w-3/4 w-full"
+                      isMobile ? "w-full" : "w-full"
                     } object-cover object-position-center`}
                   />
                 ))}
@@ -241,7 +240,7 @@ function CreateVenue() {
             ) : (
               <div className="flex image-filter" ref={sliderRef}>
                 <img
-                  loading="lazy"
+                  loading="eager"
                   src={
                     previewData.media[0].url ||
                     "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
@@ -253,15 +252,28 @@ function CreateVenue() {
             )}
           </div>
           {previewData.media.length > 1 && (
-            <button
-              name="next image"
-              onClick={nextImage}
-              className={`single-venue-next-button p-3  ${
-                lastImage ? "final-image" : " "
-              }`}
-            >
-              <ArrowForwardIcon />
-            </button>
+            <>
+              <button
+                name="next image"
+                type="button"
+                onClick={nextImage}
+                className={`${
+                  lastImage ? "hidden" : ""
+                } create-venue-next-button p-3`}
+              >
+                <ArrowForwardIcon />
+              </button>
+              <button
+                name="prev image"
+                type="button"
+                onClick={prevImage}
+                className={`single-venue-prev-button p-3 ${
+                  currentImageIndex > 0 ? "" : "hidden"
+                }`}
+              >
+                <ArrowBackwardsIcon />
+              </button>
+            </>
           )}
         </div>
         <div className="info-wrapper xl:w-full w-screen flex-row flex flex-wrap">
@@ -327,7 +339,6 @@ function CreateVenue() {
                 onClick={() => navigate(-1)}
                 className={`btn-primary-reverse min-w-40 text-end text-sm poppins-semibold mt-6 max-w-64 flex items-center md:self-end `}
               >
-                <ArrowBackwardsIcon />
                 Back
               </button>
               <button
@@ -365,12 +376,13 @@ function CreateVenue() {
               className="flex image-filter"
               ref={sliderRef}
               style={{
-                width: `${media.length * (isMobile ? 100 : 75)}vw`,
+                width: `${media.length * 100}vw`,
+                maxWidth: `${media.length * 1280}px`,
               }}
             >
               {media.map((mediaItem, index) => (
                 <img
-                  loading="lazy"
+                  loading="eager"
                   key={index + mediaItem.alt}
                   src={
                     mediaItem.url ||
@@ -378,7 +390,7 @@ function CreateVenue() {
                   }
                   alt={mediaItem.alt}
                   className={`min-h-96 bg-gray-300 single-venue-slider-image ${
-                    isMobile ? "w-full" : "md:w-3/4 w-full"
+                    isMobile ? "w-full" : " w-full"
                   } object-cover object-position-center`}
                 />
               ))}
@@ -386,7 +398,7 @@ function CreateVenue() {
           ) : (
             <div className="flex image-filter" ref={sliderRef}>
               <img
-                loading="lazy"
+                loading="eager"
                 src={
                   media[0]?.url ||
                   "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
@@ -397,30 +409,34 @@ function CreateVenue() {
             </div>
           )}
           {media.length > 1 && (
-            <button
-              type="button"
-              name="next image"
-              onClick={nextImage}
-              className={`${
-                lastImage ? "dark-button" : ""
-              } create-venue-next-button p-3`}
-            >
-              <ArrowForwardIcon />
-            </button>
+            <>
+              <button
+                name="next image"
+                type="button"
+                onClick={nextImage}
+                className={`${
+                  lastImage ? "hidden" : ""
+                } create-venue-next-button p-3`}
+              >
+                <ArrowForwardIcon />
+              </button>
+              <button
+                name="prev image"
+                type="button"
+                onClick={prevImage}
+                className={`single-venue-prev-button p-3 ${
+                  currentImageIndex > 0 ? "" : "hidden"
+                }`}
+              >
+                <ArrowBackwardsIcon />
+              </button>
+            </>
           )}
           <button
             type="button"
             name="add image"
             onClick={() => addMediaField({ url: "", alt: "" })}
-            className={`${
-              media.length > 1
-                ? lastImage
-                  ? "dark-button "
-                  : ""
-                : lastImage
-                ? ""
-                : ""
-            } single-venue-next-button p-3`}
+            className={` single-venue-next-button p-3`}
           >
             <AddIcon />
           </button>

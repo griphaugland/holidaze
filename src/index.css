@@ -845,7 +845,8 @@ footer {
   box-shadow: 0 0 5px black;
 }
 
-.single-venue-next-button:hover {
+.single-venue-next-button:hover,
+.single-venue-prev-button:hover {
   box-shadow: 0 0 5px white;
 }
 
@@ -1345,7 +1346,7 @@ footer {
   padding-inline: 1rem;
   border: 2px solid #103954;
   border-radius: 100px;
-  padding-left: 4rem;
+  padding-right: 4rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -2286,6 +2287,7 @@ footer {
 .carousel-inner {
   display: flex;
   width: 100%;
+  max-height: 75svh;
 }
 
 .carousel-item {

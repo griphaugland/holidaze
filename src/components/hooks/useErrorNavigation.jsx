@@ -40,6 +40,7 @@ export const useErrorProfiles = () => {
     if (error) {
       setError(error);
       console.log("Error:", error);
+      navigate("/error");
     }
   }, [error, navigate, setError]);
 };

@@ -4,22 +4,22 @@ import { useGeneral } from "../store";
 
 const ProtectedRoute = ({ children, access, venueManager }) => {
   const { isLoggedIn, user } = useGeneral();
-  // om ikke logget inn, ingen tilgang på disse sidene
+
+  // If access is restricted to logged in users and user is not logged in
   if (access === "loggedIn" && !isLoggedIn) {
+    console.log("User not logged in, redirecting to home");
     return <Navigate to="/" />;
   }
-  if (isLoggedIn) {
-    // om sidene er for venueManager og brukeren ikke er venueManager
-    if (venueManager === true && !user.data.venueManager) {
-      return <Navigate to="/" />;
-    }
-    // om sidene er for venueManager og brukeren ikke er venueManager
-    if (venueManager === false && user.data.venueManager) {
-      return <Navigate to="/" />;
-    }
+
+  // If the user is logged in and venueManager restriction is applied
+  if (isLoggedIn && venueManager && !user.data.venueManager) {
+    console.log("User is not a venue manager, redirecting to home");
+    return <Navigate to="/" />;
   }
-  // om logget inn, ingen tilgang på disse sidene
+
+  // If access is restricted to not logged in users and user is logged in
   if (access === "notLoggedIn" && isLoggedIn) {
+    console.log("User is logged in but should not be, redirecting to home");
     return <Navigate to="/" />;
   }
 

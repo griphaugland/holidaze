@@ -6,34 +6,32 @@ import { useGeneral, useProfiles } from "../store";
 import VenueList from "../components/venues/VenueList";
 import EditMediaButton from "../components/buttons/EditMediaButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { format } from "date-fns";
 import BookingList from "../components/bookings/BookingList";
 
 function Profile() {
   const { profile, loading, error, fetchProfile } = useProfiles();
   const { user, isLoggedIn, apiKey } = useGeneral();
   const [mobile, setMobile] = useState(false);
-  const [view, setView] = useState("venues");
+  const [view, setView] = useState("bookings");
   const { username } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isOwnProfile = !username || profile.name === user?.data.name;
+
   useEffect(() => {
     if (profile.name) {
       document.title = `${profile.name} | Holidaze`;
     } else {
       document.title = "Profile | Holidaze";
     }
-  }, []);
+  }, [profile.name]);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setMobile(true);
-      } else {
-        setMobile(false);
-      }
+      setMobile(window.innerWidth < 768);
     };
-    console.log(profile.bookings);
+
     handleResize();
     window.addEventListener("resize", handleResize);
 
@@ -51,16 +49,30 @@ function Profile() {
     }
 
     fetchProfile(currentUsername, user?.data.accessToken, apiKey);
-    if (!profile.venueManager && isOwnProfile) {
-      setView("bookings");
+
+    if (isOwnProfile) {
+      if (profile.venueManager) {
+        setView("bookings");
+      } else {
+        setView("bookings");
+      }
+    } else {
+      setView("venues");
     }
-  }, [username, fetchProfile, user, isLoggedIn, navigate]);
+  }, [
+    username,
+    fetchProfile,
+    user,
+    isLoggedIn,
+    navigate,
+    location.key,
+    profile.venueManager,
+    isOwnProfile,
+  ]);
 
   if (loading) {
     return <Loader />;
   }
-
-  const isOwnProfile = profile.name === user?.data.name;
 
   return (
     <div className="align-top-header flex flex-col justify-center items-center">
@@ -180,7 +192,7 @@ function Profile() {
           )}
         </div>
       )}
-      {view === "bookings" && (
+      {view === "bookings" && isOwnProfile && (
         <div className="page-max-width w-full">
           {profile.bookings && profile.bookings.length > 0 ? (
             <div className="sm:mx-4 p-4 pt-0">
