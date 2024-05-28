@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -22,6 +23,18 @@ import { useGeneral } from "../store";
 import ProfileButton from "./buttons/ProfileButton";
 import NotLoggedInButton from "./buttons/NotLoggedInButton";
 
+const navVariants = {
+  hidden: { opacity: 1 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1, duration: 0.0 } },
+  exit: { opacity: 1 },
+};
+
+const navButtonVariants = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: -50 },
+};
+
 function Header() {
   useErrorProfiles();
   useErrorGeneral();
@@ -30,7 +43,6 @@ function Header() {
   const [headerColor, setHeaderColor] = useState(true);
   const [mobile, setMobile] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [animate, setAnimate] = useState(false);
   const { isLoggedIn, user } = useGeneral();
   const location = useLocation();
 
@@ -159,7 +171,6 @@ function Header() {
               name="click to activate mobile menu"
               onClick={() => {
                 setToggle(!toggle);
-                setAnimate(!toggle);
               }}
               className="text-2xl font-bold"
             >
@@ -193,103 +204,125 @@ function Header() {
             </button>
           </div>
         </div>
-        {toggle && (
-          <nav
-            className={
-              "text-xl font-bold flex flex-col my-4 " +
-              (animate ? "animateMenu" : "")
-            }
-          >
-            <Link
-              className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
-              to=""
-              name="click to go to home page"
-              onClick={() => {
-                setToggle(!toggle);
-              }}
+        <AnimatePresence>
+          {toggle && (
+            <motion.nav
+              initial="hidden"
+              animate="visible"
+              exit={{ duration: 0 }}
+              variants={navVariants}
+              transition={{ duration: 0.1 }}
+              className="text-xl font-bold flex flex-col my-4 animateMenu"
             >
-              <HomeIcon />
-              Home
-            </Link>
-            <Link
-              name="click to go to venues page"
-              className="flex nav-item items-center justify-cente shadow-lg gap-2 min-w-36"
-              to="venues"
-              onClick={() => {
-                setToggle(!toggle);
-              }}
-            >
-              <BusinessIcon />
-              Venues
-            </Link>
-            <Link
-              name="click to go to bookings page"
-              className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
-              to={isLoggedIn ? "my-bookings" : "login"}
-              onClick={() => {
-                setToggle(!toggle);
-              }}
-            >
-              <BookmarksIcon />
-              Bookings
-            </Link>
-            {isLoggedIn ? (
-              <>
-                {user && user.data.venueManager && (
-                  <Link
-                    name="click to go to your dashboard to manage venues and bookings"
-                    className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
-                    to="dashboard"
-                    onClick={() => {
-                      setToggle(!toggle);
-                    }}
-                  >
-                    <DashboardIcon />
-                    Dashboard
-                  </Link>
-                )}
+              <motion.div variants={navButtonVariants}>
                 <Link
-                  name="click to go to profile page"
                   className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
-                  to="profile"
+                  to=""
+                  name="click to go to home page"
                   onClick={() => {
                     setToggle(!toggle);
                   }}
                 >
-                  <AccountCircleOutlinedIcon />
-                  Profile
+                  <HomeIcon />
+                  Home
                 </Link>
-
-                <LogoutButton size="navigation" className="logout shadow-lg" />
-              </>
-            ) : (
-              <>
+              </motion.div>
+              <motion.div variants={navButtonVariants}>
                 <Link
-                  name="click to go to login page"
-                  className="flex nav-item items-center justify-center gap-2 shadow-lg min-w-36"
-                  to="login"
-                  onClick={() => {
-                    setToggle(!toggle);
-                  }}
-                >
-                  <AccountCircleOutlinedIcon />
-                  Log in
-                </Link>
-                <Link
-                  name="click to go to register page"
+                  name="click to go to venues page"
                   className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
-                  to="register"
+                  to="venues"
                   onClick={() => {
                     setToggle(!toggle);
                   }}
                 >
-                  <AppRegistrationOutlinedIcon />
-                  Register
+                  <BusinessIcon />
+                  Venues
                 </Link>
-              </>
-            )}
-          </nav>
-        )}
+              </motion.div>
+              <motion.div variants={navButtonVariants}>
+                <Link
+                  name="click to go to bookings page"
+                  className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
+                  to={isLoggedIn ? "my-bookings" : "login"}
+                  onClick={() => {
+                    setToggle(!toggle);
+                  }}
+                >
+                  <BookmarksIcon />
+                  Bookings
+                </Link>
+              </motion.div>
+              {isLoggedIn ? (
+                <>
+                  {user && user.data.venueManager && (
+                    <motion.div variants={navButtonVariants}>
+                      <Link
+                        name="click to go to your dashboard to manage venues and bookings"
+                        className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
+                        to="dashboard"
+                        onClick={() => {
+                          setToggle(!toggle);
+                        }}
+                      >
+                        <DashboardIcon />
+                        Dashboard
+                      </Link>
+                    </motion.div>
+                  )}
+                  <motion.div variants={navButtonVariants}>
+                    <Link
+                      name="click to go to profile page"
+                      className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
+                      to="profile"
+                      onClick={() => {
+                        setToggle(!toggle);
+                      }}
+                    >
+                      <AccountCircleOutlinedIcon />
+                      Profile
+                    </Link>
+                  </motion.div>
+                  <motion.div variants={navButtonVariants}>
+                    <LogoutButton
+                      size="navigation"
+                      className="logout shadow-lg"
+                    />
+                  </motion.div>
+                </>
+              ) : (
+                <>
+                  <motion.div variants={navButtonVariants}>
+                    <Link
+                      name="click to go to login page"
+                      className="flex nav-item items-center justify-center gap-2 shadow-lg min-w-36"
+                      to="login"
+                      onClick={() => {
+                        setToggle(!toggle);
+                      }}
+                    >
+                      <AccountCircleOutlinedIcon />
+                      Log in
+                    </Link>
+                  </motion.div>
+                  <motion.div variants={navButtonVariants}>
+                    <Link
+                      name="click to go to register page"
+                      className="flex nav-item items-center justify-center shadow-lg gap-2 min-w-36"
+                      to="register"
+                      onClick={() => {
+                        setToggle(!toggle);
+                      }}
+                    >
+                      <AppRegistrationOutlinedIcon />
+                      Register
+                    </Link>
+                  </motion.div>
+                </>
+              )}
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </header>
     );
   } else {
