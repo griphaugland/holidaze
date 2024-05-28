@@ -252,7 +252,7 @@ function EditVenue() {
           </button>
         </div>
       </div>
-      <div className="info-wrapper w-screen flex-col flex">
+      <div className="info-wrapper w-full flex-col flex">
         <div className="flex flex-row mx-8 mt-6 gap-2">
           <ImageOutlinedIcon />
           <h2 className="poppins-semibold text-black text-md">Add Images</h2>
