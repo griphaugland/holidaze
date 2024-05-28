@@ -10,8 +10,7 @@ export const useErrorVenues = () => {
   useEffect(() => {
     if (error) {
       setError(error);
-      console.log("Error:", error);
-
+      console.error("Error:", error);
       navigate("/error");
     }
   }, [error, navigate, setError]);
@@ -25,7 +24,7 @@ export const useErrorGeneral = () => {
   useEffect(() => {
     if (error) {
       setError(error);
-      console.log("Error:", error);
+      console.error("Error:", error);
       navigate("/error");
     }
   }, [error, navigate, setError]);

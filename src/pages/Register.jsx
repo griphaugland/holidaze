@@ -62,7 +62,6 @@ function Register() {
 
       const result = await response.json();
       setLoading(false);
-      console.log("Registration successful:", result);
       handleRegistrationEnd();
     } catch (error) {
       setLoading(false);

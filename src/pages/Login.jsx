@@ -49,7 +49,6 @@ function Login() {
       }
 
       const result = await response.json();
-      console.log("Login result:", result);
       setUser(result);
       const storage = JSON.parse(localStorage.getItem("storage")) || {};
       storage.user = result;

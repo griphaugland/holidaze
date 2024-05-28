@@ -249,7 +249,6 @@ export const useBookings = create(
             },
           });
           const data = await res.json();
-          console.log("Bookings data:", data);
           set({ bookings: data.data, loading: false, error: null });
           if (!res.ok) {
             set({

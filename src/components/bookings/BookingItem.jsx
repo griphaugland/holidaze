@@ -26,7 +26,6 @@ function BookingItem({ booking, onImageLoad }) {
   }, [booking]);
 
   if (!booking.venue) {
-    console.log(booking);
     return <div className="error">Booking venue information is missing.</div>;
   }
 

@@ -31,7 +31,6 @@ function Profile() {
     const handleResize = () => {
       setMobile(window.innerWidth < 768);
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
 
