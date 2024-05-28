@@ -13,6 +13,7 @@ import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import NotesOutlinedIcon from "@mui/icons-material/NotesOutlined";
 import ArrowBackwardIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useLocation } from "react-router-dom";
+import { set } from "date-fns";
 
 function EditVenue() {
   const { user, apiKey } = useGeneral();
@@ -22,6 +23,7 @@ function EditVenue() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isMaxWidth, setMaxWidth] = useState(window.innerWidth >= 1638);
+  const [maxPageWidth, setMaxPageWidth] = useState(window.innerWidth >= 1280);
   const [successMessage, setSuccessMessage] = useState(null);
   const sliderRef = useRef(null);
   const navigate = useNavigate();
@@ -95,20 +97,20 @@ function EditVenue() {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
       setMaxWidth(window.innerWidth >= 1638);
+      setMaxPageWidth(window.innerWidth >= 1280);
     };
 
     window.addEventListener("resize", handleResize);
     handleResize();
 
     if (sliderRef.current) {
-      const width = 100;
       sliderRef.current.style.transform = `translateX(-${
-        currentImageIndex * width
-      }vw)`;
+        currentImageIndex * (maxPageWidth ? 1280 : 100)
+      }${maxPageWidth ? "px" : "vw"})`;
       sliderRef.current.style.transition = "transform 0.5s ease-in-out";
     }
 
-    if (!isMobile && !isMaxWidth && currentImageIndex === media.length - 1) {
+    if (currentImageIndex === media.length - 1) {
       setLastImage(true);
     } else {
       setLastImage(false);
@@ -193,11 +195,12 @@ function EditVenue() {
               ref={sliderRef}
               style={{
                 width: `${media.length * 100}vw`,
+                maxWidth: `${media.length * 1280}px`,
               }}
             >
               {media.map((mediaItem, index) => (
                 <img
-                  loading="lazy"
+                  loading="eager"
                   key={index + mediaItem.alt}
                   src={
                     mediaItem.url ||
@@ -213,7 +216,7 @@ function EditVenue() {
           ) : (
             <div className="flex image-filter" ref={sliderRef}>
               <img
-                loading="lazy"
+                loading="eager"
                 src={
                   media[0]?.url ||
                   "https://usercontent.one/wp/www.vocaleurope.eu/wp-content/uploads/no-image.jpg?media=1642546813"
@@ -225,7 +228,6 @@ function EditVenue() {
           )}
           {media.length > 1 && (
             <>
-              {" "}
               <button
                 name="next image"
                 type="button"
